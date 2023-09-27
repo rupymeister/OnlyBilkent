@@ -40,7 +40,7 @@
 **Selling Points:**
 ---
 - Exclusivity: As a platform exclusively for Bilkent University, OnlyBilkent offers enhanced reliability and trustworthiness compared to generic alternatives.
-- Unified Experience: The integration of diverse features, including organized forums, makes our app exceptionally convenient for users seeking a comprehensive solution.
+- Unified Experience:  The integration of diverse features, including organized forums, makes our app exceptionally convenient for users seeking a comprehensive solution.
 
 **Interesting and Cool Aspects:** 
 ---
