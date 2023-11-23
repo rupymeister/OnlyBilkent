@@ -9,7 +9,7 @@ public class User{
     private String bio;
     private int role;
     private String profilePic;
-    private ArrayList<String> notifications; //Notification olucak
+    private ArrayList<String> notifications = new ArrayList<String>();
 
     public User(String name, String email, String password, String bio, int role, String profilePic, String notifications){
         setName(name);
@@ -18,7 +18,6 @@ public class User{
         setBio(bio);
         setRole(role);
         setProfilePic(profilePic);
-        //ArrayList<String> notifications = new ArrayList<>();
     }
 
     public String getName(){

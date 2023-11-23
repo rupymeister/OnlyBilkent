@@ -5,8 +5,8 @@ public class Post extends Sendable{
     private String title;
     private String image;
 
-    public Post(User sender, String type, String content, String category, String title, String image){
-        super(sender, type, content);
+    public Post(User sender, String type, String content, long id, String category, String title, String image){
+        super(sender, type, content, id);
         setCategory(category);
         setTitle(title);
         setImage(image);
@@ -34,5 +34,9 @@ public class Post extends Sendable{
 
     public String getImage(){
         return this.image;
-    }    
+    } 
+
+    public long getId(){
+        return this.id;
+    }
 }

@@ -5,8 +5,8 @@ public class Message extends Sendable {
     private boolean isSeen;
 
     
-    public Message(User sender, String type, String content, User receiver, boolean isSeen){
-        super(sender, type, content);
+    public Message(User sender, String type, String content, long id, User receiver, boolean isSeen){
+        super(sender, type, content, id);
         setReceiver(receiver);
         setIsSeen(isSeen);
     }

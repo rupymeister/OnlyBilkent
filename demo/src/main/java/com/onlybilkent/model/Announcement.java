@@ -5,8 +5,8 @@ public class Announcement extends Sendable{
     private String title;
     private String image; 
 
-    public Announcement(User sender, String type, String content, String announcementID, String title, String iamge){
-        super(sender, type, content);
+    public Announcement(User sender, String type, String content, long id, String announcementID, String title, String iamge){
+        super(sender, type, content, id);
         setAnnouncementID(announcementID);
         setTitle(title);
         setImage(image);
