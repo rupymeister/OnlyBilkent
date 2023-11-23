@@ -20,7 +20,7 @@ public class Student extends User {
     public void setCanPost(boolean canPost){
         this.canPost = canPost;
     }
-
+    // test anıl
     public boolean getCanPost(){
         return this.canPost;
     }
