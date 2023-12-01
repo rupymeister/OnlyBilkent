@@ -2,6 +2,7 @@ package com.onlybilkent.model;
 
 import java.util.ArrayList;
 
+//@Document(clloection='users') bu database kurulduktan sonra kullanılıcak
 public class User{
     private String name;
     private String password;
