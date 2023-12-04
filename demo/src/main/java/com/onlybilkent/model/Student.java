@@ -12,7 +12,7 @@ public class Student extends User {
     private List<Post> posts;
 
     public Student(String name, String email, String password, String bio, int role, String profilePic, String notifications, String messages, String posts, boolean canPost){
-        super(name, email, password, bio, role, profilePic, notifications);
+        super(name, email, password, bio, role, profilePic);
         setCanPost(true);
         this.posts = new ArrayList<>();
     }

@@ -15,6 +15,6 @@ public class DemoApplication {
 
 	@GetMapping("/")
 	public String apiRoot(){
-		return "Hello World";
+		return "Anıl Altuncu";
 	}
 }

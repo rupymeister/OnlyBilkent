@@ -1,16 +1,34 @@
 package com.onlybilkent.model;
 
+import java.util.ArrayList;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+
+import org.bson.types.ObjectId;
+
+@Document(collection="sendables")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+
 public class Sendable {
-    public User sender;
-    public String type;
-    public String content;
-    public long id;
+    private User sender;
+    private String type;
+    private String content;
+    @Id
+    private ObjectId _id;
 
     public Sendable(User sender, String type, String content, long id){
         setSender(sender);
         setType(type);
         setContent(content);
-        setId(id);
     }
 
     public void setSender(User sender){
@@ -24,8 +42,21 @@ public class Sendable {
     public void setContent(String content){
         this.content = content;
     }
-     
-    public void setId(long id){
-        this.id = id;
+    
+    public User getSender(){
+        return this.sender;
     }
+    
+    public String getType(){
+        return this.type;
+    }
+
+    public String getContent(){
+        return this.content;
+    }
+
+    public ObjectId getId(){
+        return this._id;
+    }
+    
 }

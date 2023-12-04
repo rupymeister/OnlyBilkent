@@ -1,9 +1,25 @@
 package com.onlybilkent.model;
 
 import java.util.ArrayList;
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-//@Document(clloection='users') bu database kurulduktan sonra kullanılıcak
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+
+import org.bson.types.ObjectId;
+
+@Document(collection="users")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class User{
+    @Id
+    private ObjectId _id;
     private String name;
     private String password;
     private String email;
@@ -12,13 +28,13 @@ public class User{
     private String profilePic;
     private ArrayList<String> notifications = new ArrayList<String>();
 
-    public User(String name, String email, String password, String bio, int role, String profilePic, String notifications){
-        setName(name);
-        setEmail(email);
-        setPassword(password);
-        setBio(bio);
-        setRole(role);
-        setProfilePic(profilePic);
+    public User(String name, String email, String password, String bio, int role, String profilePic){
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.bio = bio;
+        this.role = role;
+        this.profilePic = profilePic;
     }
 
     public String getName(){

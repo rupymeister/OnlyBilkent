@@ -11,6 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import org.bson.types.ObjectId;
 @RestController
 @RequestMapping("/posts")
 
@@ -23,7 +32,7 @@ public class PostController {
     }
 
     @PostMapping("/create/{studentId}")
-    public String createPost(@PathVariable Long studentId, @RequestBody Post post) {
+    public String createPost(@PathVariable ObjectId studentId, @RequestBody Post post) {
         Student student = studentRepository.findById(studentId).orElse(null);
 
         if (student != null && student.getCanPost()) {
@@ -36,7 +45,7 @@ public class PostController {
     }
 
     @DeleteMapping("/delete/{studentId}/{postId}")
-    public String deletePost(@PathVariable Long studentId, @PathVariable Long postId) {
+    public String deletePost(@PathVariable ObjectId studentId, @PathVariable ObjectId postId) {
         Student student = studentRepository.findById(studentId).orElse(null);
 
         if (student != null) {
