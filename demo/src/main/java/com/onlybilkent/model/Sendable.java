@@ -22,14 +22,11 @@ public class Sendable {
     private User sender;
     private String type;
     private String content;
+    
     @Id
-    private ObjectId _id;
+    private ObjectId id;
 
-    public Sendable(User sender, String type, String content, long id){
-        setSender(sender);
-        setType(type);
-        setContent(content);
-    }
+
 
     public void setSender(User sender){
         this.sender = sender;
@@ -56,7 +53,7 @@ public class Sendable {
     }
 
     public ObjectId getId(){
-        return this._id;
+        return this.id;
     }
     
 }

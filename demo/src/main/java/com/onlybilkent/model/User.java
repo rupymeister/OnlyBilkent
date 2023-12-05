@@ -1,15 +1,15 @@
 package com.onlybilkent.model;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-
-
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.bson.types.ObjectId;
 
 @Document(collection="users")
@@ -23,10 +23,13 @@ public class User{
     private String name;
     private String password;
     private String email;
-    private String bio;
+
     private int role;
-    private String profilePic;
+
     private ArrayList<String> notifications = new ArrayList<String>();
+
+    @DocumentReference
+    private List<Post> postIds;
 
     public User(String name, String email, String password, String bio, int role, String profilePic){
         this.name = name;
@@ -35,6 +38,10 @@ public class User{
         this.bio = bio;
         this.role = role;
         this.profilePic = profilePic;
+    }
+
+    public ObjectId getId(){
+        return this._id;
     }
 
     public String getName(){
@@ -61,13 +68,6 @@ public class User{
         this.password = password;
     }
 
-    public String getBio(){
-        return this.bio;
-    }
-
-    public void setBio(String bio){
-        this.bio = bio;
-    }
 
     public int getRole(){
         return this.role;
@@ -77,12 +77,7 @@ public class User{
         this.role = role;
     }
 
-    public String getProfilePic(){
-        return this.profilePic;
-    }
 
-    public void setProfilePic(String profilePic){
-        this.profilePic = profilePic;
-    }
+
 }
 

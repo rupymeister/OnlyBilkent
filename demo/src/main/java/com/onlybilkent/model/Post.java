@@ -13,27 +13,17 @@ import org.bson.types.ObjectId;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Post extends Sendable {
-    private String category;
+public class Post {
+    @Id
+    private ObjectId _id;
+
     private String title;
-    private String image;
-
-    public Post(User sender, String type, String content, ObjectId id, String category, String title, String image) {
-        super(sender, type, content, id);
-        setCategory(category);
-        setTitle(title);
-        setImage(image);
-    }
-
+    private String content;
+    private String senderId;
+    
     // Getters and setters
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getCategory() {
-        return this.category;
-    }
+    
 
     public void setTitle(String title) {
         this.title = title;
@@ -41,14 +31,6 @@ public class Post extends Sendable {
 
     public String getTitle() {
         return this.title;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public String getImage() {
-        return this.image;
     }
 
     

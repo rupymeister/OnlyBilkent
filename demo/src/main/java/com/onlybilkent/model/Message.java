@@ -5,11 +5,7 @@ public class Message extends Sendable {
     private boolean isSeen;
 
     
-    public Message(User sender, String type, String content, long id, User receiver, boolean isSeen){
-        super(sender, type, content, id);
-        setReceiver(receiver);
-        setIsSeen(isSeen);
-    }
+   
 
     public void setReceiver(User receiver){
         this.receiver = receiver;

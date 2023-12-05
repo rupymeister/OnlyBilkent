@@ -9,13 +9,16 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 
 @Service
-public class PostService {
+public class UserService {
 
     @Autowired
-    public PostRepository postRepository;
+    public UserRepository userRepository;
 
-    public List<Post> allPosts() {
-        return postRepository.findAll();
+    public List<User> allUsers() {
+        return userRepository.findAll();
     }
 
+    public Optional<User> singleUser(ObjectId id) {
+        return userRepository.findById(id);
+    }
 }
