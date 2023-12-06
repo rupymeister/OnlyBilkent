@@ -19,11 +19,18 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private PostService postService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.allUsers();
         return new ResponseEntity<List<User>>(users, HttpStatus.OK);
     }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable ObjectId userId) {
+        return new ResponseEntity<Optional<User>>(userService.singleUser(userId), HttpStatus.OK);
+    }
+
 }
