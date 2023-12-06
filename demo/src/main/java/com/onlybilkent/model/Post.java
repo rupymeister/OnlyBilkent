@@ -8,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "posts")
 @Data
@@ -15,11 +16,12 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 public class Post {
     @Id
-    private ObjectId _id;
+    private ObjectId id;
 
     private String title;
     private String content;
-    private String senderId;
+    @DocumentReference
+    private User senderId;
     
     // Getters and setters
 
