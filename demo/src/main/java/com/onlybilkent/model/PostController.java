@@ -19,6 +19,8 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+    @Autowired
+    private UserService userService;
 
 
     @GetMapping
@@ -26,12 +28,15 @@ public class PostController {
         List<Post> posts = postService.allPosts();
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
-    /** 
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Post>> getSinglePost(@PathVariable ObjectId id) {
-        return new ResponseEntity<Optional<Post>>(postService.singlePost(id), HttpStatus.OK);
+
+
+    @GetMapping("/{title}")
+    public ResponseEntity<Optional<Post>> getSinglePost(@PathVariable String title) {
+        return new ResponseEntity<Optional<Post>>(postService.singlePost(title), HttpStatus.OK);
     }
-   
+
+
+    /**
     @PostMapping("/create/{studentId}")
     public String createPost(@PathVariable ObjectId studentId, @RequestBody Post post) {
         Student student = studentRepository.findById(studentId).orElse(null);
@@ -44,7 +49,7 @@ public class PostController {
             return "Unable to create post. Student not found or doesn't have permission.";
         }
     }
-
+    /**
     @DeleteMapping("/delete/{studentId}/{postId}")
     public String deletePost(@PathVariable ObjectId studentId, @PathVariable ObjectId postId) {
         Student student = studentRepository.findById(studentId).orElse(null);
@@ -68,3 +73,4 @@ public class PostController {
     }
     */
 }
+
