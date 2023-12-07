@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
 @Document(collection = "posts")
 @Data
@@ -20,12 +19,14 @@ public class Post {
 
     private String title;
     private String content;
-    @DocumentReference
-    private User senderId;
-    
-    // Getters and setters
+    private String senderId;
 
-    
+    // Constructor without id
+    public Post(String title, String content, String senderId) {
+        this.title = title;
+        this.content = content;
+        this.senderId = senderId;
+    }
 
     public void setTitle(String title) {
         this.title = title;
@@ -35,5 +36,4 @@ public class Post {
         return this.title;
     }
 
-    
 }

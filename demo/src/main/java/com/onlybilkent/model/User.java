@@ -12,14 +12,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 import org.bson.types.ObjectId;
 
-@Document(collection="users")
+@Document(collection = "users")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class User{
+public class User {
     @Id
-    private ObjectId _id;
+    private ObjectId id;
     private String name;
     private String password;
     private String email;
@@ -29,55 +28,51 @@ public class User{
     private ArrayList<String> notifications = new ArrayList<String>();
 
     @DocumentReference
-    private List<Post> postIds;
+    private List<Post> postId;
 
-    public User(String name, String email, String password, String bio, int role, String profilePic){
+    public User(String name, String email, String password, String bio, int role, String profilePic) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.bio = bio;
+        // this.bio = bio;
         this.role = role;
-        this.profilePic = profilePic;
+        // this.profilePic = profilePic;
     }
 
-    public ObjectId getId(){
-        return this._id;
+    public ObjectId getId() {
+        return this.id;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
 
-    public void setEmail(String email){
+    public void setEmail(String email) {
         this.email = email;
     }
 
-    public String getPassword(){
+    public String getPassword() {
         return this.password;
     }
 
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
 
-
-    public int getRole(){
+    public int getRole() {
         return this.role;
     }
 
-    public void setRole(int role){
+    public void setRole(int role) {
         this.role = role;
     }
 
-
-
 }
-
