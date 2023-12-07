@@ -21,4 +21,8 @@ public class UserService {
     public Optional<User> singleUser(ObjectId id) {
         return userRepository.findById(id);
     }
+
+    public boolean existsById(ObjectId userId) {
+        return userRepository.existsById(userId);
+    }
 }

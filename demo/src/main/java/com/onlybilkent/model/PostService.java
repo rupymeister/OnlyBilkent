@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -35,6 +36,20 @@ public class PostService {
                 .apply(new Update().push("postId").value(post))
                 .first();
         return post;
+    }
+
+    public boolean existsById(String postId) {
+        return postRepository.existsById(postId);
+    }
+
+    public void deleteByPostId(String postId, ObjectId userId) {
+        ObjectId postIdObj = new ObjectId(postId); // I have converted but it might take ObjectId as a parameter too???
+        postRepository.deleteById(postIdObj);
+
+        mongoTemplate.update(User.class)
+                .matching(Criteria.where("id").is(userId))
+                .apply(new Update().pull("postId", postIdObj))
+                .first();
     }
 
 }

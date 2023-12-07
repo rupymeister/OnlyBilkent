@@ -11,4 +11,6 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
     Optional<Post> findPostByTitle(String title);
 
+    boolean existsById(String userId);
+
 }
