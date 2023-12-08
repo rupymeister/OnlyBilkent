@@ -16,6 +16,8 @@ public class PostController {
 
     @Autowired
     private PostService postService;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts() {
@@ -34,30 +36,25 @@ public class PostController {
                 HttpStatus.CREATED);
     }
 
-    /**
-     * @DeleteMapping("/delete/{studentId}/{postId}")
-     * public String deletePost(@PathVariable ObjectId studentId, @PathVariable
-     * ObjectId postId) {
-     * Student student = studentRepository.findById(studentId).orElse(null);
-     * 
-     * if (student != null) {
-     * List<Post> posts = student.getPosts();
-     * Optional<Post> postToRemove = posts.stream()
-     * .filter(post -> post.getId().equals(postId))
-     * .findFirst();
-     * 
-     * if (postToRemove.isPresent()) {
-     * posts.remove(postToRemove.get());
-     * studentRepository.save(student);
-     * return "Post with ID " + postId + " deleted for student with ID " +
-     * studentId;
-     * } else {
-     * return "Post not found for deletion.";
-     * }
-     * } else {
-     * return "Student not found.";
-     * }
-     * }
-     **/
+    @DeleteMapping("/deletePost/{userId}/{postId}")
+    public String deletePost(@PathVariable String userId, @PathVariable String postId) {
+        User user = userRepository.findUserById(userId).orElse(null);
+        if (user != null) {
+            List<Post> posts = user.getPostId();
+            Optional<Post> postToRemove = posts.stream()
+                .filter(post -> post.getId().equals(postId))
+                .findFirst();
+
+            if (postToRemove.isPresent()) {
+                posts.remove(postToRemove.get());
+                userRepository.save(user);
+                return "Post with ID " + postId + " deleted for user with ID " + userId;
+            } else {
+                return "Post not found for deletion.";
+            }
+        } else {
+            return "User not found.";
+        }
+    }
 
 }

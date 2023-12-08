@@ -26,7 +26,7 @@ public class PostService {
         return postRepository.findPostByTitle(title);
     }
 
-    public Post createPost(String title, String content, String senderId) { // Lets use name for now later we can try id
+    public Post createPost(String title, String content, String senderId) {
 
         Post post = postRepository.insert(new Post(title, content, senderId));
 
