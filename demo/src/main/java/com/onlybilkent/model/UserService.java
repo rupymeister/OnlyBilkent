@@ -18,8 +18,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> singleUser(ObjectId id) {
-        return userRepository.findById(id);
+    public Optional<User> singleUser(String id) {
+        return userRepository.findUserById(id);
     }
 
     public boolean existsById(ObjectId userId) {

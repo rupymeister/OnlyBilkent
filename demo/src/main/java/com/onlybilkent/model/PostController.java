@@ -18,7 +18,7 @@ public class PostController {
     @Autowired
     private PostService postService;
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts() {
@@ -38,40 +38,24 @@ public class PostController {
     }
 
     @DeleteMapping("/deletePost/{userId}/{postId}")
-    public ResponseEntity<String> deletePost(@PathVariable ObjectId userId, @PathVariable String postId) {
+    public String deletePost(@PathVariable String userId, @PathVariable String postId) {
+        User user = userRepository.findUserById(userId).orElse(null);
+        if (user != null) {
+            List<Post> posts = user.getPostId();
+            Optional<Post> postToRemove = posts.stream()
+                    .filter(post -> post.getId().equals(postId))
+                    .findFirst();
 
-        if (!userService.existsById(userId) || !postService.existsById(postId)) {
-            return new ResponseEntity<String>("User or post not found.", HttpStatus.NOT_FOUND); // can later be modified
+            if (postToRemove.isPresent()) {
+                posts.remove(postToRemove.get());
+                userRepository.save(user);
+                return "Post with ID " + postId + " deleted for user with ID " + userId;
+            } else {
+                return "Post not found for deletion.";
+            }
+        } else {
+            return "User not found.";
         }
-
-        postService.deleteByPostId(postId, userId);
-        return new ResponseEntity<String>("Post deleted successfully", HttpStatus.OK);
     }
-
-    /**
-     * @DeleteMapping("/delete/{studentId}/{postId}")
-     * public String deletePost(@PathVariable ObjectId studentId, @PathVariable
-     * ObjectId postId) {
-     * Student student = studentRepository.findById(studentId).orElse(null);
-     * 
-     * if (student != null) {
-     * List<Post> posts = student.getPosts();
-     * Optional<Post> postToRemove = posts.stream()
-     * .filter(post -> post.getId().equals(postId))
-     * .findFirst();
-     * 
-     * if (postToRemove.isPresent()) {
-     * posts.remove(postToRemove.get());
-     * studentRepository.save(student);
-     * return "Post with ID " + postId + " deleted for student with ID " +
-     * studentId;
-     * } else {
-     * return "Post not found for deletion.";
-     * }
-     * } else {
-     * return "Student not found.";
-     * }
-     * }
-     **/
 
 }

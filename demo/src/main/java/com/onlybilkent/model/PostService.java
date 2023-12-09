@@ -27,7 +27,7 @@ public class PostService {
         return postRepository.findPostByTitle(title);
     }
 
-    public Post createPost(String title, String content, String senderId) { // Lets use name for now later we can try id
+    public Post createPost(String title, String content, String senderId) {
 
         Post post = postRepository.insert(new Post(title, content, senderId));
 
@@ -36,20 +36,6 @@ public class PostService {
                 .apply(new Update().push("postId").value(post))
                 .first();
         return post;
-    }
-
-    public boolean existsById(String postId) {
-        return postRepository.existsById(postId);
-    }
-
-    public void deleteByPostId(String postId, ObjectId userId) {
-        ObjectId postIdObj = new ObjectId(postId); // I have converted but it might take ObjectId as a parameter too???
-        postRepository.deleteById(postIdObj);
-
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(userId))
-                .apply(new Update().pull("postId", postIdObj))
-                .first();
     }
 
 }

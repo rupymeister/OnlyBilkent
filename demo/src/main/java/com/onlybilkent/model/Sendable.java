@@ -1,8 +1,10 @@
 package com.onlybilkent.model;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -13,6 +15,8 @@ import org.bson.types.ObjectId;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 
 public class Sendable {
     private User sender;
@@ -22,32 +26,9 @@ public class Sendable {
     @Id
     private ObjectId id;
 
-    public void setSender(User sender) {
+    public Sendable(User sender, String type, String content) {
         this.sender = sender;
-    }
-
-    public void setType(String type) {
         this.type = type;
-    }
-
-    public void setContent(String content) {
         this.content = content;
     }
-
-    public User getSender() {
-        return this.sender;
-    }
-
-    public String getType() {
-        return this.type;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public ObjectId getId() {
-        return this.id;
-    }
-
 }

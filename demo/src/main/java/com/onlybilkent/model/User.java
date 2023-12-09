@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -16,6 +18,9 @@ import org.bson.types.ObjectId;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+
 public class User {
     @Id
     private ObjectId id;
@@ -39,40 +44,6 @@ public class User {
         // this.profilePic = profilePic;
     }
 
-    public ObjectId getId() {
-        return this.id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getRole() {
-        return this.role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
+    
 
 }
