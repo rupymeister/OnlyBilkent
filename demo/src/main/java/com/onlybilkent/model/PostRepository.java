@@ -13,4 +13,11 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
     boolean existsById(String postId);
 
+    Post findByPostId(String postId);
+
+    Optional<Post> findBySenderId(String senderId);
+
+    Optional<Post> findByTitleRegex(String str);
+    Optional<Post> findByContentRegex(String str);
+
 }

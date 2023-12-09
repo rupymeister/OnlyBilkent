@@ -1,7 +1,5 @@
 package com.onlybilkent.model;
 
-import java.util.Optional;
-
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -9,8 +7,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends MongoRepository<User, ObjectId> {
 
-    Optional<User> findUserById(String id);
+    User findById(String id);
 
     boolean existsById(ObjectId userId);
+    void postCountIncrement(ObjectId userId);
 
 }

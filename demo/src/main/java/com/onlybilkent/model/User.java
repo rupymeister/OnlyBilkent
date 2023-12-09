@@ -31,6 +31,7 @@ public class User {
     private int role;
 
     private ArrayList<String> notifications = new ArrayList<String>();
+    private int postCount;
 
     @DocumentReference
     private List<Post> postId;
@@ -42,6 +43,7 @@ public class User {
         // this.bio = bio;
         this.role = role;
         // this.profilePic = profilePic;
+        this.postCount = 0;
     }
 
     

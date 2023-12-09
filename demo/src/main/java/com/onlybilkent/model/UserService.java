@@ -25,4 +25,16 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
+    public void postCountIncrement(ObjectId userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPostCount(user.getPostCount() + 1);
+            userRepository.save(user);
+        } else {// if user does not exist
+            
+        }
+    }
+
 }

@@ -21,19 +21,14 @@ public class Post {
     private String content;
     private String senderId;
 
+    private boolean isActive;
+
     // Constructor without id
-    public Post(String title, String content, String senderId) {
+    public Post(String title, String content, String senderId, boolean isActive) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return this.title;
+        this.isActive = isActive;
     }
 
 }
