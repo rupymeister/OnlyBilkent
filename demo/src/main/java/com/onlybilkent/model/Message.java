@@ -1,26 +1,33 @@
 package com.onlybilkent.model;
 
-public class Message extends Sendable {
-    private User receiver;
-    private boolean isSeen;
 
-    
-   
+import org.bson.types.ObjectId;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-    public void setReceiver(User receiver){
-        this.receiver = receiver;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+
+@Document(collection = "messages")
+@AllArgsConstructor
+@NoArgsConstructor
+public class Message{
+    private ObjectId receiverId;
+    private ObjectId senderId;
+    private ObjectId messageId;
+    private String content;
+
+    public Message(String senderId, String receiverId, String content){
+        this.senderId = isValidHexString(senderId) ? new ObjectId(senderId) : null;
+        this.receiverId = isValidHexString(receiverId) ? new ObjectId(receiverId) : null;
+        this.messageId = new ObjectId();
+        this.content = content;
     }
-
-    public User getReceiver(){
-        return this.receiver;
+    private boolean isValidHexString(String hexString) {
+        // Validate hex string length
+        return hexString != null && hexString.length() == 24 && hexString.matches("\\p{XDigit}+");
     }
-
-    public void setIsSeen(boolean isSeen){
-        this.isSeen = isSeen;
+    public String getContent() {
+        return content;
     }
-
-    public boolean getIsSeen(){
-        return this.isSeen;
-    }
-    
 }

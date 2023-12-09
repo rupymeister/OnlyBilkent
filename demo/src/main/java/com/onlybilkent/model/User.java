@@ -20,32 +20,41 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class User {
     @Id
     private ObjectId id;
     private String name;
+    private String surname;
     private String password;
     private String email;
+    private String bio;
+    private String profilePic;
 
     private int role;
+    private boolean emailVerified;
+    private String emailVerificationToken;
 
     private ArrayList<String> notifications = new ArrayList<String>();
     private int postCount;
 
     @DocumentReference
     private List<Post> postId;
+    
+    @DocumentReference
+    private List<User> chatterId;
 
-    public User(String name, String email, String password, String bio, int role, String profilePic) {
+    public User(String name, String surname, String email, String password, String bio, int role, String profilePic,
+            String emailVerificationToken) {
         this.name = name;
+        this.surname = surname;
         this.email = email;
         this.password = password;
-        // this.bio = bio;
+        this.bio = bio;
         this.role = role;
-        // this.profilePic = profilePic;
+        this.profilePic = profilePic;
+        emailVerified = false;
+        this.emailVerificationToken = emailVerificationToken;
         this.postCount = 0;
     }
-
-    
 
 }
