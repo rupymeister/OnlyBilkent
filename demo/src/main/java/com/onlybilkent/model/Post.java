@@ -16,7 +16,6 @@ import org.bson.types.ObjectId;
 public class Post {
     @Id
     private ObjectId id;
-
     private String title;
     private String content;
     private String senderId;

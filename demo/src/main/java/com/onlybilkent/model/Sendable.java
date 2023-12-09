@@ -20,15 +20,13 @@ import org.bson.types.ObjectId;
 
 public class Sendable {
     private User sender;
-    private String type;
     private String content;
 
     @Id
     private ObjectId id;
 
-    public Sendable(User sender, String type, String content) {
+    public Sendable(User sender, String content) {
         this.sender = sender;
-        this.type = type;
         this.content = content;
     }
 }

@@ -38,6 +38,9 @@ public class User {
 
     @DocumentReference
     private List<Post> postId;
+    
+    @DocumentReference
+    private List<User> chatterId;
 
     public User(String name, String surname, String email, String password, String bio, int role, String profilePic,
             String emailVerificationToken) {
