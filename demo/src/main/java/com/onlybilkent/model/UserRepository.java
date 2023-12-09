@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends MongoRepository<User, ObjectId> {
 
     Optional<User> findUserById(String id);
+
+    boolean existsById(ObjectId userId);
+
 }

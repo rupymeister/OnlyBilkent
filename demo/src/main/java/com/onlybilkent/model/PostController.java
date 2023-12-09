@@ -18,7 +18,7 @@ public class PostController {
     @Autowired
     private PostService postService;
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<Post>> getAllPosts() {
@@ -38,24 +38,14 @@ public class PostController {
     }
 
     @DeleteMapping("/deletePost/{userId}/{postId}")
-    public String deletePost(@PathVariable String userId, @PathVariable String postId) {
-        User user = userRepository.findUserById(userId).orElse(null);
-        if (user != null) {
-            List<Post> posts = user.getPostId();
-            Optional<Post> postToRemove = posts.stream()
-                    .filter(post -> post.getId().equals(postId))
-                    .findFirst();
+    public ResponseEntity<String> deletePost(@PathVariable ObjectId userId, @PathVariable String postId) {
 
-            if (postToRemove.isPresent()) {
-                posts.remove(postToRemove.get());
-                userRepository.save(user);
-                return "Post with ID " + postId + " deleted for user with ID " + userId;
-            } else {
-                return "Post not found for deletion.";
-            }
-        } else {
-            return "User not found.";
+        if (!userService.existsById(userId) || !postService.existsById(postId)) {
+            return new ResponseEntity<String>("User or post not found.", HttpStatus.NOT_FOUND); // can later be modified
         }
+
+        postService.deleteByPostId(postId, userId);
+        return new ResponseEntity<String>("Post deleted successfully", HttpStatus.OK);
     }
 
 }

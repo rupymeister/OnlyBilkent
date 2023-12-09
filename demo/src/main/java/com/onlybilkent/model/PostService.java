@@ -38,4 +38,18 @@ public class PostService {
         return post;
     }
 
+    public void deleteByPostId(String postId, ObjectId userId) {
+        ObjectId postIdObj = new ObjectId(postId); // I have converted but it might take ObjectId as a parameter too???
+        postRepository.deleteById(postIdObj);
+
+        mongoTemplate.update(User.class)
+                .matching(Criteria.where("id").is(userId))
+                .apply(new Update().pull("postId", postIdObj))
+                .first();
+    }
+
+    public boolean existsById(String postId) {
+        return postRepository.existsById(postId);
+    }
+
 }
