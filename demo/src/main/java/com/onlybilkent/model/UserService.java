@@ -33,9 +33,8 @@ public class UserService {
             user.setPostCount(user.getPostCount() + 1);
             userRepository.save(user);
         } else {// if user does not exist
-            
+
         }
     }
-    
 
 }
