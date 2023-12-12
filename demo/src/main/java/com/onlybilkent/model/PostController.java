@@ -47,7 +47,7 @@ public class PostController {
     }
 
     @DeleteMapping("/deletePost/{userId}/{postId}")
-    public ResponseEntity<String> deletePost(@PathVariable ObjectId userId, @PathVariable String postId) {
+    public ResponseEntity<String> deletePost(@PathVariable String userId, @PathVariable String postId) {
 
         if (!userService.existsById(userId)) {
             return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND); // can later be modified
@@ -76,7 +76,14 @@ public class PostController {
         return new ResponseEntity<Post>(postService.editIsPostActive(postId, isActive), HttpStatus.OK);
     }
 
-    // It was saing getPostByTitle and getPostsByContent maps the same address
+    @PutMapping("/editPostImage/{postId}")
+    public ResponseEntity<Post> editPostImage(@RequestBody byte[] imageData, @PathVariable String postId) {
+        if (!postService.existsById(postId)) {
+            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<Post>(postService.editPostImage(postId, imageData), HttpStatus.OK);
+    }
+
     @GetMapping("/searchByTitle/{str}")
     public ResponseEntity<Optional<Post>> getPostsByTitle(@PathVariable String str) {
         Optional<Post> postOptional = postService.findByTitle(str);

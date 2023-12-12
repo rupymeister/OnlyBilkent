@@ -28,7 +28,7 @@ public class User {
     private String password;
     private String email;
     private String bio;
-    private String profilePic;
+    private byte[] imageData; // Field for storing local image data (if applicable)
 
     private int role;
     private boolean emailVerified;
@@ -43,15 +43,14 @@ public class User {
     @DocumentReference
     private List<User> chatterId;
 
-    public User(String name, String surname, String email, String password, String bio, int role, String profilePic,
-            String emailVerificationToken) {
+    public User(String name, String surname, String email, String password, String bio, int role, byte[] imageData, String emailVerificationToken) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.bio = bio;
         this.role = role;
-        this.profilePic = profilePic;
+        this.imageData = imageData;
         emailVerified = false;
         this.emailVerificationToken = emailVerificationToken;
         this.postCount = 0;

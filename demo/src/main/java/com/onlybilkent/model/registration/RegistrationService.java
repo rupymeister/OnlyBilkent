@@ -32,7 +32,7 @@ public class RegistrationService {
             String emailVerificationToken = UUID.randomUUID().toString();
 
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), 1, request.getProfilePic(), emailVerificationToken); // role will be handled later
+                    request.getBio(), 1, request.getImageData(), emailVerificationToken); // role will be handled later
 
             userRepository.save(user);
 

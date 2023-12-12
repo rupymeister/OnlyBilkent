@@ -45,7 +45,6 @@ public class PostService {
         Update update = new Update().inc("postCount", 1);
         mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
 
-        
         return post;
     }
 
@@ -54,7 +53,7 @@ public class PostService {
         Post post;
 
         if (imageData != null) {
-            post = postRepository.insert(new Post(title, content, senderId, true, imageData));
+            post = postRepository.insert(new Post(title, content, senderId, true, imageFile));
         } else {
             post = postRepository.insert(new Post(title, content, senderId, true));
         }
@@ -65,7 +64,7 @@ public class PostService {
         return post;
     }
 
-    public void deleteByPostId(String postId, ObjectId userId) {
+    public void deleteByPostId(String postId, String userId) {
         ObjectId postIdObj = new ObjectId(postId); // I have converted but it might take ObjectId as a parameter too???
         postRepository.deleteById(postIdObj);
 
@@ -78,42 +77,61 @@ public class PostService {
     public Post editPost(String postId, String newTitle, String newContent) {
         Post existingPost = postRepository.findById(postId);
 
-        if (existingPost != null) {
+        if (newTitle != null && !newTitle.isEmpty()) {
             existingPost.setTitle(newTitle);
+        }
+        if (newContent != null && !newContent.isEmpty()) {
             existingPost.setContent(newContent);
+        }
 
-            Post updatedPost = postRepository.save(existingPost);
+        Post updatedPost = postRepository.save(existingPost);
 
-            mongoTemplate.update(User.class)
-                    .matching(Criteria.where("postId").is(postId))
-                    .apply(new Update().set("postId.$.title", newTitle).set("postId.$.content", newContent))
-                    .first();
+        Update update = new Update();
+        if (newTitle != null && !newTitle.isEmpty()) {
+            update.set("postId.$.title", newTitle);
+        }
+        if (newContent != null && !newContent.isEmpty()) {
+            update.set("postId.$.content", newContent);
+        }
+
+        mongoTemplate.update(User.class)
+            .matching(Criteria.where("postId").is(postId))
+            .apply(update)
+            .first();
 
             return updatedPost;
-        } else {// if the post does not exist idk what to do
-
-            return null;
-        }
     }
 
     public Post editIsPostActive(String postId, Boolean isActive) {
         Post existingPost = postRepository.findById(postId);
 
-        if (existingPost != null) {
-            existingPost.setActive(isActive);
+        existingPost.setActive(isActive);
 
-            Post updatedPost = postRepository.save(existingPost);
+        Post updatedPost = postRepository.save(existingPost);
 
-            mongoTemplate.update(User.class)
-                    .matching(Criteria.where("postId").is(postId))
-                    .apply(new Update().set("postId.$.isActive", isActive))
-                    .first();
+        mongoTemplate.update(User.class)
+            .matching(Criteria.where("postId").is(postId))
+            .apply(new Update().set("postId.$.isActive", isActive))
+            .first();
 
-            return updatedPost;
-        } else {// if the post does not exist idk what to do
+        return updatedPost;
 
-            return null;
-        }
+    }
+
+    public Post editPostImage(String postId, byte[] imageData) {
+        Post existingPost = postRepository.findById(postId);
+
+        existingPost.setImageData(imageData);
+
+        Post updatedPost = postRepository.save(existingPost);
+
+        mongoTemplate.update(User.class)
+            .matching(Criteria.where("postId").is(postId))
+            .apply(new Update().set("postId.$.imageData", imageData))
+            .first();
+
+        return updatedPost;    
+
     }
 
     public boolean existsById(String postId) {

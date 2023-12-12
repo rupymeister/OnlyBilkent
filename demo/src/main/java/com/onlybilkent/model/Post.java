@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.mail.Multipart;
 
 import org.bson.types.ObjectId;
 
@@ -28,6 +31,7 @@ public class Post {
     private boolean isActive;
 
     private byte[] imageData; // Field for storing local image data (if applicable)
+    private MultipartFile image;
 
     public Post(String title, String content, String senderId, boolean isActive) {
         this.title = title;
@@ -36,12 +40,12 @@ public class Post {
         this.isActive = isActive;
     }
 
-    public Post(String title, String content, String senderId, boolean isActive, byte[] imageData) {
+    public Post(String title, String content, String senderId, boolean isActive, MultipartFile image) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;
         this.isActive = isActive;
-        this.imageData = imageData;
+        this.image = image;
     }
 
 }
