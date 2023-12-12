@@ -70,12 +70,22 @@ public class PostController {
     // It was saing getPostByTitle and getPostsByContent maps the same address
     @GetMapping("/searchByTitle/{str}")
     public ResponseEntity<Optional<Post>> getPostsByTitle(@PathVariable String str) {
-        return new ResponseEntity<Optional<Post>>(postService.findByTitle(str), HttpStatus.OK);
+        Optional<Post> postOptional = postService.findByTitle(str);
+        if(postOptional.isPresent()){
+            return new ResponseEntity<>(postOptional, HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/searchByContent/{str}")
     public ResponseEntity<Optional<Post>> getPostsByContent(@PathVariable String str) {
-        return new ResponseEntity<Optional<Post>>(postService.findByContent(str), HttpStatus.OK);
+        Optional<Post> postOptional = postService.findByContent(str);
+        if (postOptional.isPresent()) {
+            return new ResponseEntity<>(postOptional, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
 }
