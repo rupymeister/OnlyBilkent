@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,6 @@ public class PostService {
 
     @Autowired
     public PostRepository postRepository;
-
-    @Autowired
-    public UserRepository userRepository;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -39,7 +37,10 @@ public class PostService {
                 .apply(new Update().push("postId").value(post))
                 .first();
 
-        userRepository.postCountIncrement(senderId);
+        Update update = new Update().inc("postCount", 1);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
+
+        
         return post;
     }
 
