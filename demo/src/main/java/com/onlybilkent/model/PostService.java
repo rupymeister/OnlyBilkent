@@ -7,7 +7,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +45,22 @@ public class PostService {
         Update update = new Update().inc("postCount", 1);
         mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
 
+        
+        return post;
+    }
+
+    public Post createPostWithImage(String title, String content, String senderId, MultipartFile imageFile) throws IOException {
+        byte[] imageData = imageFile.getBytes();
+        Post post;
+
+        if (imageData != null) {
+            post = postRepository.insert(new Post(title, content, senderId, true, imageData));
+        } else {
+            post = postRepository.insert(new Post(title, content, senderId, true));
+        }
+
+        Update update = new Update().inc("postCount", 1);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
         
         return post;
     }

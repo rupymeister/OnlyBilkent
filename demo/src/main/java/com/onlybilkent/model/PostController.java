@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +8,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Map;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -32,9 +33,17 @@ public class PostController {
     }
 
     @PostMapping("/createPost/{userId}")
-    public ResponseEntity<Post> createPost(@RequestBody Map<String, String> payload, @PathVariable String userId) {
-        return new ResponseEntity<Post>(postService.createPost(payload.get("title"), payload.get("content"), userId),
-                HttpStatus.CREATED);
+    public ResponseEntity<Post> createPost(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile, @PathVariable String userId, @RequestParam String title, @RequestParam String content) throws IOException {
+        Post post;
+    
+        if (imageFile != null && !imageFile.isEmpty()) {
+            post = postService.createPostWithImage(title, content, userId, imageFile);
+        } else {
+            post = postService.createPost(title, content, userId);
+        }
+
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+
     }
 
     @DeleteMapping("/deletePost/{userId}/{postId}")

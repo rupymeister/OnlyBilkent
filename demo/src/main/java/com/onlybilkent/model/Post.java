@@ -1,6 +1,8 @@
 package com.onlybilkent.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +15,8 @@ import org.bson.types.ObjectId;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 public class Post {
     @Id
     private ObjectId id;
@@ -22,12 +26,21 @@ public class Post {
 
     private boolean isActive;
 
-    // Constructor without id
+    private byte[] imageData; // Field for storing local image data (if applicable)
+
     public Post(String title, String content, String senderId, boolean isActive) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;
         this.isActive = isActive;
+    }
+
+    public Post(String title, String content, String senderId, boolean isActive, byte[] imageData) {
+        this.title = title;
+        this.content = content;
+        this.senderId = senderId;
+        this.isActive = isActive;
+        this.imageData = imageData;
     }
 
 }
