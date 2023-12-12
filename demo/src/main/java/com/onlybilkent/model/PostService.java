@@ -111,11 +111,11 @@ public class PostService {
     }
 
     public Optional<Post> findByTitle(String str) {
-        return postRepository.findByTitle(str);
+        return postRepository.findByTitleRegex(str);
     }
 
     public Optional<Post> findByContent(String str) {
-        return postRepository.findByContent(str);
+        return postRepository.findByContentRegex(str);
     }
 
 }

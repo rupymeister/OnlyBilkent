@@ -17,8 +17,8 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
     Optional<Post> findBySenderId(String senderId);
 
-    Optional<Post> findByTitle(String str);
+    Optional<Post> findByTitleRegex(String str);
 
-    Optional<Post> findByContent(String str);
+    Optional<Post> findByContentRegex(String str);
 
 }
