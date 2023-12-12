@@ -17,8 +17,10 @@ import java.time.LocalDate;
 @Data
 @Getter
 @Setter
+
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Post {
     
     @Id
@@ -26,7 +28,7 @@ public class Post {
     private String title;
     private String content;
     private String senderId;
-    private String photoId;
+    private String photoId = "6578c01d1fcb0e1176c52d6d";;
     private int price;
     private int viewCount;
     private boolean isActive;
@@ -38,11 +40,27 @@ public class Post {
     private boolean isFree;
 
     // Constructors
+
     public Post(String senderId, PostType postType) {
         this.postType = postType;
         this.senderId = senderId;
     }
-    public Post(String title, String content, String senderId, boolean isActive, PostType postType) {
+    public Post(String senderId, PostType postType, String photoId) {
+        if (photoId == null || photoId.equals("")) {
+            this.photoId = "6578c01d1fcb0e1176c52d6d";
+        } else {
+            this.photoId = photoId;
+        }
+        this.postType = postType;
+        this.senderId = senderId;
+    }
+    
+    public Post(String title, String content, String senderId, boolean isActive, PostType postType, String photoId) {
+        if (photoId == null || photoId.equals("")) {
+            this.photoId = "6578c01d1fcb0e1176c52d6d";
+        } else {
+            this.photoId = photoId;
+        }
         this.title = title;
         this.content = content;
         this.senderId = senderId;
@@ -51,12 +69,34 @@ public class Post {
     }
 
     public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType) {
+        if (photoId == null || photoId.equals("")) {
+            this.photoId = "6578c01d1fcb0e1176c52d6d";
+        } else {
+            this.photoId = photoId;
+        }
         this.title = title;
         this.content = content;
         this.senderId = senderId;
         this.isActive = isActive;
-        this.photoId = photoId;
         this.postType = postType;
+    }
+
+    public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType, LocalDate borrowUntilDate, double loanPricePerTime, double salePrice, boolean isFree) {
+        if (!(photoId.length() > 5)) {
+            this.photoId = "6578c01d1fcb0e1176c52d6d";
+        }
+        else {
+            this.photoId = photoId;
+        }
+        this.title = title;
+        this.content = content;
+        this.senderId = senderId;
+        this.isActive = isActive;
+        this.postType = postType;
+        this.borrowUntilDate = borrowUntilDate;
+        this.loanPricePerTime = loanPricePerTime;
+        this.salePrice = salePrice;
+        this.isFree = isFree;
     }
 
     // Getters and setters

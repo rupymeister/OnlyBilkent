@@ -58,4 +58,15 @@ public class UserService {
 
         return updatedUser;        
     }
+
+    //write a method to get user by id here
+    public User getUser(String userId) {
+        return userRepository.findById(userId);
+    }
+
+    //write a method to save user here
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+
 }

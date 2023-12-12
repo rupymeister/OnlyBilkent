@@ -1,6 +1,7 @@
 package com.onlybilkent.model;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +48,80 @@ public class PostController {
 
     }
     */
+
+    @PostMapping("/createPost1/{userId}")
+    public ResponseEntity<Post> createPost(@PathVariable String userId, @RequestBody Map<String, String> payload) {
+        String postTypeString = payload.get("postType");
+        
+        try {
+            Post.PostType postType = Post.PostType.valueOf(postTypeString);
+            Post post = postService.createPostPhase1(userId, postType, payload.get("photoId"));
+            System.out.println(post.getPhotoId());
+            return new ResponseEntity<>(post, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            // Handle the case where the provided postType is not a valid enum constant
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
+
+   @PutMapping("/createLoanPost/{postId}")
+    public ResponseEntity<Post> createLoanPost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+        // Extracting payload values
+        String title = (String) payload.get("title");
+        String content = (String) payload.get("content");
+        LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is provided as a string
+        int loanPricePerTime = (int) payload.get("loanPricePerTime");
+
+        // Call the service method to create the loan post
+        Post post = postService.createLoanPost(postId, title, content, borrowUntilDate, loanPricePerTime, Post.PostType.LOAN);
+
+        // Return the response
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/createBorrowPost/{postId}")
+    public ResponseEntity<Post> createBorrowPost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+        // Extracting payload values
+        String title = (String) payload.get("title");
+        String content = (String) payload.get("content");
+        LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is provided as a string
+
+        // Call the service method to create the borrow post
+        Post post = postService.createBorrowPost(postId, title, content, borrowUntilDate, Post.PostType.BORROW);
+
+        // Return the response
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/createSalePost/{postId}")
+    public ResponseEntity<Post> createSalePost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+        // Extracting payload values
+        String title = (String) payload.get("title");
+        String content = (String) payload.get("content");
+        double salePrice = (double) payload.get("salePrice");
+
+        // Call the service method to create the sale post
+        Post post = postService.createSalePost(postId, title, content, salePrice, Post.PostType.SALE);
+
+        // Return the response
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/createFreePost/{postId}")
+    public ResponseEntity<Post> createFreePost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+        // Extracting payload values
+        String title = (String) payload.get("title");
+        String content = (String) payload.get("content");
+        boolean isFree = (boolean) payload.get("isFree");
+        // Call the service method to create the free post
+        Post post = postService.createFreePost(postId, title, content, isFree,  Post.PostType.FREE);
+
+        // Return the response
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
     
     @DeleteMapping("/deletePost/{userId}/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable String userId, @PathVariable String postId) {

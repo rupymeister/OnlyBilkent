@@ -39,13 +39,30 @@ public class PhotoController {
     @Autowired
     private PostService postService;
 
-    @GetMapping("/{id}")
-    public String getPhoto(@PathVariable String id, Model model) {
-        Photo photo = photoService.getPhoto(id);
+    @Autowired
+    private UserService userService;
+
+    // write a method to get all photos here
+    @GetMapping("/allPhotos")
+    public List<Photo> getPhotos() {
+        return photoService.getPhotos();
+    }
+
+    // write a method to get a photo here
+    @GetMapping("/getPhoto/{photoId}")
+    public Photo getPhoto(@PathVariable String photoId) {
+        return photoService.getPhoto(photoId);
+    }
+
+    //write a method to get picture of a post here
+    @GetMapping("/getPostPhoto/{postId}")
+    public String getPostPhoto(@PathVariable String postId, Model model) {
+        Post post = postService.getPost(postId);
+        Photo photo = photoService.getPhoto(post.getPhotoId());
         model.addAttribute("title", photo.getTitle());
         model.addAttribute("image", 
         Base64.getEncoder().encodeToString(photo.getImage().getData()));
-        return "photos";
+        return post.getPhotoId();
     }
 
     @PostMapping("/addPhoto")
@@ -62,10 +79,6 @@ public class PhotoController {
     }
 
 
-    @GetMapping("/allPhotos")
-    public List<Photo> getPhotos() {
-        return photoService.getPhotos();
-    }
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadPhoto(@PathVariable String id) {
         Photo photo = photoService.getPhoto(id);
@@ -83,4 +96,14 @@ public class PhotoController {
         }
     }
     
+
+    //write a method to edit profile picture here
+    @PutMapping("/editProfilePicture/{userId}")
+    public ResponseEntity<User> editProfilePicture(@RequestParam("image") MultipartFile image, @PathVariable String userId) throws IOException {
+        User user = userService.getUser(userId);
+        String id = photoService.addPhoto(image.getOriginalFilename(),image);
+        user.setProfilePictureId(id);
+        userService.saveUser(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
+    }
 }

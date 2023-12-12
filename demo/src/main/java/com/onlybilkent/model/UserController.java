@@ -38,13 +38,7 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    /* @PutMapping("/editProfilePic/{userId}")
-    public ResponseEntity<User> editProfilePic(@RequestParam(value = "profilePic", required = false) MultipartFile profilePic, @PathVariable String userId) {
-        if (!userService.existsById(userId)) {
-            return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<User>(userService.editProfilePic(userId, profilePic), HttpStatus.OK);
-    } */
+    
 
 
 }

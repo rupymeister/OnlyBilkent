@@ -57,4 +57,8 @@ public class User {
         this.postCount = 0;
     }
 
+    public void setProfilePictureId(String id2) {
+        this.imageId = id2;
+    }
+
 }

@@ -37,8 +37,15 @@ public class PostService {
     }
 
 
-    public Post createPostPhase1(String senderId, PostType postType){
-        Post post = postRepository.insert(new Post(senderId, postType));
+    public Post createPostPhase1(String senderId, PostType postType, String photoId){
+        Post post = postRepository.insert(new Post(senderId, postType, photoId));
+              mongoTemplate.update(User.class)
+                .matching(Criteria.where("id").is(senderId))
+                .apply(new Update().push("postId").value(post))
+                .first();
+
+        Update update = new Update().inc("postCount", 1);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
         return post;
     }
 
@@ -57,8 +64,6 @@ public class PostService {
                 .apply(new Update().push("postId").value(post))
                 .first();
 
-        Update update = new Update().inc("postCount", 1);
-        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(getSenderId(postId))), update, User.class);
         return post;
     }
 

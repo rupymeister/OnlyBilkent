@@ -46,7 +46,7 @@ public class RegistrationService {
             }
 
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), role, request.getImageId(), emailVerificationToken);
+                    request.getBio(), role, "6578bfd71fcb0e1176c52d6c", emailVerificationToken);
 
             userRepository.save(user);
 
