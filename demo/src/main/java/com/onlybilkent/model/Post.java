@@ -13,10 +13,11 @@ import org.bson.types.ObjectId;
 
 @Document(collection = "posts")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Post {
     @Id
     private ObjectId id;

@@ -1,6 +1,5 @@
 package com.onlybilkent.model;
 
-
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -13,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class MessageService {
-    
 
     @Autowired
     public MessageRepository messageRepository;
@@ -38,7 +36,6 @@ public class MessageService {
         return messageRepository.findByContentRegex(str);
     }
 
-    
     public Message sendMessage(String content, String userId, String receiverId) {
         Message message = messageRepository.insert(new Message(userId, receiverId, content));
 
