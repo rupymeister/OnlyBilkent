@@ -37,15 +37,12 @@ public class PostController {
                 HttpStatus.CREATED);
     }
 
-    
-
     @DeleteMapping("/deletePost/{userId}/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable ObjectId userId, @PathVariable String postId) {
 
         if (!userService.existsById(userId)) {
             return new ResponseEntity<String>("User not found.", HttpStatus.NOT_FOUND); // can later be modified
-        }
-        else if (!postService.existsById(postId)) {
+        } else if (!postService.existsById(postId)) {
             return new ResponseEntity<String>("Post not found.", HttpStatus.NOT_FOUND); // can later be modified
         }
 
@@ -58,7 +55,8 @@ public class PostController {
         if (!postService.existsById(postId)) {
             return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<Post>(postService.editPost(postId, payload.get("title"), payload.get("content")), HttpStatus.OK);
+        return new ResponseEntity<Post>(postService.editPost(postId, payload.get("title"), payload.get("content")),
+                HttpStatus.OK);
     }
 
     @PutMapping("/editIsPostActive/{postId}")
@@ -69,15 +67,15 @@ public class PostController {
         return new ResponseEntity<Post>(postService.editIsPostActive(postId, isActive), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{str}")
+    // It was saing getPostByTitle and getPostsByContent maps the same address
+    @GetMapping("/searchByTitle/{str}")
     public ResponseEntity<Optional<Post>> getPostsByTitle(@PathVariable String str) {
         return new ResponseEntity<Optional<Post>>(postService.findByTitle(str), HttpStatus.OK);
     }
 
-    @GetMapping("/search/{str}")
+    @GetMapping("/searchByContent/{str}")
     public ResponseEntity<Optional<Post>> getPostsByContent(@PathVariable String str) {
         return new ResponseEntity<Optional<Post>>(postService.findByContent(str), HttpStatus.OK);
     }
 
-    
 }

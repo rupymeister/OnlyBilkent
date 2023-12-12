@@ -15,6 +15,5 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
     Optional<User> findByEmail(String email);
 
     boolean existsById(ObjectId userId);
-    void postCountIncrement(ObjectId userId);
 
 }
