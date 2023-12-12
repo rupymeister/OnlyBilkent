@@ -46,5 +46,5 @@ public class UserController {
         return new ResponseEntity<User>(userService.editProfilePic(userId, profilePic), HttpStatus.OK);
     } */
 
-    
+    */
 }

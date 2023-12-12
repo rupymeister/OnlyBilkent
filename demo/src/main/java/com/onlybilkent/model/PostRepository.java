@@ -24,4 +24,15 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
     @Query("{ 'content' : { '$regex' : ?0 , $options: 'i'}}")
     Optional<Post> findByContentRegex(String str);
 
+    @Query("{ 'price' : { '$regex' : ?0 , $options: 'i'}}")
+    Optional<Post> findByPriceRegex(int price);
+
+    
+
+    @Override 
+    <S extends Post> S save(S entity);
+    
+    @Override
+    Optional<Post> findById(ObjectId postId);
+
 }

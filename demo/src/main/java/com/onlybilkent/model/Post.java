@@ -8,11 +8,10 @@ import lombok.NoArgsConstructor;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.mail.Multipart;
 
 import org.bson.types.ObjectId;
+
+import java.time.LocalDate;
 
 @Document(collection = "posts")
 @Data
@@ -20,7 +19,6 @@ import org.bson.types.ObjectId;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Post {
     
     @Id
@@ -28,26 +26,46 @@ public class Post {
     private String title;
     private String content;
     private String senderId;
-    private String photo;
-
+    private String photoId;
+    private int price;
+    private int viewCount;
     private boolean isActive;
 
-    private byte[] imageData; // Field for storing local image data (if applicable)
-    private MultipartFile image;
+    private PostType postType;
+    private LocalDate borrowUntilDate; // Use LocalDate for dates
+    private double loanPricePerTime;
+    private double salePrice;
+    private boolean isFree;
 
-    public Post(String title, String content, String senderId, boolean isActive) {
+    // Constructors
+    public Post(String senderId, PostType postType) {
+        this.postType = postType;
+        this.senderId = senderId;
+    }
+    public Post(String title, String content, String senderId, boolean isActive, PostType postType) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;
         this.isActive = isActive;
+        this.postType = postType;
     }
 
-    public Post(String title, String content, String senderId, boolean isActive, MultipartFile image) {
+    public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType) {
         this.title = title;
         this.content = content;
         this.senderId = senderId;
         this.isActive = isActive;
-        this.image = image;
+        this.photoId = photoId;
+        this.postType = postType;
     }
 
+    // Getters and setters
+
+    // Enums for post types
+    public enum PostType {
+        BORROW,
+        LOAN,
+        SALE,
+        FREE
+    }
 }

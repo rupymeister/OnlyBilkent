@@ -16,5 +16,5 @@ public class RegistrationRequest {
     private final String name;
     private final String surname;
     private final String bio;
-    private final byte[] imageData;
+    private final String imageId;
 }

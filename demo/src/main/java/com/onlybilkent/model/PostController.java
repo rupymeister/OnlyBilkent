@@ -32,6 +32,7 @@ public class PostController {
         return new ResponseEntity<Optional<Post>>(postService.singlePost(title), HttpStatus.OK);
     }
 
+    /** 
     @PostMapping("/createPost/{userId}")
     public ResponseEntity<Post> createPost(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile, @PathVariable String userId, @RequestParam String title, @RequestParam String content) throws IOException {
         Post post;
@@ -45,7 +46,8 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.CREATED);
 
     }
-
+    */
+    
     @DeleteMapping("/deletePost/{userId}/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable String userId, @PathVariable String postId) {
 
@@ -76,6 +78,7 @@ public class PostController {
         return new ResponseEntity<Post>(postService.editIsPostActive(postId, isActive), HttpStatus.OK);
     }
 
+    /**
     @PutMapping("/editPostImage/{postId}")
     public ResponseEntity<Post> editPostImage(@RequestBody byte[] imageData, @PathVariable String postId) {
         if (!postService.existsById(postId)) {
@@ -83,6 +86,7 @@ public class PostController {
         }
         return new ResponseEntity<Post>(postService.editPostImage(postId, imageData), HttpStatus.OK);
     }
+     */
 
     @GetMapping("/searchByTitle/{str}")
     public ResponseEntity<Optional<Post>> getPostsByTitle(@PathVariable String str) {

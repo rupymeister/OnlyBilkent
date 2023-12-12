@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.web.multipart.MultipartFile;
 import org.bson.types.ObjectId;
 
 @Document(collection = "users")
@@ -28,7 +29,7 @@ public class User {
     private String password;
     private String email;
     private String bio;
-    private byte[] imageData; // Field for storing local image data (if applicable)
+    private String imageId;
 
     private int role;
     private boolean emailVerified;
@@ -43,14 +44,14 @@ public class User {
     @DocumentReference
     private List<User> chatterId;
 
-    public User(String name, String surname, String email, String password, String bio, int role, byte[] imageData, String emailVerificationToken) {
+    public User(String name, String surname, String email, String password, String bio, int role, String imageId, String emailVerificationToken) {
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password = password;
         this.bio = bio;
         this.role = role;
-        this.imageData = imageData;
+        this.imageId = imageId;
         emailVerified = false;
         this.emailVerificationToken = emailVerificationToken;
         this.postCount = 0;

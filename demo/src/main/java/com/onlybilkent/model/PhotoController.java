@@ -35,6 +35,9 @@ public class PhotoController {
     @Autowired
     private PhotoService photoService;
 
+    @Autowired
+    private PostService postService;
+
     @GetMapping("/{id}")
     public String getPhoto(@PathVariable String id, Model model) {
         Photo photo = photoService.getPhoto(id);
@@ -47,7 +50,20 @@ public class PhotoController {
     @PostMapping("/addPhoto")
     public String addPhoto(@RequestParam("image") MultipartFile image) throws IOException {
         String id = photoService.addPhoto(image.getOriginalFilename(),image);
-        return  id;
+        return id;
+    }
+
+    // write add a photo to a post here
+    @PostMapping("/addPhotoToPost")
+    public String addPhotoToPost(@RequestParam("image") MultipartFile image, @RequestParam String postId) throws IOException {
+        String id = photoService.addPhotoToPost(postId, image.getOriginalFilename(),image);
+        return id;
+    }
+
+
+    @GetMapping("/allPhotos")
+    public List<Photo> getPhotos() {
+        return photoService.getPhotos();
     }
 
     @GetMapping("/download/{id}")

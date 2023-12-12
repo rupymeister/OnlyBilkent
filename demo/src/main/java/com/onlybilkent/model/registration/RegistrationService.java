@@ -46,7 +46,7 @@ public class RegistrationService {
             }
 
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), role, request.getImageData(), emailVerificationToken);
+                    request.getBio(), role, request.getImageId(), emailVerificationToken);
 
             userRepository.save(user);
 
@@ -82,7 +82,6 @@ public class RegistrationService {
                 "Your verification code is: " + verificationCode);
 
         mailService.sendMail(user.getEmail(), mailStructure);
-
     }
 
 }
