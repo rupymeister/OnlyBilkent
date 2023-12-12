@@ -1,11 +1,17 @@
 package com.onlybilkent.model.registration;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 //import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.onlybilkent.model.User;
+import com.onlybilkent.model.UserRepository;
 
 import lombok.AllArgsConstructor;
 
@@ -22,9 +28,10 @@ public class RegistrationController {
         registrationService.registerUser(request);
     }
 
-    /**
-     * public String confirm(@RequestParam("token") String token) {
-     * return registrationService.confirmToken();
-     * }
-     **/
+    @PostMapping("/confirm")
+    public String confirm(@RequestParam("token") String verificationCode) {
+
+        return registrationService.confirmUser(verificationCode);
+    }
+
 }

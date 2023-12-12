@@ -1,5 +1,6 @@
 package com.onlybilkent.model.registration;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +41,12 @@ public class RegistrationService {
                 role = 2;
             }
 
+            else {
+                return;
+            }
+
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), role, request.getImageData(), emailVerificationToken); // role will be handled later
+                    request.getBio(), role, request.getImageData(), emailVerificationToken);
 
             userRepository.save(user);
 
@@ -50,24 +55,32 @@ public class RegistrationService {
 
     }
 
-    /**
-     * public String confirmToken() {
-     * return null;
-     * }
-     **/
+    public String confirmUser(String verificationCode) {
+
+        Optional<User> optionalUser = userRepository.findByEmailVerificationToken(verificationCode);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (verificationCode.equals(user.getEmailVerificationToken())) {
+                user.setEmailVerified(true);
+                userRepository.save(user);
+                return "Your account has been verified.";
+            } else {
+                return "Invalid verification code. Please try again.";
+            }
+        } else {
+            return "Invalid verification code. Please try again.";
+        }
+    }
 
     private void sendEmailVerificiation(User user) {
 
-        MailStructure mailStructure = new MailStructure("Verification for your OnlyBilkent Account", "Any message"); // It
-                                                                                                                     // takes
-                                                                                                                     // subject
-                                                                                                                     // and
-                                                                                                                     // the
-                                                                                                                     // content.
-                                                                                                                     // For
-                                                                                                                     // content
-                                                                                                                     // we
-        // need to implement validation link somehow.
+        String verificationCode = user.getEmailVerificationToken();
+
+        MailStructure mailStructure = new MailStructure("Verification for your OnlyBilkent Account",
+                "Your verification code is: " + verificationCode);
+
         mailService.sendMail(user.getEmail(), mailStructure);
 
     }
