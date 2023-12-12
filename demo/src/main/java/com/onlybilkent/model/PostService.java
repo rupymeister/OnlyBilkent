@@ -18,15 +18,9 @@ public class PostService {
     public PostRepository postRepository;
 
     @Autowired
-<<<<<<< HEAD
-=======
-    public UserRepository userRepository;
-
-    @Autowired
     public UserService userService;
 
     @Autowired
->>>>>>> cffaf3f35a4f79dfc6d2a1b9f1b28490364ef5d0
     private MongoTemplate mongoTemplate;
 
     public List<Post> allPosts() {
@@ -46,15 +40,10 @@ public class PostService {
                 .apply(new Update().push("postId").value(post))
                 .first();
 
-<<<<<<< HEAD
         Update update = new Update().inc("postCount", 1);
         mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
 
         
-=======
-        ObjectId senderIdObj = new ObjectId(senderId);
-        userService.postCountIncrement(senderIdObj);
->>>>>>> cffaf3f35a4f79dfc6d2a1b9f1b28490364ef5d0
         return post;
     }
 
