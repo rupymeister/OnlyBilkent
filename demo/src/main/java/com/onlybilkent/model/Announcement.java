@@ -6,8 +6,6 @@ import lombok.Setter;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.bson.types.ObjectId;
@@ -19,9 +17,9 @@ import org.bson.types.ObjectId;
 @Getter
 @Setter
 
-public class Announcement extends Sendable{
+public class Announcement extends Sendable {
     private String announcementID;
     private String title;
-    private String image; 
+    private String image;
 
 }
