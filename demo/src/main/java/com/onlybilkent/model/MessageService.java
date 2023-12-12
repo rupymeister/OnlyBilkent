@@ -54,6 +54,6 @@ public class MessageService {
     public Optional<Message> getMessagesByUserId(String userId) {
         return messageRepository.findBySenderId(userId);
     }
-
+    
     
 }

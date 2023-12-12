@@ -27,4 +27,7 @@ public class MessageController {
         return new ResponseEntity<Message>(messageService.sendMessage(payload.get("content"), userId, receiverId),
                 HttpStatus.CREATED);
     }
+
+
+    
 }

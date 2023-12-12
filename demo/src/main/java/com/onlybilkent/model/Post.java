@@ -22,11 +22,13 @@ import org.bson.types.ObjectId;
 @NoArgsConstructor
 
 public class Post {
+    
     @Id
     private ObjectId id;
     private String title;
     private String content;
     private String senderId;
+    private String photo;
 
     private boolean isActive;
 
