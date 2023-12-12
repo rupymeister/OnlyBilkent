@@ -2,12 +2,17 @@ package com.onlybilkent.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.bson.types.Binary;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document(collection = "photos")
+@Getter
+@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Photo {
 
@@ -18,23 +23,6 @@ public class Photo {
 
     public Photo(String title) {
         this.title = title;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title= title;
     }
 
     public Binary getImage() {

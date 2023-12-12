@@ -31,8 +31,17 @@ public class RegistrationService {
 
             String emailVerificationToken = UUID.randomUUID().toString();
 
+            int role = 0;
+
+            String email = request.getEmail();
+            if (email.contains("@ug.")) {
+                role = 1;
+            } else if (email.contains("@alumni.")) {
+                role = 2;
+            }
+
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), 1, request.getImageData(), emailVerificationToken); // role will be handled later
+                    request.getBio(), role, request.getImageData(), emailVerificationToken); // role will be handled later
 
             userRepository.save(user);
 

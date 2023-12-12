@@ -6,7 +6,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,35 +58,4 @@ public class UserService {
 
         return updatedUser;        
     }
-
-    public User editProfilePic(String userId, MultipartFile profilePic) {
-        User existingUser = userRepository.findById(userId);
-
-        if (newPassword != null && !newPassword.isEmpty()) {
-            existingUser.setPassword(newPassword);
-        }
-        if (newBio != null && !newBio.isEmpty()) {
-            existingUser.setBio(newBio);
-        }
-
-        User updatedUser = userRepository.save(existingUser);
-
-        Update update = new Update();
-        if (newPassword != null && !newPassword.isEmpty()) {
-            update.set("id.$.password", newPassword);
-        }
-        if (newBio != null && !newBio.isEmpty()) {
-            update.set("id.$.bio", newBio);
-        }
-
-        mongoTemplate.update(User.class)
-            .matching(Criteria.where("id").is(userId))
-            .apply(update)
-            .first();
-
-        return updatedUser;        
-    }
-
-
-
 }
