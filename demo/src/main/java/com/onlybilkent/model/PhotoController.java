@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.repository.query.parser.PartTree.OrPart;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -65,15 +66,21 @@ public class PhotoController {
     public List<Photo> getPhotos() {
         return photoService.getPhotos();
     }
-
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadPhoto(@PathVariable String id) {
         Photo photo = photoService.getPhoto(id);
-        Resource resource = new ByteArrayResource(photo.getPhoto().getData());
-
-        return  ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + photo.getTitle() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                .body(resource);
+    
+        if (photo != null) {
+            Resource resource = new ByteArrayResource(photo.getPhoto().getData());
+    
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + photo.getTitle() + "\"")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(resource);
+        } else {
+            // Handle the case where the photo is not found (optional is empty)
+            return ResponseEntity.notFound().build();
+        }
     }
+    
 }
