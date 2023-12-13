@@ -22,6 +22,9 @@ public class AnnouncementService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    PhotoService photoService;
+
     public List<Announcement> allPosts() {
         return announcementRepo.findAll();
     }
@@ -77,6 +80,14 @@ public class AnnouncementService {
 
     public void saveAnnouncement(Announcement announcement) {
         announcementRepo.save(announcement);
+    }
+
+    public Announcement announceWithPhoto(String userId, String title, String content, String photoId) {
+        Announcement announcement = new Announcement(userId, title, content, photoId);
+        Query query = new Query(Criteria.where("_id").is(announcement.getSenderId()));
+        Update update = new Update().push("announcements", announcement);
+        mongoTemplate.updateFirst(query, update, User.class);
+        return announcementRepo.save(announcement);
     }
 
 }

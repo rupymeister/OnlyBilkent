@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,10 +71,11 @@ public class PhotoService {
 
     // write a method to add multiple photos here
     public List<String> addMultiplePhotos(MultipartFile[] images) throws IOException {
+        List<String> ids = new ArrayList<>();
         for (MultipartFile file : images) {
-            addPhoto(file.getOriginalFilename(), file);
+            ids.add(addPhoto(file.getOriginalFilename(), file));
         }
-        return null;
+        return ids;
     }
 
     @Autowired

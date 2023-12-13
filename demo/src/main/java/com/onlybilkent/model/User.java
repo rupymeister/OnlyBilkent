@@ -55,10 +55,17 @@ public class User {
         emailVerified = false;
         this.emailVerificationToken = emailVerificationToken;
         this.postCount = 0;
+        this.notifications = new ArrayList<String>();
+        this.postId = new ArrayList<Post>();
+        this.chatterId = new ArrayList<User>();
     }
 
     public void setProfilePictureId(String id2) {
         this.imageId = id2;
+    }
+
+    enum Role {
+        ADMIN, STUDENT, ALUMNI, BOARD, OTHER // other 0, student 1, alumni 2, board 3, admin 4
     }
 
 }

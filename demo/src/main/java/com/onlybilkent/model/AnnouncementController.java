@@ -52,11 +52,36 @@ public class AnnouncementController {
         return new ResponseEntity<Optional<Announcement>>(announcementService.findBySenderId(senderId), HttpStatus.OK);
     }
 
+    @GetMapping("/findByTitle/{str}")
+    public ResponseEntity<Optional<Announcement>> findByTitle(@PathVariable String str) {
+        return new ResponseEntity<Optional<Announcement>>(announcementService.findByTitle(str), HttpStatus.OK);
+    }
+
+    @GetMapping("/findByContent/{str}")
+    public ResponseEntity<Optional<Announcement>> findByContent(@PathVariable String str) {
+        return new ResponseEntity<Optional<Announcement>>(announcementService.findByContent(str), HttpStatus.OK);
+    }
 
     @PostMapping(value = "/announce/{userId}", consumes = "application/json")
     public ResponseEntity<Announcement> announce(@PathVariable String userId, @RequestBody Map<String, String> payload) {
         Announcement announcement = announcementService.announce(userId, payload.get("title"), payload.get("content"));
         return new ResponseEntity<>(announcement, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/announceWithPhoto/{userId}", consumes = "application/json")
+    public ResponseEntity<Announcement> announceWithPhoto(@PathVariable String userId, @RequestBody Map<String, String> payload) {
+        Announcement announcement = announcementService.announceWithPhoto(userId, payload.get("title"), payload.get("content"), payload.get("photoId"));
+        return new ResponseEntity<>(announcement, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "/saveAnnouncement", consumes = "application/json")
+    public void saveAnnouncement(@RequestBody Announcement announcement) {
+        announcementService.saveAnnouncement(announcement);
+    }
+
+    @GetMapping("/getAnnouncement/{announcementId}")
+    public ResponseEntity<Announcement> getAnnouncement(@PathVariable String announcementId) {
+        return new ResponseEntity<Announcement>(announcementService.getAnnouncement(announcementId), HttpStatus.OK);
     }
 
 }
