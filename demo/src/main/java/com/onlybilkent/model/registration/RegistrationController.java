@@ -3,6 +3,7 @@ package com.onlybilkent.model.registration;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +29,10 @@ public class RegistrationController {
         registrationService.registerUser(request);
     }
 
-    @PostMapping("/confirm")
-    public String confirm(@RequestParam("token") String verificationCode) {
+    @PostMapping("/confirm/{userId}")
+    public String confirm(@RequestBody String verificationCode, @PathVariable String userId) {
 
-        return registrationService.confirmUser(verificationCode);
+        return registrationService.confirmUser(verificationCode, userId);
     }
 
 }

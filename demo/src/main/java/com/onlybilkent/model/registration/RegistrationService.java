@@ -32,6 +32,8 @@ public class RegistrationService {
 
             String emailVerificationToken = UUID.randomUUID().toString();
 
+            String emailVerificationTokenUpdated = emailVerificationToken.substring(0, 6);
+
             int role = 0;
 
             String email = request.getEmail();
@@ -46,7 +48,7 @@ public class RegistrationService {
             }
 
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), role, "6578bfd71fcb0e1176c52d6c", emailVerificationToken);
+                    request.getBio(), role, "6578bfd71fcb0e1176c52d6c", emailVerificationTokenUpdated);
 
             userRepository.save(user);
 
@@ -55,23 +57,24 @@ public class RegistrationService {
 
     }
 
-    public String confirmUser(String verificationCode) {
+    public String confirmUser(String verificationCode, String userId) {
 
-        Optional<User> optionalUser = userRepository.findByEmailVerificationToken(verificationCode);
+        User user = userRepository.findById(userId);
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
+        System.out.println("VerificationCode: " + verificationCode + " user.getEmailVerificationToken: "
+                + user.getEmailVerificationToken());
 
-            if (verificationCode.equals(user.getEmailVerificationToken())) {
-                user.setEmailVerified(true);
-                userRepository.save(user);
-                return "Your account has been verified.";
-            } else {
-                return "Invalid verification code. Please try again.";
-            }
+        System.out.println(verificationCode.equals(user.getEmailVerificationToken()));
+
+        if (verificationCode.equals(user.getEmailVerificationToken())) {
+            user.setEmailVerified(true);
+            userRepository.save(user);
+            return "Your account has been verified.";
         } else {
+
             return "Invalid verification code. Please try again.";
         }
+
     }
 
     private void sendEmailVerificiation(User user) {
