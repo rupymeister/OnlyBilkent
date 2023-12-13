@@ -2,7 +2,7 @@ package com.onlybilkent.model;
 
 import com.onlybilkent.model.registration.RegistrationRequest;
 
-
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @Controller class for Notifications,
@@ -27,14 +28,13 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    //write send notification using mongodb here
     @PostMapping("/sendNotification")
     public Notification sendNotification(@RequestBody Map<String, String> payload) {
-        Notification notification = new Notification(payload.get("userId"), payload.get("message"), payload.get(""));
+        Notification notification = new Notification(payload.get("userId"), payload.get("message"));
         return notificationService.sendNotification(notification);
     }
 
-    @PostMapping("/markRead/{id}")
+    @PutMapping("/markRead/{id}")
     public void markNotificationAsReadByID(@PathVariable("id") String id) {
         notificationService.markNotificationAsReadByID(id);
     }
@@ -46,17 +46,17 @@ public class NotificationController {
     }
 
     @GetMapping("/{id}")
-    public Notification getNotificationById(@PathVariable("id") String id ) {
+    public Optional<Notification> getNotificationById(@PathVariable("id") String id) {
         return notificationService.getNotificationById(id);
     }
 
     @GetMapping
     public List<Notification> getNotifications() {
-        return notificationService.getNotifications();
+       return notificationService.getAllNotifications();
     }
 
     @GetMapping("/user/{id}")
     public  List<Notification> getNotificationsOfUserByUserId(@PathVariable("id") String id ) {
-        return notificationService.getNotificationsOfUserByUserId(id);
+        return notificationService.getNotificationsById(id);
     }
 }

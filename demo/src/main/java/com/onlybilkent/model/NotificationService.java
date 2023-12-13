@@ -2,92 +2,59 @@ package com.onlybilkent.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-
-import org.bson.BsonBinarySubType;
-import org.bson.types.Binary;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class NotificationService {
+
+    private final UserService userService;
+    private final MongoTemplate mongoTemplate;
     
-    @Autowired
-    public UserService userService;
 
     @Autowired
-    private MongoTemplate mongoTemplate;
-
-    @Autowired
-    private NotificationRepository notificationRepo;
-
-    @Autowired
-    public NotificationService(NotificationRepository notificationRepository) {
-        this.notificationRepository = notificationRepository;
+    public NotificationService(UserService userService, MongoTemplate mongoTemplate) {
+        this.userService = userService;
+        this.mongoTemplate = mongoTemplate;
     }
 
-    public List<Notification> getAllNotificationsByUserId(String userId) {
-        return notificationRepository.findAllById(userId);
+    public List<Notification> getAllNotifications() {
+        return mongoTemplate.findAll(Notification.class);
     }
 
-    public Notification deleteNotification(Notification notification) {
-        notificationRepository.delete(notification);
-        return notification;
+    public List<Notification> getNotificationsById(String userId) {
+        Query query = new Query(Criteria.where("userId").is(userId));
+        return mongoTemplate.find(query, Notification.class);
     }
 
-    //write get notification by id
-    public Notification getNotification(String id) {
-        return notificationRepository.findById(id).orElseThrow(() -> new IllegalStateException("Notification with id:" + id + " doesn't exist!"));
+    public Optional<Notification> getNotificationById(String notificationId) {
+        return Optional.ofNullable(mongoTemplate.findById(notificationId, Notification.class));
     }
 
-    public List<Notification> getNotifications() {
-        return notificationRepository.findAll();
+    public void markNotificationAsReadByID(String notificationId) {
+        Query query = new Query(Criteria.where("_id").is(notificationId));
+        Update update = new Update().set("isRead", true);
+        mongoTemplate.updateFirst(query, update, Notification.class);
     }
 
-    public List<Notification> getNotificationsOfUserByUserId( String id ) {
-        return notificationRepository.findAllById(id);
+    public void deleteNotificationByID(String notificationId) {
+        Query query = new Query(Criteria.where("_id").is(notificationId));
+        mongoTemplate.remove(query, Notification.class);
     }
 
-
-    public Notification markNotificationAsRead(String id) {
-        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new IllegalStateException("Notification with id:" + id + " doesn't exist!"));
-        notification.setRead(true);
-        notificationRepository.save(notification);
-        return notification;
-    }
-
-    public void deleteNotificationByID(String id) {
-        boolean exists = notificationRepository.existsById(id);
-        if ( !exists ) {
-            throw new IllegalStateException("Notification with id:" + id + " doesn't exist!");
-        }
-        notificationRepository.deleteById(id);
-    }
-
-    public Notification getNotificationById(String id) {
-        return notificationRepository.findById(id).orElseThrow(() -> new IllegalStateException("Notification with id:" + id + " doesn't exist!"));
-    }
-
-    public void markNotificationAsReadByID(String id) {
-        Notification notification = notificationRepository.findById(id).orElseThrow(() -> new IllegalStateException("Notification with id:" + id + " doesn't exist!"));
-        notification.setRead(true);
-        notificationRepository.save(notification);
-    }
-
-    
     public Notification saveNotification(Notification notification) {
-        return notificationRepository.save(notification);
+        return mongoTemplate.save(notification);
+    }
+
+    public Notification sendNotification(Notification notification) {
+        Query query = new Query(Criteria.where("_id").is(notification.getUserId()));
+        Update update = new Update().push("notifications", notification);
+        mongoTemplate.updateFirst(query, update, User.class);
+        return saveNotification(notification);
     }
 }

@@ -1,15 +1,22 @@
 package com.onlybilkent.model;
 
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.mongodb.repository.Query;
+
 import java.util.List;
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.stereotype.Repository;
+public interface NotificationRepository extends MongoRepository<Notification, String> {
 
-public interface NotificationRepository extends MongoRepository<Notification, String> { 
-    List<Notification> findAllById(String id);
+    List<Notification> findByUserId(String userId);
 
-    boolean existsById(String id);
+    void deleteById(String id);
+
+    Optional<Notification> findById(String notificationId);
+
+    @Query(value = "{'NotificationId': ?0}", exists = true)
+    boolean existsById(String notificationId);
+
 
 }
