@@ -1,15 +1,12 @@
 package com.onlybilkent.model;
 
-import java.io.IOException;
+import java.util.Map;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Map;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

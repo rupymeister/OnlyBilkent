@@ -20,6 +20,7 @@ public class Photo {
     private String id;
     private String title;
     private Binary photo;
+    private String userId;
 
     public Photo(String title) {
         this.title = title;

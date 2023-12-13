@@ -13,13 +13,12 @@ import java.util.Optional;
 @Service
 public class NotificationService {
 
-    private final UserService userService;
+
     private final MongoTemplate mongoTemplate;
     
 
     @Autowired
-    public NotificationService(UserService userService, MongoTemplate mongoTemplate) {
-        this.userService = userService;
+    public NotificationService(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
 

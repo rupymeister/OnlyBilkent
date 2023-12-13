@@ -30,6 +30,8 @@ public class PhotoService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private AnnouncementService announcementService;
 
     public String addPhoto(String title, MultipartFile file) throws IOException { 
         Photo photo = new Photo(title); 
