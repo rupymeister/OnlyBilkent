@@ -3,6 +3,8 @@ package com.onlybilkent.model.registration;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,8 +26,9 @@ public class RegistrationController {
     private final RegistrationService registrationService;
 
     @PostMapping
-    public void register(@RequestBody RegistrationRequest request) {
-        registrationService.registerUser(request);
+    public ResponseEntity<User> register(@RequestBody RegistrationRequest request) {
+        User user = registrationService.registerUser(request);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PostMapping("/confirm")

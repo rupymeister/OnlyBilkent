@@ -22,7 +22,7 @@ public class RegistrationService {
     MailService mailService;
 
     // Checking whether email is valid should be done later.
-    public void registerUser(RegistrationRequest request) {
+    public User registerUser(RegistrationRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
@@ -42,7 +42,8 @@ public class RegistrationService {
             }
 
             else {
-                return;
+                role = 3;
+                
             }
 
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
@@ -51,6 +52,7 @@ public class RegistrationService {
             userRepository.save(user);
 
             sendEmailVerificiation(user);
+            return user;
         }
 
     }
