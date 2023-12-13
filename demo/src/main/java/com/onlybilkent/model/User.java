@@ -12,7 +12,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
-import org.springframework.web.multipart.MultipartFile;
+
 import org.bson.types.ObjectId;
 
 @Document(collection = "users")

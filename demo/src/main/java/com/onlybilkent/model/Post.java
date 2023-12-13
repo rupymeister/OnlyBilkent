@@ -33,6 +33,9 @@ public class Post {
     private int viewCount;
     private boolean isActive;
 
+    private String[] photoIds;
+
+    private Category category;
     private PostType postType;
     private LocalDate borrowUntilDate; // Use LocalDate for dates
     private double loanPricePerTime;
@@ -41,11 +44,12 @@ public class Post {
 
     // Constructors
 
-    public Post(String senderId, PostType postType) {
+    public Post(String senderId, PostType postType, Category category) {
         this.postType = postType;
         this.senderId = senderId;
+        this.category = category;
     }
-    public Post(String senderId, PostType postType, String photoId) {
+    public Post(String senderId, PostType postType, String photoId, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
         } else {
@@ -55,7 +59,7 @@ public class Post {
         this.senderId = senderId;
     }
     
-    public Post(String title, String content, String senderId, boolean isActive, PostType postType, String photoId) {
+    public Post(String title, String content, String senderId, boolean isActive, PostType postType, String photoId, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
         } else {
@@ -68,7 +72,7 @@ public class Post {
         this.postType = postType;
     }
 
-    public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType) {
+    public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
         } else {
@@ -81,7 +85,7 @@ public class Post {
         this.postType = postType;
     }
 
-    public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType, LocalDate borrowUntilDate, double loanPricePerTime, double salePrice, boolean isFree) {
+    public Post(String title, String content, String senderId, boolean isActive, String photoId, PostType postType, LocalDate borrowUntilDate, double loanPricePerTime, double salePrice, boolean isFree, Category category) {
         if (!(photoId.length() > 5)) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
         }
@@ -107,5 +111,16 @@ public class Post {
         LOAN,
         SALE,
         FREE
+    }
+
+    enum Category {
+        BOOKS,
+        ELECTRONICS,
+        FURNITURE,
+        CLOTHING,
+        HOUSING,
+        ROOMMATES,
+        TEACHING,
+        OTHER
     }
 }

@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
@@ -47,12 +48,18 @@ public class MessageService {
                 .matching(Criteria.where("id").is(receiverId))
                 .apply(new Update().push("messageId").value(message))
                 .first();
-
+        
         return message.getContent().equals(content) ? message: null;
     }
 
     public Optional<Message> getMessagesByUserId(String userId) {
         return messageRepository.findBySenderId(userId);
+    }
+
+    public void markNotificationAsReadByID(String messageId) {
+        Query query = new Query(Criteria.where("_id").is(messageId));
+        Update update = new Update().set("isRead", true);
+        mongoTemplate.updateFirst(query, update, Message.class);
     }
     
     

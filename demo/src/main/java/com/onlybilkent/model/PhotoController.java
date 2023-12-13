@@ -2,12 +2,8 @@ package com.onlybilkent.model;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Base64;
 
-
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.web.bind.annotation.*;
@@ -15,19 +11,10 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.springframework.data.repository.query.parser.PartTree.OrPart;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 
 @RestController
 @RequestMapping("/photos")
@@ -78,6 +65,20 @@ public class PhotoController {
         return id;
     }
 
+
+    // write add a photo to an announcement here
+    @PostMapping("/addPhotoToAnnouncement")
+    public String addPhotoToAnnouncement(@RequestParam("image") MultipartFile image, @RequestParam String announcementId) throws IOException {
+        String id = photoService.addPhotoToAnnouncement(announcementId, image.getOriginalFilename(),image);
+        return id;
+    }
+
+    // write a method to add multiple photos here
+    @PostMapping("/addMultiplePhotos")
+    public List<String> addMultiplePhotos(@RequestParam("images") MultipartFile[] images) throws IOException {
+        List<String> ids = photoService.addMultiplePhotos(images);
+        return ids;
+    }
 
     @GetMapping("/download/{id}")
     public ResponseEntity<Resource> downloadPhoto(@PathVariable String id) {

@@ -18,6 +18,7 @@ public class Announcement {
     @Id
     private String announcementID;
 
+    
     private String title;
     private String photoId;
     private String content;

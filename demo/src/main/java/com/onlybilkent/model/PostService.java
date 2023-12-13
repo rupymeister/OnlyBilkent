@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
+import com.onlybilkent.model.Post.Category;
 import com.onlybilkent.model.Post.PostType;
 
 import java.time.LocalDate;
@@ -35,8 +36,8 @@ public class PostService {
     }
 
 
-    public Post createPostPhase1(String senderId, PostType postType, String photoId){
-        Post post = postRepository.insert(new Post(senderId, postType, photoId));
+    public Post createPostPhase1(String senderId, PostType postType, String photoId, Category category) {
+        Post post = postRepository.insert(new Post(senderId, postType, photoId, category));
               mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(senderId))
                 .apply(new Update().push("postId").value(post))
@@ -47,12 +48,11 @@ public class PostService {
         return post;
     }
 
-    public Post createLoanPost(String postId, String title, String content, LocalDate borrowUntilDate, double loanPricePerTime, PostType postType) {
+    public Post createLoanPost(String postId, String title, String content, LocalDate borrowUntilDate, double loanPricePerTime) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
-        post.setPostType(postType);
         postRepository.save(post);
         post.setBorrowUntilDate(borrowUntilDate);
         post.setLoanPricePerTime(loanPricePerTime);
@@ -65,12 +65,11 @@ public class PostService {
         return post;
     }
 
-    public Post createBorrowPost(String postId, String title, String content, LocalDate borrowUntilDate, PostType postType) {
+    public Post createBorrowPost(String postId, String title, String content, LocalDate borrowUntilDate) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
-        post.setPostType(postType);
         postRepository.save(post);
         post.setBorrowUntilDate(borrowUntilDate);
         
@@ -84,12 +83,11 @@ public class PostService {
         return post;
     }
 
-    public Post createSalePost(String postId, String title, String content, double salePrice, PostType postType) {
+    public Post createSalePost(String postId, String title, String content, double salePrice) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
-        post.setPostType(postType);
         postRepository.save(post);
         post.setSalePrice(salePrice);
         
@@ -109,7 +107,6 @@ public class PostService {
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
-        post.setPostType(postType);
         postRepository.save(post);
         post.setFree(isFree);
         

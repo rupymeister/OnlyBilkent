@@ -28,6 +28,10 @@ public class MessageController {
                 HttpStatus.CREATED);
     }
 
+    @PutMapping("/markRead/{id}")
+    public void markNotificationAsReadByID(@PathVariable("id") String id) {
+        messageService.markNotificationAsReadByID(id);
+    }
 
     
 }

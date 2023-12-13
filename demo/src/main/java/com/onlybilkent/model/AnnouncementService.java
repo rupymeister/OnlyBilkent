@@ -71,4 +71,12 @@ public class AnnouncementService {
         return announcementRepo.save(announcement);
     }
 
+    public Announcement getAnnouncement(String announcementId) {
+        return announcementRepo.findById(announcementId).get();
+    }
+
+    public void saveAnnouncement(Announcement announcement) {
+        announcementRepo.save(announcement);
+    }
+
 }

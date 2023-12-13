@@ -56,6 +56,26 @@ public class PhotoService {
         return photo.getId();
     }
 
+    // write a method to add a photo to an announcement here
+    public String addPhotoToAnnouncement(String announcementId, String title, MultipartFile file) throws IOException {
+        Photo photo = new Photo(title);
+        photo.setImage(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+        photo = photoRepo.insert(photo);
+        Announcement announcement = announcementService.getAnnouncement(announcementId);
+        announcement.setPhotoId(photo.getId());
+        announcementService.saveAnnouncement(announcement);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(announcementId)), new Update().set("photoId", photo.getId()), Announcement.class);
+        return photo.getId();
+    }
+
+    // write a method to add multiple photos here
+    public List<String> addMultiplePhotos(MultipartFile[] images) throws IOException {
+        for (MultipartFile file : images) {
+            addPhoto(file.getOriginalFilename(), file);
+        }
+        return null;
+    }
+
     @Autowired
     public PhotoService(PhotoRepository photoRepository) {
         this.photoRepo = photoRepository;

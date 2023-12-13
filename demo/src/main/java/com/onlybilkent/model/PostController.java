@@ -52,7 +52,8 @@ public class PostController {
         
         try {
             Post.PostType postType = Post.PostType.valueOf(postTypeString);
-            Post post = postService.createPostPhase1(userId, postType, payload.get("photoId"));
+            Post.Category category = Post.Category.valueOf(payload.get("category"));
+            Post post = postService.createPostPhase1(userId, postType, payload.get("photoId"), category);
             System.out.println(post.getPhotoId());
             return new ResponseEntity<>(post, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
@@ -72,7 +73,7 @@ public class PostController {
         int loanPricePerTime = (int) payload.get("loanPricePerTime");
 
         // Call the service method to create the loan post
-        Post post = postService.createLoanPost(postId, title, content, borrowUntilDate, loanPricePerTime, Post.PostType.LOAN);
+        Post post = postService.createLoanPost(postId, title, content, borrowUntilDate, loanPricePerTime);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -86,7 +87,7 @@ public class PostController {
         LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is provided as a string
 
         // Call the service method to create the borrow post
-        Post post = postService.createBorrowPost(postId, title, content, borrowUntilDate, Post.PostType.BORROW);
+        Post post = postService.createBorrowPost(postId, title, content, borrowUntilDate);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -100,7 +101,7 @@ public class PostController {
         double salePrice = (double) payload.get("salePrice");
 
         // Call the service method to create the sale post
-        Post post = postService.createSalePost(postId, title, content, salePrice, Post.PostType.SALE);
+        Post post = postService.createSalePost(postId, title, content, salePrice);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
