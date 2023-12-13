@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.onlybilkent.model.Post.Category;
+import com.onlybilkent.model.Post.PostType;
 
 import java.util.Optional;
 

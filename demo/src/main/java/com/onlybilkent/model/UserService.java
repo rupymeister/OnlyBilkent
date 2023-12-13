@@ -31,10 +31,10 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
-    public User editUser(String userId, String newPassword, String newBio) {
+    public User editUser(String userId, String newPassword, String pass2, String newBio) {
         User existingUser = userRepository.findById(userId);
 
-        if (newPassword != null && !newPassword.isEmpty()) {
+        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty() && newPassword.equals(pass2)) {
             existingUser.setPassword(newPassword);
         }
         if (newBio != null && !newBio.isEmpty()) {
@@ -44,7 +44,7 @@ public class UserService {
         User updatedUser = userRepository.save(existingUser);
 
         Update update = new Update();
-        if (newPassword != null && !newPassword.isEmpty()) {
+        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty() && newPassword.equals(pass2)) {
             update.set("id.$.password", newPassword);
         }
         if (newBio != null && !newBio.isEmpty()) {

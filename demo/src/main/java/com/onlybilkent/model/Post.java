@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Document(collection = "posts")
 @Data
@@ -33,7 +34,7 @@ public class Post {
     private int viewCount;
     private boolean isActive;
 
-    private String[] photoIds;
+    private List<String> photoIds;
 
     private Category category;
     private PostType postType;
