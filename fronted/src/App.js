@@ -6,6 +6,8 @@ import LoginPage from './components/auth/LoginPage';
 import NavComponent from './components/auth/NavComponent';
 import RegistrationPage from './components/auth/RegistrationPage';
 import StudentProfile from './components/profiles/StudentProfile';
+import BoardProfile from './components/profiles/BoardProfile';
+import Dashboard from './components/layout/Dashboard';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/" element={<NavComponent />} />
         <Route path="/registration" element={<RegistrationPage />} />
         <Route path="/student-profile/:userId" element={<StudentProfile />} />
+        <Route path="/board-profile/:userId" element={<BoardProfile />} />
+        <Route path="/dashboard" element={<Dashboard/>} />
       </Routes>
     </Router>
   );

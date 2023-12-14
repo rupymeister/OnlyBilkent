@@ -20,11 +20,19 @@ export const userLogout = (authType, id) => (
 );
 
 export const adminLogin = (email, password) => (
-  axios.post(`${baseURL}/admin/login?email=${email}&password=${password}`)
+  axios.post(`${baseURL}/admin/login`)
 );
 
 export const adminLogout = () => (
   axios.post(`${baseURL}/admin/logout`)
+);
+
+export const boardLogin = (email, password) => (
+  axios.post(`${baseURL}/board/login`)
+);
+
+export const boardLogout = () => (
+  axios.post(`${baseURL}/board/logout`)
 );
 
 //User Registartion
