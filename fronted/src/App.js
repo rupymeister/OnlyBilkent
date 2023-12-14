@@ -8,6 +8,7 @@ import RegistrationPage from './components/auth/RegistrationPage';
 import StudentProfile from './components/profiles/StudentProfile';
 import BoardProfile from './components/profiles/BoardProfile';
 import Dashboard from './components/layout/Dashboard';
+import VerificationPage from './components/auth/VerificationPage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/student-profile/:userId" element={<StudentProfile />} />
         <Route path="/board-profile/:userId" element={<BoardProfile />} />
         <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/verification-page" element={<VerificationPage/>} />
       </Routes>
     </Router>
   );

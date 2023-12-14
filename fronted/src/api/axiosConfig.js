@@ -36,8 +36,14 @@ export const boardLogout = () => (
 );
 
 //User Registartion
-export const userRegister = (email, password, name, surname, bio, profilePic) => (
-  axios.post(`${baseURL}/registration`)
+export const userRegister = (email, password, name, surname, bio) => (
+  axios.post(`${baseURL}/registration/userReg`, { email, password, name, surname, bio })
+);
+
+export const verifyUser = (verificationCode, email) => (
+  axios.post(`${baseURL}/registration/confirm`, null, {
+    params: { token: verificationCode, email }
+  })
 );
 
 // User info

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getAnnouncements } from '../../axios.Config';
+import {getAnnouncements } from '../../api/axiosConfig';
 
 
 function Dashboard() {
