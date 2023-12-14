@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import {getAnnouncements } from '../../axios.Config';
+
 
 function Dashboard() {
   const [categories, setCategories] = useState([]);
