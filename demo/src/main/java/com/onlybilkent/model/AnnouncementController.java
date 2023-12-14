@@ -19,7 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AnnouncementController {
     
     @Autowired
-    AnnouncementService announcementService;
+    AnnouncementService announcementService;    
+
+    public AnnouncementController(AnnouncementService announcementService) {
+        this.announcementService = announcementService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Announcement>> getAllAnnouncements() {

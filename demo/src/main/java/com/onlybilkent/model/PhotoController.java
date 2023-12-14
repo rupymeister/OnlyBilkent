@@ -107,4 +107,6 @@ public class PhotoController {
         userService.saveUser(user);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
+
+    
 }

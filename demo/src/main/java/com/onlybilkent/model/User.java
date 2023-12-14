@@ -23,7 +23,7 @@ import org.bson.types.ObjectId;
 @Setter
 public class User {
     @Id
-    private ObjectId id;
+    private String id;
     private String name;
     private String surname;
     private String password;

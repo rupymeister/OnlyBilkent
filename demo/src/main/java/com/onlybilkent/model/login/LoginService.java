@@ -13,13 +13,13 @@ public class LoginService {
     @Autowired
     private UserRepository userRepository;
 
-    public ResponseEntity<Object> login(LoginRequest request) {
+    public ResponseEntity<String> login(LoginRequest request) {
         Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (user.getPassword().equals(request.getPassword())) {
-                return ResponseEntity.ok(user); // Returns ResponseEntity<Object> with User
+                return ResponseEntity.ok(user.getId()); // Returns ResponseEntity<Object> with User
             } else {
                 return ResponseEntity.badRequest().body("Password is incorrect"); // Returns ResponseEntity<Object> with String
             }

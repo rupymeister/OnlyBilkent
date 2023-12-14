@@ -15,7 +15,7 @@ const LoginPage = () => {
       const response = await userLogin(email, password);
       console.log(response.data);
       console.log("Login!!!")
-      const userId = response.data.userId; 
+      const userId = response.data; 
       navigate(`/student-profile/${userId}`); // Redirect to user's profile page
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred during login');

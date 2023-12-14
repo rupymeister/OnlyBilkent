@@ -30,21 +30,6 @@ public class PostController {
         return new ResponseEntity<Optional<Post>>(postService.singlePost(title), HttpStatus.OK);
     }
 
-    /** 
-    @PostMapping("/createPost/{userId}")
-    public ResponseEntity<Post> createPost(@RequestParam(value = "imageFile", required = false) MultipartFile imageFile, @PathVariable String userId, @RequestParam String title, @RequestParam String content) throws IOException {
-        Post post;
-    
-        if (imageFile != null && !imageFile.isEmpty()) {
-            post = postService.createPostWithImage(title, content, userId, imageFile);
-        } else {
-            post = postService.createPost(title, content, userId);
-        }
-
-        return new ResponseEntity<>(post, HttpStatus.CREATED);
-
-    }
-    */
 
     @PostMapping("/createPost1/{userId}")
     public ResponseEntity<Post> createPost(@PathVariable String userId, @RequestBody Map<String, String> payload) {

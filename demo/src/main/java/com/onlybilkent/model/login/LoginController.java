@@ -20,7 +20,7 @@ public class LoginController {
     }
 
     @PostMapping("/login") // Changed to PostMapping
-    public ResponseEntity<Object> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
         return loginService.login(request);
     }
 }

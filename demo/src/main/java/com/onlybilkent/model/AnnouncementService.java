@@ -22,8 +22,11 @@ public class AnnouncementService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Autowired
-    PhotoService photoService;
+    
+
+   
+    
+    
 
     public List<Announcement> allPosts() {
         return announcementRepo.findAll();
