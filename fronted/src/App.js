@@ -14,7 +14,7 @@ function App() {
         <Route path="/api/login" element={<LoginPage />} />
         <Route path="/" element={<NavComponent />} />
         <Route path="/register" element={<RegistrationPage />} />
-        <Route path="/student-profile/:userId" Component={StudentProfile} />
+        <Route path="/student-profile/:userId" element={<StudentProfile />} />
       </Routes>
     </Router>
   );

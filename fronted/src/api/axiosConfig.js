@@ -28,8 +28,8 @@ export const adminLogout = () => (
 );
 
 // User info
-export const getUser = (authType, id) => (
-  axios.get(`${baseURL}/${authType}/${id}`)
+export const getUser = (id) => (
+  axios.get(`${baseURL}/${id}`)
 );
 
 // BoardAccounts
