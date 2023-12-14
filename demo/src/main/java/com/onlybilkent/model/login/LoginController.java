@@ -19,9 +19,20 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping("/login") // Changed to PostMapping
+    // Maybe there should be another mapping like "/login" for
+
+    @PostMapping("/login/asUser") // Changed to PostMapping
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return loginService.login(request);
+        return loginService.loginAsUser(request);
+    }
+
+    @PostMapping("/login/asAdmin") //
+    public ResponseEntity<String> loginAsAdmin(@RequestBody LoginRequest request) {
+        return loginService.loginAsAdmin(request);
+    }
+
+    @PostMapping("/login/asBoard") //
+    public ResponseEntity<String> loginAsBoard(@RequestBody LoginRequest request) {
+        return loginService.loginAsBoard(request);
     }
 }
-

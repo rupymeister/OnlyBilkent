@@ -35,16 +35,19 @@ public class User {
     private boolean emailVerified;
     private String emailVerificationToken;
 
+    private boolean boardRequest = false;
+
     private ArrayList<String> notifications = new ArrayList<String>();
     private int postCount;
 
     @DocumentReference
     private List<Post> postId;
-    
+
     @DocumentReference
     private List<User> chatterId;
 
-    public User(String name, String surname, String email, String password, String bio, int role, String imageId, String emailVerificationToken) {
+    public User(String name, String surname, String email, String password, String bio, int role, String imageId,
+            String emailVerificationToken) {
         this.name = name;
         this.surname = surname;
         this.email = email;
