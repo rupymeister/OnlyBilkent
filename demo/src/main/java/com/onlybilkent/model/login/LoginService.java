@@ -1,6 +1,8 @@
 package com.onlybilkent.model.login;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.onlybilkent.model.User;
@@ -19,7 +21,7 @@ public class LoginService {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
             if (user.getPassword().equals(request.getPassword())) {
-                return ResponseEntity.ok(user.getId()); // Returns ResponseEntity<Object> with User
+                return new ResponseEntity(user.getId(), HttpStatus.OK); // Returns ResponseEntity<Object> with User
             } else {
                 return ResponseEntity.badRequest().body("Password is incorrect"); // Returns ResponseEntity<Object> with String
             }
@@ -27,4 +29,5 @@ public class LoginService {
             return ResponseEntity.badRequest().body("This email does not exist"); // Returns ResponseEntity<Object> with String
         }
     }
+
 }

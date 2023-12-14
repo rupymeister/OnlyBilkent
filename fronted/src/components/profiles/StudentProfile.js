@@ -1,6 +1,9 @@
 import React from 'react';
 
 const StudentProfile = () => {
+  
+
+
   return (<>
     <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -143,7 +146,7 @@ const StudentProfile = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <h1>path</h1>
+              <h1>Alex Turner</h1>
             </div>
           </div>
           <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
