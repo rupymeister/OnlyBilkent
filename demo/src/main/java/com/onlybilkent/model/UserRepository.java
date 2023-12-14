@@ -18,4 +18,6 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
 
     Optional<User> findByEmailVerificationToken(String emailVerificationToken);
 
+    boolean existsByEmail(String email);
+
 }
