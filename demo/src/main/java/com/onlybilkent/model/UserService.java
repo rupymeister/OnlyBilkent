@@ -143,4 +143,64 @@ public class UserService {
             throw new RuntimeException("User not found");
         }
     }
+
+    public String rejectBoardAccount(@RequestBody BoardRequest request) {
+        // find the user
+        Optional<User> optionalUser = userRepository.findById(request.getUserId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.isBoardRequest() == true) {
+
+                user.setBoardRequest(false);
+                userRepository.save(user);
+                notificationService
+                        .sendNotification(new Notification(user.getId(), "Your board request has been rejected.")); // send
+                                                                                                                    // notification
+                                                                                                                    // for
+                                                                                                                    // the
+                                                                                                                    // user
+                                                                                                                    // st
+                                                                                                                    // his/her
+                                                                                                                    // account
+                                                                                                                    // is
+                                                                                                                    // rejected
+                return "Board request rejected.";
+            } else {
+                throw new RuntimeException("This user has not requested a board account.");
+            }
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public String banUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+
+            if (optionalUser.get().getRole() == 4) {
+                throw new RuntimeException("You cannot ban an admin.");
+            } else {
+                User user = optionalUser.get();
+                user.setBanned(true);
+                userRepository.save(user);
+                return "User banned.";
+            }
+
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public String unbanUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setBanned(false);
+            userRepository.save(user);
+            return "User unbanned.";
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
 }

@@ -36,6 +36,7 @@ public class User {
     private String emailVerificationToken;
 
     private boolean boardRequest = false;
+    private boolean banned = false;
 
     private ArrayList<String> notifications = new ArrayList<String>();
     private int postCount;

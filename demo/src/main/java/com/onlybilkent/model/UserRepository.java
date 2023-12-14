@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -19,5 +20,7 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
     Optional<User> findByEmailVerificationToken(String emailVerificationToken);
 
     boolean existsByEmail(String email);
+
+    List<User> findByBanned(boolean banned);
 
 }

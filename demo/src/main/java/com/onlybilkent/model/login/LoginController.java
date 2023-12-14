@@ -21,9 +21,14 @@ public class LoginController {
 
     // Maybe there should be another mapping like "/login" for
 
-    @PostMapping("/login/asUser") // Changed to PostMapping
+    @PostMapping("/login/asStudent") // Changed to PostMapping
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return loginService.loginAsUser(request);
+        return loginService.loginAsStudent(request);
+    }
+
+    @PostMapping("/login/asAlumni") // Changed to PostMapping
+    public ResponseEntity<String> loginAsAlumni(@RequestBody LoginRequest request) {
+        return loginService.loginAsAlumni(request);
     }
 
     @PostMapping("/login/asAdmin") //
