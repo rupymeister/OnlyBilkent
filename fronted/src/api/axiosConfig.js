@@ -8,8 +8,11 @@ const api = axios.create({
   
 
 // Login / Logout
-export const userLogin = (authType, email, password) => (
-  axios.post(`${baseURL}/user/login/${authType}?email=${email}&password=${password}`)
+export const userLogin = (email, password) => (
+  axios.post(`${baseURL}/api/login`, {
+    email,
+    password
+  })
 );
 
 export const userLogout = (authType, id) => (
