@@ -61,6 +61,10 @@ export const createUserPost = (userId, postContent, image, title, type) => (
   })
 );
 
+export const getUserPosts = (userId) => (
+  axios.get(`${baseURL}/posts/user/${userId}`)
+);
+
 // Notifications
 export const getNotifications = id => (
   axios.get(`${baseURL}/notification/user/${id}`)
@@ -69,11 +73,6 @@ export const getNotifications = id => (
 export const markAsReadNotification = id => (
   axios.post(`${baseURL}/notification/markRead/${id}`)
 );
-
-export const getUserPosts = (userId) => (
-  axios.get(`${baseURL}/posts/user/${userId}`)
-);
-
 
 // Announcements
 export const createAnnouncement = (boardId, announcementTitle, content) => (
@@ -87,6 +86,11 @@ export const createAnnouncement = (boardId, announcementTitle, content) => (
 export const getAnnouncement = (boardId) => (
   axios.get(`${baseURL}/board/posts/${boardId}`)
 );
+
+// get all announcements (for dashboard)
+export const getAnnouncements = () => (
+  axios.get(`${baseURL}/posts`)
+)
 
 // Admin Functions
 export const getReportedUsers = () => (
