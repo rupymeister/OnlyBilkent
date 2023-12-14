@@ -3,30 +3,28 @@ package com.onlybilkent.model.login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
+import com.onlybilkent.model.User;
 import com.onlybilkent.model.UserRepository;
+import java.util.Optional;
 
 @Service
 public class LoginService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
-    public ResponseEntity<Object> login(LoginRequest loginRequest) {
+    public ResponseEntity<Object> login(LoginRequest request) {
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
-        if (userRepository.existsByEmail(loginRequest.getEmail())) {
-
-            if (userRepository.findByEmail(loginRequest.getEmail()).get().getPassword()
-                    .equals(loginRequest.getPassword())) {
-                return ResponseEntity.ok(userRepository.findByEmail(loginRequest.getEmail()).get());
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            if (user.getPassword().equals(request.getPassword())) {
+                return ResponseEntity.ok(user); // Returns ResponseEntity<Object> with User
             } else {
-                return ResponseEntity.badRequest().body("Wrong password");
+                return ResponseEntity.badRequest().body("Password is incorrect"); // Returns ResponseEntity<Object> with String
             }
-        }
-
-        else {
-            return ResponseEntity.badRequest().body("User does not exist");
+        } else {
+            return ResponseEntity.badRequest().body("This email does not exist"); // Returns ResponseEntity<Object> with String
         }
     }
-
 }
