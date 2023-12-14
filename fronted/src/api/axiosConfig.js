@@ -27,6 +27,11 @@ export const adminLogout = () => (
   axios.post(`${baseURL}/admin/logout`)
 );
 
+//User Registartion
+export const userRegister = (email, password, name, surname, bio, profilePic) => (
+  axios.post(`${baseURL}/registration`)
+);
+
 // User info
 export const getUser = (id) => (
   axios.get(`${baseURL}/${id}`)

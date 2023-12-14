@@ -56,7 +56,6 @@ const LoginPage = () => {
 
             <div className="form-group mt-2">
               <button type="submit" className="btn btn-primary">Login</button>
-              <a href="register.html" className="btn btn-success">Register</a>
               <a href="#" style={{ float: 'right' }}>Forgot Password?</a>
             </div>
           </form>

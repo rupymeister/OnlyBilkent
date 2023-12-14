@@ -6,7 +6,7 @@ const NavComponent = () => {
     <nav>
       {/* Other navigation links */}
       <Link to="/api/login">Login</Link>
-      <Link to="/register">Sign in</Link>
+      <Link to="/registration">Sign in</Link>
     </nav>
   );
 };
