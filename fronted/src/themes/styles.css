@@ -68,4 +68,9 @@
     margin-top: 10px;
     margin-bottom: 10px;
   }
-  
+
+  .equal-size-btn {
+    width: 180px; /* Adjust the width as needed */
+    height: 60px;
+    margin-right: 11px;
+  }

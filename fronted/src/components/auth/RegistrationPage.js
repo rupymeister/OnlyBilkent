@@ -26,11 +26,16 @@ const RegisterPage = () => {
           alert('Please use a Bilkent email address');
           return;
         }
+        if(password.length < 8){
+            alert("Password must be at least 8 characters long");
+            return;
+        }
         //checks if the confirm password is correct
         if (password !== repassword) {
             alert("Passwords do not match!");
             return;
         }
+        
         // Registering the user 
         try {
             const response = await userRegister(email, password, name, surname, bio);

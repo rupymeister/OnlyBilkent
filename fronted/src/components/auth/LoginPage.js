@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { userLoginAsStudent } from '../../api/axiosConfig'; // Import the userLogin function
 import { useNavigate} from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const LoginPage = () => {
     <div className="container">
       <h1 className="m-4">Bilkent University Student/Alumni Communication System</h1>
       <div className="card" style={{ width: '26rem', margin: 'auto', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%)' }}>
-        <img src="img/logo.png" className="card-img-top mt-3" style={{ width: '50%', margin: 'auto' }} alt="Bilkent Uni Logo" />
+        <img src={logo} className="card-img-top mt-3" style={{ width: '50%', margin: 'auto' }} alt="Bilkent Uni Logo" />
         <div className="card-body">
           <form onSubmit={handleLogin} className="myform">
             <div className="form-group mt-2">

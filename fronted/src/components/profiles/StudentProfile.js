@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { getUser } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StudentProfile = () => {
   const [userData, setUserData] = useState(null);
   const { userId } = useParams();
+  const navigate = useNavigate();
+
+  const handleProfileClick = () => {
+    // Redirect to user's profile page
+    navigate(`/edit-profile/${userId}`);
+  };
 
   useEffect(() => {
     getUser(userId)
@@ -133,7 +140,7 @@ const StudentProfile = () => {
           </span>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <a className="dropdown-item" href="#">
+              <a className="dropdown-item" href="#" onClick={handleProfileClick}>
                 Profilim
               </a>
             </li>

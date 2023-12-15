@@ -34,11 +34,14 @@ public class UserController {
 
     @PutMapping("/editUser/{userId}")
     public ResponseEntity<User> editUser(@RequestBody Map<String, String> payload, @PathVariable String userId) {
+        if (payload == null || userId == null || !userService.existsById(userId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         if (!userService.existsById(userId)) {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(
-                userService.editUser(userId,payload.get("name"), payload.get("surname"), payload.get("password"), payload.get("password2"), payload.get("bio")),
+                userService.editUser(userId, payload.get("name"), payload.get("surname"), payload.get("p1"), payload.get("bio")),
                 HttpStatus.OK);
     }
 
