@@ -1,13 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import {getAnnouncements } from '../../axios.Config';
+import axios from 'axios';
 
 
 function Dashboard() {
   const [categories, setCategories] = useState([]);
   const [announcements, setAnnouncements] = useState([]);
+  const [posts, setPosts] = useState([]);
+
 
   useEffect(() => {
-    // Fetch categories and announcements here
+    // Fetch categories
+    axios.get('YOUR_CATEGORIES_API_URL')
+      .then(response => {
+        setCategories(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching categories:', error);
+      });
+
+    // Fetch announcements
+    axios.get('YOUR_ANNOUNCEMENTS_API_URL')
+      .then(response => {
+        setAnnouncements(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching announcements:', error);
+      });
+
+    // Fetch posts      
+    axios.get('YOUR_API_URL')
+      .then(response => {
+        setPosts(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching posts:', error);
+      });
   }, []);
 
   return (
@@ -19,16 +47,19 @@ function Dashboard() {
             <li key={category.id}>{category.name}</li>
           ))}
         </ul>
-      </aside>
-      <main className="main-content">
         <h2>Announcements</h2>
-        {announcements.map(announcement => (
-          <article key={announcement.id}>
-            <h3>{announcement.title}</h3>
-            <p>{announcement.content}</p>
-          </article>
-        ))}
-      </main>
+        <ul>
+          {announcements.map(announcement => (
+            <li key={announcement.id}>{announcement.title}</li>
+          ))}
+        </ul>
+      </aside>
+      {posts.map((post, index) => (
+        <div key={index}>
+          <h2>{post.title}</h2>
+          <p>{post.content}</p>
+        </div>
+      ))}
     </div>
   );
 }
