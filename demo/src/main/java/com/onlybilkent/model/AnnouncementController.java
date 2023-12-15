@@ -25,7 +25,7 @@ public class AnnouncementController {
         this.announcementService = announcementService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<Announcement>> getAllAnnouncements() {
         List<Announcement> announcements = announcementService.allAnnouncements();
         return new ResponseEntity<List<Announcement>>(announcements, HttpStatus.OK);

@@ -26,8 +26,11 @@ const StudentProfile = () => {
   if (!userData) {
     return <div>Loading...</div>;
   }
-
   const { name, surname } = userData; // Destructure the userData object
+
+  const handleMakePost = () => {
+    navigate("/make-post/${userId}")
+  }
 
   return (
     <>
@@ -63,6 +66,9 @@ const StudentProfile = () => {
           className="rounded-circle d-inline-block align-text-top"
         />
       </a>
+      <button className="btn btn-primary" onClick={handleMakePost}>
+          Make Post
+        </button>
       <button
         className="navbar-toggler"
         type="button"
