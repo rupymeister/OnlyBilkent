@@ -33,16 +33,8 @@ export const userLogout = (authType, id) => (
   axios.post(`${baseURL}/user/logout`)
 );
 
-export const adminLogin = (email, password) => (
-  axios.post(`${baseURL}/admin/login`)
-);
-
 export const adminLogout = () => (
   axios.post(`${baseURL}/admin/logout`)
-);
-
-export const boardLogin = (email, password) => (
-  axios.post(`${baseURL}/board/login`)
 );
 
 export const boardLogout = () => (
@@ -121,8 +113,8 @@ export const getAnnouncement = (boardId) => (
 
 // get all announcements (for dashboard)
 export const getAnnouncements = () => (
-  axios.get(`${baseURL}/posts`)
-)
+  axios.get(`${baseURL}/announcements/all`)
+);
 
 // Admin Functions
 export const getReportedUsers = () => (

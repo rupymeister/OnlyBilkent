@@ -33,7 +33,6 @@ public class RegistrationController {
 
     @PostMapping("/confirm")
     public String confirm(@RequestParam("token") String verificationCode) {
-
         return registrationService.confirmUser(verificationCode);
     }
 
