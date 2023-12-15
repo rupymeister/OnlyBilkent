@@ -25,7 +25,7 @@ public class RegistrationController {
     @Autowired
     private final RegistrationService registrationService;
 
-    @PostMapping("/userReg")
+    @PostMapping
     public ResponseEntity<User> register(@RequestBody RegistrationRequest request) {
         User user = registrationService.registerUser(request);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
@@ -33,7 +33,6 @@ public class RegistrationController {
 
     @PostMapping("/confirm")
     public String confirm(@RequestParam("token") String verificationCode) {
-
         return registrationService.confirmUser(verificationCode);
     }
 
