@@ -65,6 +65,10 @@ export const getUser = (id) => (
   axios.get(`${baseURL}/users/${id}`)
 );
 
+export const updateUser = (id, name, password, image) => (
+  axios.put(`${baseURL}/users/editUser/${id}`, { name , password, image })
+);
+
 // BoardAccounts
 export const getBoards = () => (
   axios.get(`${baseURL}/clubs`)

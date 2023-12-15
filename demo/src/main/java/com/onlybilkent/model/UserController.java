@@ -38,7 +38,7 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(
-                userService.editUser(userId, payload.get("password"), payload.get("password2"), payload.get("bio")),
+                userService.editUser(userId,payload.get("name"), payload.get("surname"), payload.get("password"), payload.get("password2"), payload.get("bio")),
                 HttpStatus.OK);
     }
 
