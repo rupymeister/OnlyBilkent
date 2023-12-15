@@ -8,8 +8,22 @@ const api = axios.create({
   
 
 // Login / Logout
-export const userLogin = (email, password) => (
-  axios.post(`${baseURL}/api/login`, {
+export const userLoginAsStudent = (email, password) => (
+  axios.post(`${baseURL}/api/login/asStudent`, {
+    email,
+    password
+  })
+);
+
+export const userLoginAsBoard = (email, password) => (
+  axios.post(`${baseURL}/api/login/asBoard`, {
+    email,
+    password
+  })
+);
+
+export const userLoginAsAdmin = (email, password) => (
+  axios.post(`${baseURL}/api/login/asAdmin`, {
     email,
     password
   })
@@ -48,7 +62,7 @@ export const verifyUser = (verificationCode, email) => (
 
 // User info
 export const getUser = (id) => (
-  axios.get(`${baseURL}/${id}`)
+  axios.get(`${baseURL}/users/${id}`)
 );
 
 // BoardAccounts

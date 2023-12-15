@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { userLogin } from '../../api/axiosConfig'; // Import the userLogin function
+import { userLoginAsStudent } from '../../api/axiosConfig'; // Import the userLogin function
 import { useNavigate} from 'react-router-dom';
 
 const LoginPage = () => {
@@ -12,7 +12,7 @@ const LoginPage = () => {
   const handleLogin = async (event) => {
     event.preventDefault(); // Prevent default form submission
     try {
-      const response = await userLogin(email, password);
+      const response = await userLoginAsStudent(email, password);
       console.log(response.data);
       console.log("Login!!!")
       const userId = response.data; 
