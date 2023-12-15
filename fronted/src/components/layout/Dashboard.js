@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getAnnouncements } from '../../axios.Config';
+import { getAnnouncements } from '../../api/axiosConfig';
 
 function Dashboard() {
   const [categories, setCategories] = useState([
