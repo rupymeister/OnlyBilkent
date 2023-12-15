@@ -50,6 +50,7 @@ public class Post {
         this.senderId = senderId;
         this.category = category;
     }
+    
     public Post(String senderId, PostType postType, String photoId, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";

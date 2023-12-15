@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {getAnnouncements } from '../../axios.Config';
 import axios from 'axios';
+import Category from './Category';
+import Announcement from './Announcement';
+import Post from './Post';
 
 
 function Dashboard() {
@@ -28,14 +31,136 @@ function Dashboard() {
         console.error('Error fetching announcements:', error);
       });
 
-    // Fetch posts      
-    axios.get('YOUR_API_URL')
+    // Fetch posts 
+    const createPost = (userId, postType, category) => {
+      axios.post(`/createPost1/${userId}`, {
+        userId,
+        postType,
+        category
+      })
       .then(response => {
-        setPosts(response.data);
+        console.log(response.data);
       })
       .catch(error => {
-        console.error('Error fetching posts:', error);
+        console.error('Error creating post:', error);
       });
+    };
+
+    const createLoanPost = (postId, title, content, borrowUntilDate, loanPricePerTime) => {
+      axios.put(`/createLoanPost/${postId}`, {
+        title,
+        content,
+        borrowUntilDate,
+        loanPricePerTime
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error creating loan post:', error);
+      });
+    };
+
+    const createBorrowPost = (postId, title, content, borrowUntilDate, borrowPricePerTime) => {
+      axios.put(`/createBorrowPost/${postId}`, {
+        title,
+        content,
+        borrowUntilDate,
+        borrowPricePerTime
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error creating borrow post:', error);
+      });
+    }
+
+    const createSellPost = (postId, title, content, price) => {
+      axios.put(`/createSellPost/${postId}`, {
+        title,
+        content,
+        price
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error creating sell post:', error);
+      });
+    }
+
+    const createFreePost = (postId, title, content) => {
+      axios.put(`/createFreePost/${postId}`, {
+        title,
+        content
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error creating free post:', error);
+      });
+    }
+
+    const deletePost = (postId) => {
+      axios.delete(`/deletePost/${postId}`)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error deleting post:', error);
+      });
+    }
+
+    const editPost = (postId, title, content) => {
+      axios.put(`/editPost/${postId}`, {
+        title,
+        content
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error editing post:', error);
+      });
+    }
+
+    const editIsPostActive = (postId, isPostActive) => {
+      axios.put(`/editIsPostActive/${postId}`, {
+        isPostActive
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error editing isPostActive:', error);
+      });
+    }
+
+    const searchByTitle = (title) => {
+      axios.get(`/searchByTitle/${title}`)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error searching by title:', error);
+      });
+    }
+
+    const searchByContent = (content) => {
+      axios.get(`/searchByContent/${content}`)
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error('Error searching by content:', error);
+      });
+    }
+
+    
+
+
   }, []);
 
   return (
