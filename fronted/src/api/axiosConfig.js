@@ -8,8 +8,22 @@ const api = axios.create({
   
 
 // Login / Logout
-export const userLogin = (email, password) => (
-  axios.post(`${baseURL}/api/login`, {
+export const userLoginAsStudent = (email, password) => (
+  axios.post(`${baseURL}/api/login/asStudent`, {
+    email,
+    password
+  })
+);
+
+export const userLoginAsBoard = (email, password) => (
+  axios.post(`${baseURL}/api/login/asBoard`, {
+    email,
+    password
+  })
+);
+
+export const userLoginAsAdmin = (email, password) => (
+  axios.post(`${baseURL}/api/login/asAdmin`, {
     email,
     password
   })
@@ -36,13 +50,19 @@ export const boardLogout = () => (
 );
 
 //User Registartion
-export const userRegister = (email, password, name, surname, bio, profilePic) => (
-  axios.post(`${baseURL}/registration`)
+export const userRegister = (email, password, name, surname, bio) => (
+  axios.post(`${baseURL}/registration/userReg`, { email, password, name, surname, bio })
+);
+
+export const verifyUser = (verificationCode, email) => (
+  axios.post(`${baseURL}/registration/confirm`, null, {
+    params: { token: verificationCode, email }
+  })
 );
 
 // User info
 export const getUser = (id) => (
-  axios.get(`${baseURL}/${id}`)
+  axios.get(`${baseURL}/users/${id}`)
 );
 
 // BoardAccounts

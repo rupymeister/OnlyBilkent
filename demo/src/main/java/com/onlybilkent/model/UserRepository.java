@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends MongoRepository<User, ObjectId> {
 
-    User findById(String id);
+    Optional<User> findById(String id);
 
     Optional<User> findByEmail(String email);
 
@@ -19,5 +20,7 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
     Optional<User> findByEmailVerificationToken(String emailVerificationToken);
 
     boolean existsByEmail(String email);
+
+    List<User> findByBanned(boolean banned);
 
 }

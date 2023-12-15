@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,12 @@ public class UserService {
 
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private BoardRequestRepository boardRequestRepository;
+
+    @Autowired
+    private NotificationService notificationService;
 
     public List<User> allUsers() {
         return userRepository.findAll();
@@ -32,9 +39,16 @@ public class UserService {
     }
 
     public User editUser(String userId, String newPassword, String pass2, String newBio) {
-        User existingUser = userRepository.findById(userId);
 
-        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty() && newPassword.equals(pass2)) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent()) {
+            throw new RuntimeException("User not found");
+        }
+
+        User existingUser = optionalUser.get();
+
+        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty()
+                && newPassword.equals(pass2)) {
             existingUser.setPassword(newPassword);
         }
         if (newBio != null && !newBio.isEmpty()) {
@@ -44,7 +58,8 @@ public class UserService {
         User updatedUser = userRepository.save(existingUser);
 
         Update update = new Update();
-        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty() && newPassword.equals(pass2)) {
+        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty()
+                && newPassword.equals(pass2)) {
             update.set("id.$.password", newPassword);
         }
         if (newBio != null && !newBio.isEmpty()) {
@@ -52,21 +67,140 @@ public class UserService {
         }
 
         mongoTemplate.update(User.class)
-            .matching(Criteria.where("id").is(userId))
-            .apply(update)
-            .first();
+                .matching(Criteria.where("id").is(userId))
+                .apply(update)
+                .first();
 
-        return updatedUser;        
+        return updatedUser;
     }
 
-    //write a method to get user by id here
+    // write a method to get user by id here
     public User getUser(String userId) {
-        return userRepository.findById(userId);
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        throw new RuntimeException("User not found");
     }
 
-    //write a method to save user here
+    // write a method to save user here
     public User saveUser(User user) {
         return userRepository.save(user);
     }
 
+    public String requestBoardAccount(@RequestBody BoardRequest request) {
+        // find the user
+        Optional<User> optionalUser = userRepository.findById(request.getUserId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.isBoardRequest() == false) {
+
+                BoardRequest newBoardRequest = new BoardRequest(user.getId());
+                boardRequestRepository.save(newBoardRequest);
+                user.setBoardRequest(true);
+                userRepository.save(user);
+                return "Board request sent.";
+
+            } else if (user.getRole() == 3) {
+                throw new RuntimeException("You are already a board member.");
+            }
+
+            else {
+                throw new RuntimeException("You have already requested a board account. Wait for admin approval.");
+            }
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public String approveBoardAccount(@RequestBody BoardRequest request) {
+        // find the user
+        Optional<User> optionalUser = userRepository.findById(request.getUserId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.isBoardRequest() == true) {
+
+                user.setRole(3);
+                userRepository.save(user);
+                notificationService
+                        .sendNotification(new Notification(user.getId(), "Your board request has been approved.")); // send
+                                                                                                                    // notification
+                                                                                                                    // for
+                                                                                                                    // the
+                                                                                                                    // user
+                                                                                                                    // st
+                                                                                                                    // his/her
+                                                                                                                    // account
+                                                                                                                    // is
+                                                                                                                    // approved
+                return "Board request approved.";
+            } else {
+                throw new RuntimeException("This user has not requested a board account.");
+            }
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public String rejectBoardAccount(@RequestBody BoardRequest request) {
+        // find the user
+        Optional<User> optionalUser = userRepository.findById(request.getUserId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+
+            if (user.isBoardRequest() == true) {
+
+                user.setBoardRequest(false);
+                userRepository.save(user);
+                notificationService
+                        .sendNotification(new Notification(user.getId(), "Your board request has been rejected.")); // send
+                                                                                                                    // notification
+                                                                                                                    // for
+                                                                                                                    // the
+                                                                                                                    // user
+                                                                                                                    // st
+                                                                                                                    // his/her
+                                                                                                                    // account
+                                                                                                                    // is
+                                                                                                                    // rejected
+                return "Board request rejected.";
+            } else {
+                throw new RuntimeException("This user has not requested a board account.");
+            }
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public String banUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+
+            if (optionalUser.get().getRole() == 4) {
+                throw new RuntimeException("You cannot ban an admin.");
+            } else {
+                User user = optionalUser.get();
+                user.setBanned(true);
+                userRepository.save(user);
+                return "User banned.";
+            }
+
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
+
+    public String unbanUser(String userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setBanned(false);
+            userRepository.save(user);
+            return "User unbanned.";
+        } else {
+            throw new RuntimeException("User not found");
+        }
+    }
 }

@@ -21,16 +21,23 @@ public class RegistrationService {
     @Autowired
     MailService mailService;
 
-    // Checking whether email is valid should be done later.
+    // When you provide an email that already exists in the database, it throws a
+    // RuntimeException. But we should change it to show error rather than exception
+    // maybe??
     public User registerUser(RegistrationRequest request) {
 
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("Email already exists");
         }
 
+        else if (!request.getEmail().contains("@ug.") && !request.getEmail().contains("@alumni.")) {
+            throw new RuntimeException("Invalid email. Please use your Bilkent email.");
+        }
+
         else {
 
             String emailVerificationToken = UUID.randomUUID().toString();
+            String sixDigitEmailVerificationToken = emailVerificationToken.substring(0, 6); // For ease of user
 
             int role = 0;
 
@@ -41,13 +48,8 @@ public class RegistrationService {
                 role = 2;
             }
 
-            else {
-                role = 3;
-                
-            }
-
             User user = new User(request.getName(), request.getSurname(), request.getEmail(), request.getPassword(),
-                    request.getBio(), role, "6578bfd71fcb0e1176c52d6c", emailVerificationToken);
+                    request.getBio(), role, "6578bfd71fcb0e1176c52d6c", sixDigitEmailVerificationToken);
 
             userRepository.save(user);
 

@@ -18,6 +18,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private BoardRequestService boardRequestService;
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.allUsers();
@@ -34,11 +37,62 @@ public class UserController {
         if (!userService.existsById(userId)) {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<User>(userService.editUser(userId, payload.get("password"), payload.get("password2"), payload.get("bio")),
+        return new ResponseEntity<User>(
+                userService.editUser(userId, payload.get("password"), payload.get("password2"), payload.get("bio")),
                 HttpStatus.OK);
     }
 
-    
+    @PostMapping("/boardRequest/{userId}")
+    public ResponseEntity<String> makeBoardRequest(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<String>(userService.requestBoardAccount(new BoardRequest(userId)), HttpStatus.OK);
+    }
 
+    // Only Admin should be able to
+    @GetMapping("/approveBoardRequest/{userId}")
+    public ResponseEntity<String> approveBoardRequest(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+        BoardRequest boardRequest = boardRequestService.findByUserId(userId);
+        return new ResponseEntity<String>(userService.approveBoardAccount(boardRequest), HttpStatus.OK);
+    }
 
+    // Only Admin should be able to
+    @GetMapping("/rejectBoardRequest/{userId}")
+    public ResponseEntity<String> rejectBoardRequest(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+        BoardRequest boardRequest = boardRequestService.findByUserId(userId);
+        return new ResponseEntity<String>(userService.rejectBoardAccount(boardRequest), HttpStatus.OK);
+    }
+
+    // Only Admin should be able to
+    @GetMapping("/getBoardRequests")
+    public ResponseEntity<List<BoardRequest>> getBoardRequests() {
+        return new ResponseEntity<List<BoardRequest>>(boardRequestService.findAll(), HttpStatus.OK);
+    }
+
+    // Only Admin should be able to
+
+    @PutMapping("/banUser/{userId}")
+    public ResponseEntity<String> banUser(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<String>(userService.banUser(userId), HttpStatus.OK);
+    }
+
+    @PutMapping("/unbanUser/{userId}")
+    public ResponseEntity<String> unbanUser(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<String>(userService.unbanUser(userId), HttpStatus.OK);
+    }
 }

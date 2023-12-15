@@ -4,41 +4,40 @@ import { userRegister } from '../../api/axiosConfig';
 import '../../themes/styles.css'; // Assuming you have a styles.css file with your custom styles
 
 const RegisterPage = () => {
-    const [formData, setFormData] = useState({
-        eposta: '',
-        parola: '',
-        reparola: '',
-        ad: '',
-        soyad: '',
-        bio: ''
-    });
-    const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [repassword, setRePassword] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
+    const [bio, setBio] = useState('');
+    const [error, setError] = useState(''); // State to handle any error
 
-    const handleInputChange = (e) => {
-        setFormData({...formData, [e.target.name]: e.target.value});
-    };
+
+    const [verificationCode, setVerificationCode] = useState('');
+    const [isRegistered, setIsRegistered] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleRegister = async (event) => {
         event.preventDefault();
-        if (formData.parola !== formData.reparola) {
+
+        //checks if it is a bilkent email
+        if (!email.endsWith('@ug.bilkent.edu.tr') && !email.endsWith('@alumni.bilkent.edu.tr')) {
+          alert('Please use a Bilkent email address');
+          return;
+        }
+        //checks if the confirm password is correct
+        if (password !== repassword) {
             alert("Passwords do not match!");
             return;
         }
-        // Additional validation if needed
+        // Registering the user 
         try {
-            // Modify this to match your API call
-            await userRegister({
-                email: formData.eposta,
-                password: formData.parola,
-                name: formData.ad,
-                surname: formData.soyad,
-                bio: formData.bio
-                // Add other fields as necessary
-            });
-            navigate('/verification-page'); // Update with the actual route
-        } catch (error) {
-            console.error('Registration error:', error);
-            // Handle registration errors
+            const response = await userRegister(email, password, name, surname, bio);
+            console.log("Registered!!")
+            navigate('/verification-page'); // Navigates to verification page for email verification
+        } catch (err) {
+            setError(err.response?.data?.message || 'An error occurred during registration');
         }
     };
 
@@ -51,54 +50,54 @@ const RegisterPage = () => {
                         {/* Other form fields */}
                         <input 
                             type="email" 
-                            name="eposta"
+                            name="email"
                             className="form-control mb-2" 
-                            value={formData.eposta} 
-                            onChange={handleInputChange} 
+                            value={email} 
+                            onChange={(e) => setEmail(e.target.value)} 
                             placeholder="Bilkent Mail" 
                             required 
                         />
                         <input 
                             type="password" 
-                            name="parola"
+                            name="password"
                             className="form-control mb-2" 
-                            value={formData.parola} 
-                            onChange={handleInputChange} 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
                             placeholder="Password" 
                             required 
                         />
                         <input 
-                            type="password" 
-                            name="reparola"
+                            type="repassword" 
+                            name="repassword"
                             className="form-control mb-2" 
-                            value={formData.reparola} 
-                            onChange={handleInputChange} 
+                            value={repassword} 
+                            onChange={(e) => setRePassword(e.target.value)} 
                             placeholder="Re-type Password" 
                             required 
                         />
                         <input 
                             type="text" 
-                            name="ad"
+                            name="name"
                             className="form-control mb-2" 
-                            value={formData.ad} 
-                            onChange={handleInputChange} 
+                            value={name} 
+                            onChange={(e) => setName(e.target.value)} 
                             placeholder="Name" 
                             required 
                         />
                         <input 
                             type="text" 
-                            name="soyad"
+                            name="surname"
                             className="form-control mb-2" 
-                            value={formData.soyad} 
-                            onChange={handleInputChange} 
+                            value={surname}
+                            onChange={(e) => setSurname(e.target.value)} 
                             placeholder="Surname" 
                             required 
                         />
                         <textarea 
                             name="bio"
                             className="form-control mb-2"
-                            value={formData.bio}
-                            onChange={handleInputChange}
+                            value={bio}
+                            onChange={(e) => setBio(e.target.value)}
                             placeholder="Introduce Yourself"
                             rows="5"
                             style={{ resize: 'both' }}
