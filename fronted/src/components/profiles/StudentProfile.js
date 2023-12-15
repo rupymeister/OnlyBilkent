@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { getUser } from '../../api/axiosConfig'; // Update with the actual path
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const StudentProfile = () => {
   const [userData, setUserData] = useState(null);
   const { userId } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUser(userId)
@@ -19,8 +20,11 @@ const StudentProfile = () => {
   if (!userData) {
     return <div>Loading...</div>;
   }
-
   const { name, surname } = userData; // Destructure the userData object
+
+  const handleMakePost = () => {
+    navigate("/make-post/${userId}")
+  }
 
   return (
     <>
@@ -56,6 +60,9 @@ const StudentProfile = () => {
           className="rounded-circle d-inline-block align-text-top"
         />
       </a>
+      <button className="btn btn-primary" onClick={handleMakePost}>
+          Make Post
+        </button>
       <button
         className="navbar-toggler"
         type="button"

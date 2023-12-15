@@ -6,7 +6,6 @@ import Announcement from './Announcement';
 import Post from './Post';
 import { Link } from 'react-router-dom';
 
-
 function Dashboard() {
   const [categories, setCategories] = useState([
     // Assuming these are your categories; replace with API call if needed

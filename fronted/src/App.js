@@ -10,6 +10,7 @@ import BoardProfile from './components/profiles/BoardProfile';
 import Dashboard from './components/layout/Dashboard';
 import VerificationPage from './components/auth/VerificationPage';
 import EditProfilePage from './components/profiles/EditProfilePage';
+import MakePostPage from './components/posts/makePost';
 
 function App() {
   return (
@@ -23,7 +24,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>} />
         <Route path="/verification-page" element={<VerificationPage/>} />
         <Route path="/edit-profile/:userId" element={<EditProfilePage/>} />
-
+        <Route path="/make-post/:userId" element={<MakePostPage/>} />
       </Routes>
     </Router>
   );
