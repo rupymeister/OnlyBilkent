@@ -38,7 +38,7 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
-    public User editUser(String userId, String newPassword, String pass2, String newBio) {
+    public User editUser(String userId, String name, String surname, String newPassword, String pass2, String newBio) {
 
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
@@ -54,6 +54,12 @@ public class UserService {
         if (newBio != null && !newBio.isEmpty()) {
             existingUser.setBio(newBio);
         }
+        if (name != null && !name.isEmpty()) {
+            existingUser.setName(name);
+        }
+        if (surname != null && !surname.isEmpty()) {
+            existingUser.setSurname(surname);
+        }
 
         User updatedUser = userRepository.save(existingUser);
 
@@ -64,6 +70,12 @@ public class UserService {
         }
         if (newBio != null && !newBio.isEmpty()) {
             update.set("id.$.bio", newBio);
+        }
+        if (name != null && !name.isEmpty()) {
+            update.set("id.$.name", name);
+        }
+        if (surname != null && !surname.isEmpty()) {
+            update.set("id.$.surname", surname);
         }
 
         mongoTemplate.update(User.class)
