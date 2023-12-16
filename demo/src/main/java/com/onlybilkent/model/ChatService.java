@@ -41,10 +41,6 @@ public class ChatService {
          * }
          **/
 
-        List<Chat> getAllChats() {
-                return chatRepository.findAll();
-        }
-
         List<Chat> getChatsBySenderId(String senderId) {
                 return chatRepository.findBySenderId(senderId);
         }

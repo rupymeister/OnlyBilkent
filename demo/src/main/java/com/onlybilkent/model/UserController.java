@@ -134,7 +134,7 @@ public class UserController {
         return new ResponseEntity<Message>(chatService.sendMessage(content, chatId, userId), HttpStatus.OK);
     }
 
-    @PostMapping("{userId}/chats")
+    @GetMapping("{userId}/chats")
     public ResponseEntity<List<Chat>> getChats(@PathVariable String userId) {
         if (!userService.existsById(userId)) {
             return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
