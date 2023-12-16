@@ -25,7 +25,7 @@ public class Chat {
     @DocumentReference
     List<Message> messages;
 
-    @Field("userId")
+    // @Field("userId")
     private String senderId;
     String receiverId;
 
