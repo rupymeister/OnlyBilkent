@@ -137,6 +137,16 @@ public class PostController {
         }
     }
 
+    @GetMapping("/loan")
+    public ResponseEntity<List<Post>> getLoanPosts() {
+        List<Post> posts = postService.findByPostType(Post.PostType.LOAN);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(posts, HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping("/{category}/getByPostType/{postType}")
     public ResponseEntity<List<Post>> getCategoryPostsByPostType(@PathVariable Category category, @PathVariable Post.PostType postType) {
         List<Post> posts = postService.findByCategory(category);

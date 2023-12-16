@@ -61,6 +61,10 @@ export const getPost = (postId) => (
   axios.get(`${baseURL}/posts/${postId}`)
 );
 
+export const getImage = (imageId) => (
+  axios.get(`${baseURL}/image1/${imageId}`)
+);
+
 export const updateUser = (userId, name, surname, password, bio) => {
   const url = `http://localhost:8080/users/editUser/${userId}`;
   console.log(password);
@@ -200,6 +204,10 @@ export const getBorrowPosts = () => (
 
 export const getFreePosts = () => (
   axios.get(`${baseURL}/posts/free`)
+);
+
+export const getLoanPost = () => (
+  axios.get(`${baseURL}/posts/loan`)
 );
 
 // File/Image Upload

@@ -277,4 +277,8 @@ public class PostService {
         return post;
     }
 
+    public List<Post> findByPostType(PostType loan) {
+        return postRepository.findByPostType(loan);
+    }
+
 }

@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { getSellingPosts } from '../../api/axiosConfig';
+import { getLoanPost, getPost, getImage } from '../../api/axiosConfig';
+import { useParams } from 'react-router-dom';
+
 
 const Dashboard = () => {
-    const [posts, setPosts] = useState([]);
+    const [postData, setPostData] = useState([]);
+    const [imageData, setImageData] = useState([]);
 
+    const { postId } = useParams();
+    const [posts, setPosts] = useState([]);
     useEffect(() => {
         const fetchSellingPosts = async () => {
             try {
-                const response = await getSellingPosts();
+                const response = await getLoanPost();
                 setPosts(response.data); // Assume response.data is the array of posts
             } catch (error) {
                 console.error('Error fetching selling posts:', error);
@@ -17,6 +22,37 @@ const Dashboard = () => {
 
         fetchSellingPosts();
     }, []);
+
+     useEffect(() => {
+        getPost(postId)
+      .then(response => {
+        setPostData(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the post data:', error);
+      });
+    }, [postId]);
+
+    const imageId = postData?.imageId;
+
+    useEffect(() => {
+        const fetchImage = async () => {
+            try {
+                const response = await getImage(imageId);
+                setImageData(response.data); // Assume response.data is the array of posts
+            } catch (error) {
+                console.error('Error fetching image:', error);
+                // Handle error appropriately
+            }
+        };
+
+        fetchImage();
+    }, []);
+
+    console.log(imageData);
+
+
+
 
     return (
         <div>
