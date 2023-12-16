@@ -1,3 +1,4 @@
+<<<<<<< HEAD:fronted/src/components/announcements/MakeAnnouncement.js
 import React, { useState } from 'react';
 import { createAnnouncement } from '../../api/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -85,3 +86,5 @@ const MakeAnnouncement = () => {
 };
 
 export default MakeAnnouncement;
+=======
+>>>>>>> c8adf2500 (make post fixing):fronted/src/components/announcement/makeAnnouncement.js

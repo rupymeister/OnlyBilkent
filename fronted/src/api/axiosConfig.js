@@ -84,12 +84,14 @@ export const createBoard = (userId, clubId, clubName) => (
 );
 
 // User Posts
-export const createPost = (userId) => (
-  axios.post(`${baseURL}/posts-create/sell/${userId}`, {
-    userId,
+export const createPost = (postType, userId) => (
+  axios.post(`${baseURL}/posts/create/${userId}`, {
+    postType,
+    userId
   })
 );
 
+<<<<<<< HEAD
 export const createSellPost = (postId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts/createSellPost/${postId}`, {
     postId,
@@ -97,6 +99,13 @@ export const createSellPost = (postId, postContent, image, title, type) => (
     image,
     title, 
     type
+=======
+export const createSellPost = (postId, formData) => (
+  axios.put(`${baseURL}/posts/createSalePost/${postId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+>>>>>>> c8adf2500 (make post fixing)
   })
 );
 

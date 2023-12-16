@@ -5,6 +5,7 @@ import '../../themes/styles.css'
 
 const MakePost = () => {
   const [postType, setPostType] = useState('');
+  const [postData, setPostData] = useState('');
   const navigate = useNavigate();
   const [error, setError] = useState('');
   const { userId } = useParams();
@@ -13,27 +14,32 @@ const MakePost = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-        let response;
-        response = await cre
+        // Call API to create a basic post and get postId
+        console.log(postType);
+        const response = await createPost(postType, userId);
+        const postId = response.data.id; // Assuming response contains postId
+        console.log(postId);
+        
         switch (postType) {
-          case 'sell':
-            navigate(`/make-sell-post/${userId}`);
+          case 'SALE':
+            navigate(`/make-sell-post/${postId}`);
             console.log('sell');
             break;
-          case 'loan':
-            navigate(`/make-loan-post/${userId}`);
+          case 'LOAN':
+
+            navigate(`/make-loan-post/${postId}`);
             console.log('loan');
             break;
-          case 'lost':
-            navigate(`/make-lost-post/${userId}`);
+          case 'LOST':
+            navigate(`/make-lost-post/${postId}`);
             console.log('lost');
             break;
-          case 'found':
-            navigate(`/make-found-post/${userId}`);
+          case 'FOUND':
+            navigate(`/make-found-post/${postId}`);
             console.log('found');
             break;
-          case 'free':
-            navigate(`/make-free-post/${userId}`);
+          case 'FREE':
+            navigate(`/make-free-post/${postId}`);
             console.log('free');
             break;
           default:
@@ -44,6 +50,7 @@ const MakePost = () => {
         console.log('navigating to post type');
         // Handle success (e.g., show success message, redirect to another page, etc.)
       } catch (error) {
+        console.error('Error creating post:', error.response ? error.response.data : 'Unknown error');
         setError('An error occurred during selecting post category');
       }
   };
@@ -62,11 +69,11 @@ const MakePost = () => {
               <label htmlFor="postType"><b>Post Type</b></label>
               <select id="postType" className="form-control" value={postType} onChange={(e) => setPostType(e.target.value)}>
                 <option value="">Select Post Type</option>
-                <option value="sell">Sell</option>
-                <option value="loan">Loan</option>
-                <option value="lost">Lost</option>
-                <option value="found">Found</option>
-                <option value="free">Free</option>
+                <option value="SALE">Sell</option>
+                <option value="LOAN">Loan</option>
+                <option value="LOST">Lost</option>
+                <option value="FOUND">Found</option>
+                <option value="FREE">Free</option>
               </select>
             </div>
 
