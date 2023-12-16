@@ -42,10 +42,110 @@ public class PostController {
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Post>> getPostsByCategory(@PathVariable Category category) {
         List<Post> posts = postService.findByCategory(category);
-        if (!posts.isEmpty()) {
-            return new ResponseEntity<>(posts, HttpStatus.OK);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
         }
         return new ResponseEntity<>(posts, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/searchByTitle/{str}")
+    public ResponseEntity<List<Post>> getPostsByTitle(@PathVariable String str) {
+        List<Post> posts = postService.findByTitle(str);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/searchByTitle/{str}")
+    public ResponseEntity<List<Post>> getCategoryPostsByTitle(@PathVariable Category category, @PathVariable String str) {
+        List<Post> posts = postService.findByContent(str);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true && post.getCategory() == category).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/searchByContent/{str}")
+    public ResponseEntity<List<Post>> getPostsByContent(@PathVariable String str) {
+        List<Post> posts = postService.findByContent(str);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/searchByContent/{str}")
+    public ResponseEntity<List<Post>> getCategoryPostsByContent(@PathVariable Category category, @PathVariable String str) {
+        List<Post> posts = postService.findByContent(str);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true && post.getCategory() == category).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/searchByPrice/{price}")
+    public ResponseEntity<List<Post>> getCategoryPostsByPrice(@PathVariable Category category, @PathVariable int price) {
+        List<Post> posts = postService.findByCategory(category);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true && post.getPrice() == price).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/searchByPriceRange/{minPrice}/{maxPrice}")
+    public ResponseEntity<List<Post>> getPostsByPriceRange(@PathVariable Category category, @PathVariable int minPrice, @PathVariable int maxPrice) {
+        List<Post> postList = postService.findByPriceBetween(minPrice, maxPrice);
+        List<Post> filteredPosts = postList.stream().filter(post -> post.isActive() == true && post.getCategory() == category).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/searchByPriceLessThanEqual/{price}")
+    public ResponseEntity<List<Post>> getCategoryPostsByPriceLessThanEqual(@PathVariable Category category, @PathVariable int price) {
+        List<Post> posts = postService.findByCategory(category);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true && post.getPrice() <= price).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/searchByPriceGreaterThanEqual/{price}")
+    public ResponseEntity<List<Post>> getCategoryPostsByPriceGreaterThanEqual(@PathVariable Category category, @PathVariable int price) {
+        List<Post> posts = postService.findByCategory(category);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true && post.getPrice() >= price).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/{category}/getByPostType/{postType}")
+    public ResponseEntity<List<Post>> getCategoryPostsByPostType(@PathVariable Category category, @PathVariable Post.PostType postType) {
+        List<Post> posts = postService.findByCategory(category);
+        List<Post> filteredPosts = posts.stream().filter(post -> post.isActive() == true && post.getPostType() == postType).collect(Collectors.toList());
+        if (!filteredPosts.isEmpty()) {
+            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping("/create/{userId}")
@@ -196,109 +296,6 @@ public class PostController {
      * }
      */
 
-    @GetMapping("/searchByTitle/{str}")
-    public ResponseEntity<List<Post>> getPostsByTitle(@PathVariable String str) {
-        List<Post> postOptional = postService.findByTitle(str);
-        if (!postOptional.isEmpty()) {
-            return new ResponseEntity<>(postOptional, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{category}/searchByTitle/{str}")
-    public ResponseEntity<List<Post>> getCategoryPostsByTitle(@PathVariable Category category,
-            @PathVariable String str) {
-        List<Post> posts = postService.findByCategory(category);
-        List<Post> filteredPosts = posts.stream().filter(post -> post.getTitle().contains(str))
-                .collect(Collectors.toList());
-        if (!filteredPosts.isEmpty()) {
-            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/searchByContent/{str}")
-    public ResponseEntity<List<Post>> getPostsByContent(@PathVariable String str) {
-        List<Post> postList = postService.findByContent(str);
-        if (!postList.isEmpty()) {
-            return new ResponseEntity<>(postList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{category}/searchByContent/{str}")
-    public ResponseEntity<List<Post>> getCategoryPostsByContent(@PathVariable Category category,
-            @PathVariable String str) {
-        List<Post> posts = postService.findByCategory(category);
-        List<Post> filteredPosts = posts.stream().filter(post -> post.getTitle().contains(str))
-                .collect(Collectors.toList());
-        if (!filteredPosts.isEmpty()) {
-            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{category}/searchByPrice/{price}")
-    public ResponseEntity<List<Post>> getCategoryPostsByPrice(@PathVariable Category category,
-            @PathVariable int price) {
-        List<Post> posts = postService.findByCategory(category);
-        List<Post> filteredPosts = posts.stream().filter(post -> post.getPrice() == price).collect(Collectors.toList());
-        if (!filteredPosts.isEmpty()) {
-            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/searchByPriceRange/{minPrice}/{maxPrice}")
-    public ResponseEntity<List<Post>> getPostsByPriceRange(@PathVariable int minPrice, @PathVariable int maxPrice) {
-        List<Post> postList = postService.findByPriceBetween(minPrice, maxPrice);
-        if (!postList.isEmpty()) {
-            return new ResponseEntity<>(postList, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{category}/searchByPriceLessThanEqual/{price}")
-    public ResponseEntity<List<Post>> getCategoryPostsByPriceLessThanEqual(@PathVariable Category category,
-            @PathVariable int price) {
-        List<Post> posts = postService.findByCategory(category);
-        List<Post> filteredPosts = posts.stream().filter(post -> post.getPrice() <= price).collect(Collectors.toList());
-        if (!filteredPosts.isEmpty()) {
-            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{category}/searchByPriceGreaterThanEqual/{price}")
-    public ResponseEntity<List<Post>> getCategoryPostsByPriceGreaterThanEqual(@PathVariable Category category,
-            @PathVariable int price) {
-        List<Post> posts = postService.findByCategory(category);
-        List<Post> filteredPosts = posts.stream().filter(post -> post.getPrice() >= price).collect(Collectors.toList());
-        if (!filteredPosts.isEmpty()) {
-            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @GetMapping("/{category}/getByPostType/{postType}")
-    public ResponseEntity<List<Post>> getCategoryPostsByPostType(@PathVariable Category category,
-            @PathVariable Post.PostType postType) {
-        List<Post> posts = postService.findByCategory(category);
-        List<Post> filteredPosts = posts.stream().filter(post -> post.getPostType() == postType)
-                .collect(Collectors.toList());
-        if (!filteredPosts.isEmpty()) {
-            return new ResponseEntity<>(filteredPosts, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
+    
 
 }
