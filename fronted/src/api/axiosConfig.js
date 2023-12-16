@@ -61,9 +61,18 @@ export const getPost = (postId) => (
   axios.get(`${baseURL}/posts/${postId}`)
 );
 
-export const getImage = (imageId) => (
-  axios.get(`${baseURL}/image1/${imageId}`)
+export const getPostId = (posts) => (
+  axios.get(`${baseURL}/posts/${posts}`)
 );
+
+export const getImage = (photoId) => (
+  axios.get(`${baseURL}/image1/${photoId}`)
+);
+
+export const getBaseImage = (photoId) => (
+  axios.get(`${baseURL}/image2/${photoId}`)
+);
+
 
 export const updateUser = (userId, name, surname, password, bio) => {
   const url = `http://localhost:8080/users/editUser/${userId}`;

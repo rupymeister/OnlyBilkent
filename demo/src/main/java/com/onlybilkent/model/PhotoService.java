@@ -52,6 +52,7 @@ public class PhotoService {
         photo = photoRepo.insert(photo);
         Post post = postService.getPost(postId);
         post.setPhotoId(photo.getId());
+        photoRepo.findById(photo.getId()).get().getImage().toString();
         postService.savePost(post);
         mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(postId)), new Update().set("photoId", photo.getId()), Post.class);
         return photo.getId();
@@ -103,4 +104,6 @@ public class PhotoService {
     public String getStringPhoto(String id) {
         return photoRepo.findById(id).get().getImage().toString();
     }
+
+    
 }

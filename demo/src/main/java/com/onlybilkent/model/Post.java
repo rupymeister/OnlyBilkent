@@ -13,6 +13,7 @@ import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "posts")
@@ -29,12 +30,13 @@ public class Post {
     private String content;
     private String senderId;
     private String photoId = "6578c01d1fcb0e1176c52d6d";
-
+    private String photoStr = " 1111";
+    
     private int price;
     private int viewCount; // f
     private boolean isActive; // f
 
-    private List<String> photoIds; // f
+    private ArrayList<String> photoIds; // f
 
     private Category category;
     private PostType postType;
@@ -56,6 +58,7 @@ public class Post {
     public Post(String senderId, PostType postType, String photoId, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
+            this.photoStr = " 1111";
         } else {
             this.photoId = photoId;
         }
