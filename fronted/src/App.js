@@ -24,6 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/api/login-board" element={<LoginPage />} />
         <Route path="/api/login/asStudent" element={<LoginPage />} />
         <Route path="/api/login/asBoard" element={<LoginBoardPage />} />
         <Route path="/" element={<NavComponent />} />
@@ -39,8 +40,12 @@ function App() {
         <Route path="/make-lost-post/:userId" element={<MakeLostPostPage/>} />
         <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
         <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
+<<<<<<< HEAD
+
+=======
         <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
         <Route path="/post/:postId" element={<PostPage/>} />
+>>>>>>> refs/remotes/origin/main
       </Routes>
     </Router>
   );

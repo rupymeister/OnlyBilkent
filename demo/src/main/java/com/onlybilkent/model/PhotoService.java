@@ -84,8 +84,13 @@ public class PhotoService {
     }
 
     public Photo getPhoto(String id) {
-        return photoRepo.findById(id).get();
+        System.out.println("ID received: " + id); // Add this line
+        if (id == null) {
+            throw new IllegalArgumentException("ID must not be null");
+        }
+        return photoRepo.findById(id).orElse(null);
     }
+    
 
     public Optional<Photo> getPhotoById(String id) {
         return photoRepo.findById(id);
@@ -93,5 +98,9 @@ public class PhotoService {
 
     public List<Photo> getPhotos() {
         return photoRepo.findAll();
+    }
+
+    public String getStringPhoto(String id) {
+        return photoRepo.findById(id).get().getImage().toString();
     }
 }
