@@ -3,6 +3,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/auth/LoginPage';
+import LoginBoardPage from './components/auth/LoginBoardPage';
 import NavComponent from './components/auth/NavComponent';
 import RegistrationPage from './components/auth/RegistrationPage';
 import StudentProfile from './components/profiles/StudentProfile';
@@ -16,12 +17,14 @@ import MakeLoanPostPage from './components/posts/makeLoanPost';
 import MakeLostPostPage from './components/posts/makeLostPost';
 import MakeFoundPostPage from './components/posts/makeFoundPost';
 import MakeFreePostPage from './components/posts/makeFreePost';
+import MakeAnnouncementPage from './components/announcements/makeAnnouncement';
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/api/login/asStudent" element={<LoginPage />} />
+        <Route path="/api/login/asBoard" element={<LoginBoardPage />} />
         <Route path="/" element={<NavComponent />} />
         <Route path="/api/registration" element={<RegistrationPage />} />
         <Route path="/student-profile/:userId" element={<StudentProfile />} />
@@ -35,6 +38,7 @@ function App() {
         <Route path="/make-lost-post/:userId" element={<MakeLostPostPage/>} />
         <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
         <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
+        <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
       </Routes>
     </Router>
   );
