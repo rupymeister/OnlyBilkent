@@ -46,4 +46,6 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
     @Override
     Optional<Post> findById(ObjectId postId);
 
+    Post insert(Post post);
+
 }

@@ -29,7 +29,7 @@ const MakePost = () => {
     }
 
     try {
-      const response = await createUserPost(userId, formData); // Update this call based on your backend's requirement
+      const response = await createUserPost(userId, content, image,title, postType,); // Update this call based on your backend's requirement
       console.log('Post created:', response.data);
       // Handle success (e.g., show success message, redirect to another page, etc.)
     } catch (error) {

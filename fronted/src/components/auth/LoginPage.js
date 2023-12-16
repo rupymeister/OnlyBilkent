@@ -19,7 +19,7 @@ const LoginPage = () => {
       const userId = response.data; 
       navigate(`/student-profile/${userId}`); // Redirect to user's profile page
     } catch (err) {
-      setError(err.response?.data?.message || 'An error occurred during login');
+      setError(err.response?.data?.message || 'Wrong password or email. Please try again.');
       // Handle login error here
     }
   };

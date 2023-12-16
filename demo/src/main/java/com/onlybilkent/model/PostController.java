@@ -30,6 +30,21 @@ public class PostController {
         return new ResponseEntity<Optional<Post>>(postService.singlePost(title), HttpStatus.OK);
     }
 
+    @PostMapping("/create/{userId}")
+    public ResponseEntity<Post> create(@PathVariable String userId, @RequestBody Map<String, String> payload) {
+        String postTypeString = payload.get("postType");
+        
+        try {
+            Post.PostType postType = Post.PostType.valueOf(postTypeString);
+            Post.Category category = Post.Category.valueOf(payload.get("category"));
+            Post post = postService.create(userId, postType, payload.get("title"), payload.get("content"), payload.get("photoId"), category);
+            System.out.println(post.getPhotoId());
+            return new ResponseEntity<>(post, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            // Handle the case where the provided postType is not a valid enum constant
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 
     @PostMapping("/createPost1/{userId}")
     public ResponseEntity<Post> createPost(@PathVariable String userId, @RequestBody Map<String, String> payload) {

@@ -55,7 +55,7 @@ public class UserService {
         user.setBio(newBio);
         user.setName(name);
         user.setSurname(surname);
-    
+        
         // Step 3: Save the updated user
         userRepository.save(user);
     

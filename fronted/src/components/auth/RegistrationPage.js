@@ -72,7 +72,7 @@ const RegisterPage = () => {
                             required 
                         />
                         <input 
-                            type="repassword" 
+                            type="password" 
                             name="repassword"
                             className="form-control mb-2" 
                             value={repassword} 

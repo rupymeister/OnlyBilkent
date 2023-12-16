@@ -234,6 +234,19 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public Post create(String userId, PostType postType, String title, String content, String photoId,
+            Category category) {
+        Post post = postRepository.save(new Post(userId, postType, title, content, photoId, category));
+              mongoTemplate.update(User.class)
+                .matching(Criteria.where("id").is(userId))
+                .apply(new Update().push("postId").value(post))
+                .first();
+
+        Update update = new Update().inc("postCount", 1);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(userId)), update, User.class);
+        return post;
+    }
+
    
 
 }
