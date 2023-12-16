@@ -8,10 +8,12 @@ const StudentProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
+  
   const handleProfileClick = () => {
     // Redirect to user's profile page
-    navigate(`/edit-profile/${userId}`);
+    navigate(`/ProfilePage/${userId}`);
   };
+  
 
   useEffect(() => {
     getUser(userId)
@@ -33,8 +35,8 @@ const StudentProfile = () => {
   }
 
   const handeLogout = () => {
-    navigate(`/api/login/asStudent`)
-  }
+    navigate(`/`);
+  };
 
   return (
     <>
