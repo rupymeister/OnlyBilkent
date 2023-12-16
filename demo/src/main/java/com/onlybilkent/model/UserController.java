@@ -143,8 +143,7 @@ public class UserController {
         if(chatService.getChatsBySenderId(userId) == null) {
             return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
         }
-
-        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderId(userId), HttpStatus.OK);
+        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderIdOrReceiverId(userId, userId), HttpStatus.OK);
     }
 
 }

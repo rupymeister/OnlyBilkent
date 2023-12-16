@@ -10,6 +10,8 @@ public interface ChatRepository extends MongoRepository<Chat, String> {
 
     List<Chat> findBySenderId(String senderId);
 
+    List<Chat> findBySenderIdOrReceiverId(String senderId, String receiverId);
+
     Chat findByChatId(String chatId);
 
     boolean existsBySenderIdAndReceiverId(String chatId, String receiverId);
