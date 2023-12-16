@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPost } from '../../api/axiosConfig';
-import { useParams } from 'react-router-dom';
+
 
 const PostsPage = () => {
     const [postData, setPostData] = useState(null);

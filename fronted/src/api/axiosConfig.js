@@ -91,21 +91,12 @@ export const createPost = (postType, userId) => (
   })
 );
 
-<<<<<<< HEAD
-export const createSellPost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createSellPost/${postId}`, {
-    postId,
-    postContent,
-    image,
-    title, 
-    type
-=======
 export const createSellPost = (postId, formData) => (
   axios.put(`${baseURL}/posts/createSalePost/${postId}`, formData, {
     headers: {
-      'Content-Type': 'multipart/form-data'
+      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryqfDZNbBopJT4MiqA;charset=UTF-8'
     }
->>>>>>> c8adf2500 (make post fixing)
+    
   })
 );
 
@@ -129,13 +120,13 @@ export const createFoundPost = (postId, postContent, image, title, type) => (
   })
 );
 
-export const createLoanPost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createLoanPost/${postId}`, {
+export const createLoanPost = (postId, title, content, category, loanPricePerTime) => (
+  axios.put(`${baseURL}/posts/createLoanPost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category, 
+    loanPricePerTime
   })
 );
 

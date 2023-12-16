@@ -18,8 +18,9 @@ import MakeLostPostPage from './components/posts/makeLostPost';
 import MakeFoundPostPage from './components/posts/makeFoundPost';
 import MakeFreePostPage from './components/posts/makeFreePost';
 import PostPage from './components/posts/postPage';
-import MakeAnnouncementPage from './components/announcements/makeAnnouncement';
+import MakeAnnouncementPage from './components/announcements/MakeAnnouncement';
 import DashboardMock from './components/layout/dashboardMock';
+import ProfilePage from './components/layout/ProfilePage';
 
 function App() {
   return (
@@ -36,12 +37,16 @@ function App() {
         <Route path="/verification-page" element={<VerificationPage/>} />
         <Route path="/edit-profile/:userId" element={<EditProfilePage/>} />
         <Route path="/make-post/:userId" element={<MakePostPage/>} />
-        <Route path="/make-sell-post/:userId" element={<MakeSellPostPage/>} />
-        <Route path="/make-loan-post/:userId" element={<MakeLoanPostPage/>} />
-        <Route path="/make-lost-post/:userId" element={<MakeLostPostPage/>} />
-        <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
-        <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
+        <Route path="/make-sell-post/:postId" element={<MakeSellPostPage/>} />
+        <Route path="/make-loan-post/:postId" element={<MakeLoanPostPage/>} />
+        <Route path="/make-lost-post/:postId" element={<MakeLostPostPage/>} />
+        <Route path="/make-found-post/:postId" element={<MakeFoundPostPage/>} />
+        <Route path="/make-free-post/:postId" element={<MakeFreePostPage/>} />
         <Route path="/dashboard0" element={<DashboardMock/>} />
+        <Route path="/post-page/:postId" element={<PostPage/>} />
+        <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
+        <Route path="/ProfilePage/:userId" element={<ProfilePage/>} />
+
       </Routes>
     </Router>
   );
