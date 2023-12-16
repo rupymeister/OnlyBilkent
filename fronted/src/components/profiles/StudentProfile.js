@@ -29,7 +29,7 @@ const StudentProfile = () => {
   const { name, surname } = userData; // Destructure the userData object
 
   const handleMakePost = () => {
-    navigate("/make-post/${userId}")
+    navigate(`/make-post/${userId}`)
   }
 
   return (

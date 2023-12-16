@@ -11,6 +11,11 @@ import Dashboard from './components/layout/Dashboard';
 import VerificationPage from './components/auth/VerificationPage';
 import EditProfilePage from './components/profiles/EditProfilePage';
 import MakePostPage from './components/posts/makePost';
+import MakeSellPostPage from './components/posts/makeSellPost';
+import MakeLoanPostPage from './components/posts/makeLoanPost';
+import MakeLostPostPage from './components/posts/makeLostPost';
+import MakeFoundPostPage from './components/posts/makeFoundPost';
+import MakeFreePostPage from './components/posts/makeFreePost';
 
 function App() {
   return (
@@ -25,6 +30,11 @@ function App() {
         <Route path="/verification-page" element={<VerificationPage/>} />
         <Route path="/edit-profile/:userId" element={<EditProfilePage/>} />
         <Route path="/make-post/:userId" element={<MakePostPage/>} />
+        <Route path="/make-sell-post/:userId" element={<MakeSellPostPage/>} />
+        <Route path="/make-loan-post/:userId" element={<MakeLoanPostPage/>} />
+        <Route path="/make-lost-post/:userId" element={<MakeLostPostPage/>} />
+        <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
+        <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
       </Routes>
     </Router>
   );
