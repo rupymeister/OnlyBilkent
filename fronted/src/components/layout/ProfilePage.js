@@ -9,11 +9,23 @@ const ProfilePage = () => {
     const [userData, setUserData] = useState(null);
     const { userId } = useParams();
 
+    const handeHomeButton = () => {
+        // Redirect to user's profile page
+        navigate(`/dashboard/`);
+      };
 
+    const handeEditProfile = () => {
+        navigate(`/edit-profile/${userId}`);
+    };
+    
     const handleProfileClick = () => {
         // Redirect to user's profile page
         navigate(`/ProfilePage/${userId}`);
     };
+
+    const handleMakePost = () => {
+        navigate(`/make-post/${userId}`)
+      }
 
     const handeLogout = () => {
     navigate(`/`);
@@ -72,7 +84,7 @@ const ProfilePage = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 boyut">
             <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#">
+            <a className="nav-link active" aria-current="page" href="#" onClick={handeHomeButton}>
                 Home
             </a>
             </li>
@@ -179,129 +191,17 @@ const ProfilePage = () => {
         <div className="container">
         <div className="">
             <div className="col-md-12">
-            <button className="btn btn-primary">
-            Make Post
+            <button className="btn btn-primary"onClick={handeEditProfile}>
+            Edit Profile
             </button>
-        <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-        >
-            <span className="navbar-toggler-icon" />
-        </button>
+            
                 
             </div>
             </div>
             
             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             <div className="col">
-                <div className="card shadow-sm">
-                <center>
-                    <br />
-                    <div className="card-body bg-light">
-                    <p className="card-text" style={{ fontSize: 40 }}>
-                        Active Posts
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center"></div>
-                    </div>
-                </center>
-                </div>
-            </div>
-            <div className="col-md-6">
-                <div className="card shadow-sm ">
-                <div className="card-body  bg-light w-100">
-                    <div className="card">
-                    <div className="card-header">Lost Property</div>
-                    <div className="card-body">
-                        <h5 className="card-title">Lost Bag</h5>
-                        <p className="card-text">
-                        When I got off the bus, I realized that I left my bag at
-                        the bus stop. The bag is a backpack with red and black
-                        stripes. I would like my friends who see it to send a
-                        message.
-                        </p>
-                        <span className="text-muted helper">
-                        01.12.2023 Wednesday
-                        </span>
-                        <br />
-                        <a href="#" className="btn btn-danger">
-                        Remove Post
-                        </a>
-                    </div>
-                    </div>
-                    <div className="card">
-                    <div className="card-header">Book Sale</div>
-                    <div className="card-body">
-                        <h5 className="card-title">CS319 Book</h5>
-                        <p className="card-text">
-                        I'm selling my CS319 textbooks. Please contact me for the
-                        price.
-                        </p>
-                        <span className="text-muted helper">
-                        01.12.2023 Wednesday
-                        </span>
-                        <br />
-                        <a href="#" className="btn btn-danger">
-                        Remove Post
-                        </a>
-                    </div>
-                    </div>
-                </div>
-                <hr />
-                </div>
-            </div>
-            </div>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div className="col">
-                <div className="card shadow-sm">
-                <center>
-                    <br />
-                    <div className="card-body bg-light">
-                    <p className="card-text" style={{ fontSize: 40 }}>
-                        Inactive Posts
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center"></div>
-                    </div>
-                </center>
-                </div>
-            </div>
-            <div className="col-md-6">
-                <div className="card shadow-sm ">
-                <div className="card-body  bg-light w-100">
-                    <div className="card">
-                    <div className="card-header">Ticket Sales</div>
-                    <div className="card-body">
-                        <h5 className="card-title">BSO tickets</h5>
-                        <p className="card-text">
-                        I am selling my BSO tickets. Please contact me for prices.{" "}
-                        </p>
-                        <span className="text-muted helper">
-                        06.09.2023 Wednesday
-                        </span>
-                        <br />
-                    </div>
-                    </div>
-                    <div className="card">
-                    <div className="card-header">Carpooling</div>
-                    <div className="card-body">
-                        <h5 className="card-title">13/10/2023 Ankara - Izmir</h5>
-                        <p className="card-text">
-                        I will go to Izmir for the weekend. Can anyone who wants
-                        to share a car in exchange for fuel share contact me?{" "}
-                        </p>
-                        <span className="text-muted helper">
-                        12.10.2023 Thursday
-                        </span>
-                        <br />
-                    </div>
-                    </div>
-                </div>
-                <hr />
-                </div>
+                
             </div>
             </div>
         </div>

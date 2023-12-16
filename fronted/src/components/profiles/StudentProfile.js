@@ -28,8 +28,7 @@ const StudentProfile = () => {
   if (!userData) {
     return <div>Loading...</div>;
   }
-  const name = userData?.name || 'Default Name';
-  const surname = userData?.surname || 'Default Surname';
+  const { name, surname } = userData; // Destructure the userData object
 
   const handleMakePost = () => {
     navigate(`/make-post/${userId}`)
