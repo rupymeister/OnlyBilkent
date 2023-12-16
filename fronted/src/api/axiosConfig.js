@@ -84,10 +84,14 @@ export const createBoard = (userId, clubId, clubName) => (
 );
 
 // User Posts
-
+export const createPost = (userId) => (
+  axios.post(`${baseURL}/posts-create/sell/${userId}`, {
+    userId,
+  })
+);
 
 export const createSellPost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts-create/sell/${userId}`, {
+  axios.post(`${baseURL}/posts/createSellPost/${postId}`, {
     userId,
     postContent,
     image,
@@ -97,7 +101,7 @@ export const createSellPost = (userId, postContent, image, title, type) => (
 );
 
 export const createLostPost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts-create/lost/${userId}`, {
+  axios.post(`${baseURL}/posts/createLostPost/${postId}`, {
     userId,
     postContent,
     image,
@@ -107,7 +111,7 @@ export const createLostPost = (userId, postContent, image, title, type) => (
 );
 
 export const createFoundPost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts-create/found/${userId}`, {
+  axios.post(`${baseURL}/posts/createFoundPost/${postId}`, {
     userId,
     postContent,
     image,
@@ -117,7 +121,7 @@ export const createFoundPost = (userId, postContent, image, title, type) => (
 );
 
 export const createLoanPost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts-create/loan/${userId}`, {
+  axios.post(`${baseURL}/posts/createLoanPost/${postId}`, {
     userId,
     postContent,
     image,
@@ -127,7 +131,7 @@ export const createLoanPost = (userId, postContent, image, title, type) => (
 );
 
 export const createFreePost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts-create/free/${userId}`, {
+  axios.post(`${baseURL}/posts/createFreePost/${postId}`, {
     userId,
     postContent,
     image,

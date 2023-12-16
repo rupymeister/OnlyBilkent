@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { createPost } from '../../api/axiosConfig';
 import '../../themes/styles.css'
 
 const MakePost = () => {
@@ -13,6 +14,7 @@ const MakePost = () => {
     event.preventDefault();
     try {
         let response;
+        response = await cre
         switch (postType) {
           case 'sell':
             navigate(`/make-sell-post/${userId}`);
