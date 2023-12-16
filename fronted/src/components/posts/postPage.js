@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPost } from '../../api/axiosConfig';
+import { useParams } from 'react-router-dom';
 
 const PostsPage = () => {
     const [postData, setPostData] = useState(null);
     const { postId } = useParams();
     const navigate = useNavigate();
+    const [posts, setPosts] = useState(null);
 
     useEffect(() => {
         getPost(postId)

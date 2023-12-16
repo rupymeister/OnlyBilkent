@@ -8,10 +8,12 @@ const StudentProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
+  
   const handleProfileClick = () => {
     // Redirect to user's profile page
-    navigate(`/edit-profile/${userId}`);
+    navigate(`/ProfilePage/${userId}`);
   };
+  
 
   useEffect(() => {
     getUser(userId)
@@ -26,15 +28,16 @@ const StudentProfile = () => {
   if (!userData) {
     return <div>Loading...</div>;
   }
-  const { name, surname } = userData; // Destructure the userData object
+  const name = userData?.name || 'Default Name';
+  const surname = userData?.surname || 'Default Surname';
 
   const handleMakePost = () => {
     navigate(`/make-post/${userId}`)
   }
 
   const handeLogout = () => {
-    navigate(`/api/login/asStudent`)
-  }
+    navigate(`/`);
+  };
 
   return (
     <>

@@ -18,7 +18,10 @@ import MakeLostPostPage from './components/posts/makeLostPost';
 import MakeFoundPostPage from './components/posts/makeFoundPost';
 import MakeFreePostPage from './components/posts/makeFreePost';
 import PostPage from './components/posts/postPage';
-import MakeAnnouncementPage from './components/announcements/makeAnnouncement';
+import ProfilePage from './components/layout/ProfilePage';
+import MakeAnnouncement from './components/announcements/MakeAnnouncement';
+
+
 
 function App() {
   return (
@@ -40,12 +43,9 @@ function App() {
         <Route path="/make-lost-post/:userId" element={<MakeLostPostPage/>} />
         <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
         <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
-<<<<<<< HEAD
-
-=======
-        <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
-        <Route path="/post/:postId" element={<PostPage/>} />
->>>>>>> refs/remotes/origin/main
+        <Route path="/post-page/:postId" element={<PostPage/>} />
+        <Route path="/make-announcement/:userId" element={<MakeAnnouncement/>} />
+        <Route path="/ProfilePage/:userId" element={<ProfilePage />} />
       </Routes>
     </Router>
   );
