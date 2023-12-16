@@ -80,8 +80,48 @@ export const createBoard = (userId, clubId, clubName) => (
 );
 
 // User Posts
-export const createUserPost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/create/${userId}`, {
+export const createSellPost = (userId, postContent, image, title, type) => (
+  axios.post(`${baseURL}/posts-create/sell/${userId}`, {
+    userId,
+    postContent,
+    image,
+    title, 
+    type
+  })
+);
+
+export const createLostPost = (userId, postContent, image, title, type) => (
+  axios.post(`${baseURL}/posts-create/lost/${userId}`, {
+    userId,
+    postContent,
+    image,
+    title, 
+    type
+  })
+);
+
+export const createFoundPost = (userId, postContent, image, title, type) => (
+  axios.post(`${baseURL}/posts-create/found/${userId}`, {
+    userId,
+    postContent,
+    image,
+    title, 
+    type
+  })
+);
+
+export const createLoanPost = (userId, postContent, image, title, type) => (
+  axios.post(`${baseURL}/posts-create/loan/${userId}`, {
+    userId,
+    postContent,
+    image,
+    title, 
+    type
+  })
+);
+
+export const createFreePost = (userId, postContent, image, title, type) => (
+  axios.post(`${baseURL}/posts-create/free/${userId}`, {
     userId,
     postContent,
     image,
