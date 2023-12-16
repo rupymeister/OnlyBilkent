@@ -13,7 +13,7 @@ import com.onlybilkent.model.Post.PostType;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 public class PostService {
@@ -30,11 +30,6 @@ public class PostService {
     public List<Post> allPosts() {
         return postRepository.findAll();
     }
-
-    public Optional<Post> singlePost(String title) {
-        return postRepository.findPostByTitle(title);
-    }
-
 
     public Post createPostPhase1(String senderId, PostType postType, String photoId, Category category) {
         Post post = postRepository.insert(new Post(senderId, postType, photoId, category));
@@ -214,16 +209,29 @@ public class PostService {
         return postRepository.findById(postId);
     }
 
-    public Optional<Post> findBySenderId(String senderId) {
+    public List<Post> findBySenderId(String senderId) {
         return postRepository.findBySenderId(senderId);
     }
 
-    public Optional<Post> findByTitle(String str) {
+    public List<Post> findByTitle(String str) {
         return postRepository.findByTitleRegex(str);
     }
 
-    public Optional<Post> findByContent(String str) {
+    public List<Post> findByContent(String str) {
         return postRepository.findByContentRegex(str);
+    }
+
+    public List<Post> findByPrice(int price) {
+        List<Post> postsAtOrBelowPrice = postRepository.findByPriceLessThanEqual(price);
+        return postsAtOrBelowPrice;    
+    }
+
+    public List<Post> findByPriceBetween(int minPrice, int maxPrice) {
+        return postRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    public List<Post> findByCategory(Category category) {
+        return postRepository.findByCategory(category);
     }
 
     public Post getPost(String postId) {
@@ -233,7 +241,5 @@ public class PostService {
     public void savePost(Post post) {
         postRepository.save(post);
     }
-
-   
 
 }

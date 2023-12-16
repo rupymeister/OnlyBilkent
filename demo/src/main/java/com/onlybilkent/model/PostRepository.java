@@ -8,42 +8,39 @@ import org.springframework.stereotype.Repository;
 import com.onlybilkent.model.Post.Category;
 import com.onlybilkent.model.Post.PostType;
 
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.List;
+
 
 @Repository
 public interface PostRepository extends MongoRepository<Post, ObjectId> {
-
-    Optional<Post> findPostByTitle(String title);
 
     boolean existsById(String postId);
 
     Post findById(String postId);
 
-    Optional<Post> findBySenderId(String senderId);
+    List<Post> findBySenderId(String senderId);
 
     @Query("{ 'title' : { '$regex' : ?0 , $options: 'i'}}")
-    Optional<Post> findByTitleRegex(String str);
+    List<Post> findByTitleRegex(String str);
     
     @Query("{ 'content' : { '$regex' : ?0 , $options: 'i'}}")
-    Optional<Post> findByContentRegex(String str);
+    List<Post> findByContentRegex(String str);
 
-    @Query("{ 'price' : { '$regex' : ?0 , $options: 'i'}}")
-    Optional<Post> findByPriceRegex(int price);
+    List<Post> findByCategory(Category category);
 
-    //write query methods for category, postType, active, and date
-    @Query("{ 'category' : { '$regex' : ?0 , $options: 'i'}}")
-    Optional<Post> findByCategory(Category category);
-
-    @Query("{ 'postType' : { '$regex' : ?0 , $options: 'i'}}")
-    Optional<Post> findByPostType(PostType postType);
+    List<Post> findByPostType(PostType postType);
     
+    List<Post> findByActive(boolean active);
 
+    List<Post> findByBorrowUntilDate(LocalDate borrowUntilDate);
 
+    List<Post> findByPriceLessThanEqual(int price);
+
+    List<Post> findByPriceGreaterThanEqual(int price);
+
+    List<Post> findByPriceBetween(int minPrice, int maxPrice);
 
     @Override 
     <S extends Post> S save(S entity);
-    
-    @Override
-    Optional<Post> findById(ObjectId postId);
-
 }

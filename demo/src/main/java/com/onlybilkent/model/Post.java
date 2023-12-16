@@ -29,18 +29,25 @@ public class Post {
     private String title;
     private String content;
     private String senderId;
-    private String photoId = "6578c01d1fcb0e1176c52d6d";;
+
+    private String photoId = "6578c01d1fcb0e1176c52d6d";
+
     private int price;
+
     private int viewCount;
+
     private boolean isActive;
 
     private List<String> photoIds;
 
     private Category category;
     private PostType postType;
+
     private LocalDate borrowUntilDate; // Use LocalDate for dates
+    
     private double loanPricePerTime;
     private double salePrice;
+    
     private boolean isFree;
 
     // Constructors
@@ -50,7 +57,7 @@ public class Post {
         this.senderId = senderId;
         this.category = category;
     }
-    
+
     public Post(String senderId, PostType postType, String photoId, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
