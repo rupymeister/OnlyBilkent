@@ -57,6 +57,10 @@ export const getUser = (id) => (
   axios.get(`${baseURL}/users/${id}`)
 );
 
+exposrt const getPost = (postId) => (
+  axios.get(`${baseURL}/posts/${postId}`)
+);
+
 export const updateUser = (userId, name, surname, password, bio) => {
   const url = `http://localhost:8080/users/editUser/${userId}`;
   console.log(password);
@@ -80,6 +84,8 @@ export const createBoard = (userId, clubId, clubName) => (
 );
 
 // User Posts
+
+
 export const createSellPost = (userId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts-create/sell/${userId}`, {
     userId,
