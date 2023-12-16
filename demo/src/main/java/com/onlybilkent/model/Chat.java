@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,7 +25,8 @@ public class Chat {
     @DocumentReference
     List<Message> messages;
 
-    String senderId;
+    @Field("userId")
+    private String senderId;
     String receiverId;
 
     public Chat(String senderId, String receiverId) {

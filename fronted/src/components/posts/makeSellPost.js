@@ -24,7 +24,7 @@ const MakeSellPost = () => {
       formData.append('title', title);
       formData.append('content', content);
       formData.append('category', category);
-      formData.append('price', price);
+      formData.append('salePrice', price);
       if (image) {
          formData.append('image', image);
       }

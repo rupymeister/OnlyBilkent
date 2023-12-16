@@ -49,21 +49,18 @@ public class PostService {
     }
 
     public Post createLoanPost(String postId, String title, Category category, String content,
-            LocalDate borrowUntilDate,
             double loanPricePerTime) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
-        post.setBorrowUntilDate(borrowUntilDate);
         post.setLoanPricePerTime(loanPricePerTime);
         postRepository.save(post);
 
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(getSenderId(postId)))
+        mongoTemplate.update(Post.class)
+                .matching(Criteria.where("id").is(findByPostId(postId)))
                 .apply(new Update().push("postId").value(post))
                 .first();
-
         return post;
     }
 

@@ -149,14 +149,14 @@ public class PostController {
     }
 
     @PostMapping("/create/{userId}")
-    public ResponseEntity<Post> create(@PathVariable String userId, @RequestBody Map<String, String> payload) {
+    public ResponseEntity<String> create(@PathVariable String userId, @RequestBody Map<String, String> payload) {
         String postTypeString = payload.get("postType");
 
         try {
             Post.PostType postType = Post.PostType.valueOf(postTypeString);
             // Post.Category category = Post.Category.valueOf(payload.get("category"));
             Post post = postService.create(postType, userId);
-            return new ResponseEntity<>(post, HttpStatus.CREATED);
+            return new ResponseEntity<>(post.getId().toString(), HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             // Handle the case where the provided postType is not a valid enum constant
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -189,12 +189,10 @@ public class PostController {
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
         Category category = Category.valueOf(payload.get("category"));
-        LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is
-                                                                                              // provided as a string
         int loanPricePerTime = Integer.parseInt(payload.get("loanPricePerTime"));
 
         // Call the service method to create the loan post
-        Post post = postService.createLoanPost(postId, title, category, content, borrowUntilDate, loanPricePerTime);
+        Post post = postService.createLoanPost(postId, title, category, content, loanPricePerTime);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -207,6 +205,7 @@ public class PostController {
         String content = (String) payload.get("content");
         Category category = Category.valueOf(payload.get("category"));
         double salePrice = Double.parseDouble(payload.get("salePrice"));
+
 
         // Call the service method to create the sale post
         Post post = postService.createSalePost(postId, title, category, content, salePrice);
