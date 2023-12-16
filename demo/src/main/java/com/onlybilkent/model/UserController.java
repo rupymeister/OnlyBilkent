@@ -148,10 +148,4 @@ public class UserController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("{userId}/findAlll")
-    public ResponseEntity<List<Chat>> findAll(@PathVariable String userId) {
-        return ResponseEntity.ok(chatRepository.findBySenderId(userId));
-
-    }
-
 }
