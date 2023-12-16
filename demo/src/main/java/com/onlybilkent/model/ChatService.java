@@ -48,6 +48,11 @@ public class ChatService {
         List<Chat> getChatsByReceiverId(String receiverId) {
                 return chatRepository.findByReceiverId(receiverId);
         }
+
+        public List<Chat> getChatsBySenderIdOrReceiverId(String userId, String userId2) {
+                return chatRepository.findBySenderIdOrReceiverId(userId, userId2);
+        }
+
         public Chat createChat(String senderId, String receiverId) {
                 Chat chat = new Chat(senderId, receiverId);
                 chatRepository.save(chat);
