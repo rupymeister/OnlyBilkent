@@ -33,25 +33,6 @@ public class MessageService {
         return messageRepository.existsById(messageId);
     }
 
-    public Optional<Message> findMessageByContentRegex(String str) {
-        return messageRepository.findByContentRegex(str);
-    }
-
-    public Message sendMessage(String content, String userId, String receiverId) {
-        Message message = messageRepository.insert(new Message(userId, receiverId, content));
-
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(userId))
-                .apply(new Update().push("messageId").value(message))
-                .first();
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(receiverId))
-                .apply(new Update().push("messageId").value(message))
-                .first();
-        
-        return message.getContent().equals(content) ? message: null;
-    }
-
     public Optional<Message> getMessagesByUserId(String userId) {
         return messageRepository.findBySenderId(userId);
     }
@@ -62,6 +43,5 @@ public class MessageService {
         mongoTemplate.updateFirst(query, update, Message.class);
     }
     
-    
-    
+
 }

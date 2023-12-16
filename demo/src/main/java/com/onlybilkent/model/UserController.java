@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,6 +20,12 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private ChatService chatService;
+
+    @Autowired
     private BoardRequestService boardRequestService;
 
     @GetMapping
@@ -28,7 +35,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable ObjectId userId) {
+    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable String userId) {
         return new ResponseEntity<Optional<User>>(userService.singleUser(userId), HttpStatus.OK);
     }
 
@@ -80,7 +87,6 @@ public class UserController {
     }
 
     // Only Admin should be able to
-
     @PutMapping("/banUser/{userId}")
     public ResponseEntity<String> banUser(@PathVariable String userId) {
         if (!userService.existsById(userId)) {
@@ -98,4 +104,27 @@ public class UserController {
 
         return new ResponseEntity<String>(userService.unbanUser(userId), HttpStatus.OK);
     }
+
+    @PostMapping("/{userId}/sendMessage/{receiverId}")
+    public ResponseEntity<Message> sendMessage(@PathVariable ObjectId userId, @RequestBody String  message, @PathVariable ObjectId receiverId) {
+        return new ResponseEntity<Message>(chatService.sendMessage(userId.toString(), message, receiverId.toString()), HttpStatus.OK);
+    }
+
+    @PostMapping("/{senderId}/createChat")
+    public ResponseEntity<String> createChat(@PathVariable String senderId, @RequestBody String receiverId) {
+        return new ResponseEntity<String>(chatService.createChat(senderId, receiverId), HttpStatus.OK);
+    }
+
+    @PostMapping("/{senderId}/chats")
+    public ResponseEntity<List<Chat>> getChats(@PathVariable String senderId) {
+        Optional<User> optionalUser = userRepository.findById(senderId);
+        List<Chat> chats = new ArrayList<>();
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            chats = user.getChats(); 
+        }
+
+        return new ResponseEntity<List<Chat>>(chats, HttpStatus.OK);
+    }
+
 }

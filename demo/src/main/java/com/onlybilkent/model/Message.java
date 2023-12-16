@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.bson.types.ObjectId;
 
@@ -24,6 +25,7 @@ public class Message{
     private boolean isRead = false;
     private String content;
     private LocalDate date;
+    private LocalTime time;
 
     public Message(String senderId, String receiverId, String content){
         this.senderId = isValidHexString(senderId) ? new ObjectId(senderId) : null;
@@ -31,6 +33,7 @@ public class Message{
         this.messageId = new ObjectId();
         this.content = content;
         this.date = LocalDate.now();
+        this.time = LocalTime.now();
         this.isRead = false;
     }
     

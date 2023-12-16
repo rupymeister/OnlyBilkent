@@ -42,10 +42,13 @@ public class User {
     private int postCount;
 
     @DocumentReference
-    private List<Post> postId;
+    List<Chat> chats;
+
 
     @DocumentReference
-    private List<User> chatterId;
+    private List<Post> postId;
+
+    
 
     public User(String name, String surname, String email, String password, String bio, int role, String imageId,
             String emailVerificationToken) {
@@ -61,7 +64,7 @@ public class User {
         this.postCount = 0;
         this.notifications = new ArrayList<String>();
         this.postId = new ArrayList<Post>();
-        this.chatterId = new ArrayList<User>();
+        this.chats= new ArrayList<Chat>();
     }
 
     public void setProfilePictureId(String id2) {
