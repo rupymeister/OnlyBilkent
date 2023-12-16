@@ -4,6 +4,8 @@ import { useNavigate} from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const LoginPage = () => {
+  
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(''); // State to handle any error
@@ -25,8 +27,17 @@ const LoginPage = () => {
   };
 
   return (
+    
     <div className="container">
-      <div className="card" style={{ width: '26rem', margin: 'auto', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%)' }}>
+      <style>
+        {`
+          body {
+            
+            background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%);
+          }
+        `}
+      </style>
+      <div className="card" style={{ margin: 'auto', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%)' }}>
       <h2 className="card-title" style={{ textAlign: 'center', color: '#333', fontSize: '24px', fontWeight: 'bold', marginBottom: '10px', marginTop: '10px' }}>OnlyBilkent</h2>
         <img src={logo} className="card-img-top mt-3" style={{ width: '50%', margin: 'auto' }} alt="Bilkent Uni Logo" />
         <div className="card-body">

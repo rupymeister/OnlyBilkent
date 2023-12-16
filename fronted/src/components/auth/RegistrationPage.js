@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userRegister } from '../../api/axiosConfig';
 import '../../themes/styles.css'; // Assuming you have a styles.css file with your custom styles
+import logo from '../assets/logo.png';
 
 const RegisterPage = () => {
+    const containerStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh', // Ensures the container takes at least the full height of the viewport
+      };
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [repassword, setRePassword] = useState('');
@@ -47,11 +54,22 @@ const RegisterPage = () => {
     };
 
     return (
-        <>
-            {/* Include your Navbar here as a separate component */}
-            <div className="container">
-                <form onSubmit={handleRegister}>
-                    <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        
+        <div className="container">
+        <style>
+          {`
+            body {
+              
+              background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%);
+            }
+          `}
+        </style>
+        <div className="card" style={{ margin: 'auto', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%)' }}>
+        <h2 className="card-title" style={{ textAlign: 'center', color: '#333', fontSize: '24px', fontWeight: 'bold', marginBottom: '10px', marginTop: '10px' }}>OnlyBilkent</h2>
+          <img src={logo} className="card-img-top mt-3" style={{ width: '50%', margin: 'auto' }} alt="Bilkent Uni Logo" />
+          <div className="card-body">
+                    <form onSubmit={handleRegister}>
+                    <div className="form-group mt-2">
                         {/* Other form fields */}
                         <input 
                             type="email" 
@@ -108,11 +126,16 @@ const RegisterPage = () => {
                             style={{ resize: 'both' }}
                             required
                         ></textarea>
-                        <button type="submit" className="btn btn-outline-secondary">Register</button>
+                        <div className="form-group mt-2" >
+                        <button type="submit" className="btn btn-outline-secondary" >Register</button>
+                        </div>
                     </div>
                 </form>
+                {error && <div className="alert alert-danger">{error}</div>}
             </div>
-        </>
+        </div>
+    </div>
+                    
     );
 };
 

@@ -32,8 +32,13 @@ const StudentProfile = () => {
     navigate(`/make-post/${userId}`)
   }
 
+  const handeLogout = () => {
+    navigate(`/api/login/asStudent`)
+  }
+
   return (
     <>
+    
   <meta charSet="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link
@@ -58,7 +63,8 @@ const StudentProfile = () => {
         "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%)"
     }}
   >
-    <div className="container">
+    <div className="container " >
+      
       <a className="navbar-brand me-0 me-lg-5" href="#">
         <img
           src="img/lofoufak.png"
@@ -66,20 +72,7 @@ const StudentProfile = () => {
           className="rounded-circle d-inline-block align-text-top"
         />
       </a>
-      <button className="btn btn-primary" onClick={handleMakePost}>
-          Make Post
-        </button>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
+      
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 boyut">
           <li className="nav-item">
@@ -107,6 +100,7 @@ const StudentProfile = () => {
               Student Clubs
             </a>
           </li>
+          
         </ul>
         <div className="form-check form-switch ms-auto mt-3 me-3">
           <label className="form-check-label ms-3" htmlFor="lightSwitch">
@@ -127,22 +121,33 @@ const StudentProfile = () => {
             id="lightSwitch"
           />
         </div>
-        <div className="dropdown" style={{ marginRight: 10 }}>
+        
+        
+
+        <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
+        <span className="caret" >
+      {name} {surname}
+    </span>
+    </div>
+    <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
           <img
             className="rounded-circle dropdown-toggle"
             width={40}
+            marginRight={10}
+            marginLeft={10}
             src="https://avatars.githubusercontent.com/u/72274639?v=4"
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           />
+          
           <span
             className="caret"
             id="dropdownMenuButton1"
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
-            <img src="img/down.svg" width="200%" />{" "}
+           
           </span>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
@@ -164,7 +169,7 @@ const StudentProfile = () => {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="#">
+              <a className="dropdown-item" href="#" onClick={handeLogout}>
                 Logout
               </a>
             </li>
@@ -176,11 +181,26 @@ const StudentProfile = () => {
   <main>
     <div className="album bg-light mt-3">
       <div className="container">
-        <div className="row">
+      <div className="">
           <div className="col-md-12">
-            <h1>{name} {surname}</h1>
+          <button className="btn btn-primary" onClick={handleMakePost}>
+          Make Post
+        </button>
+      <button
+        className="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span className="navbar-toggler-icon" />
+      </button>
+            
           </div>
         </div>
+        
         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <div className="col">
             <div className="card shadow-sm">
@@ -188,7 +208,7 @@ const StudentProfile = () => {
                 <br />
                 <div className="card-body bg-light">
                   <p className="card-text" style={{ fontSize: 40 }}>
-                    Actual Posts
+                    Active Posts
                   </p>
                   <div className="d-flex justify-content-between align-items-center"></div>
                 </div>
@@ -246,7 +266,7 @@ const StudentProfile = () => {
                 <br />
                 <div className="card-body bg-light">
                   <p className="card-text" style={{ fontSize: 40 }}>
-                    Past Posts
+                    Inactive Posts
                   </p>
                   <div className="d-flex justify-content-between align-items-center"></div>
                 </div>
