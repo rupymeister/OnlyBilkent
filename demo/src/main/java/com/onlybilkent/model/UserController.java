@@ -23,6 +23,9 @@ public class UserController {
     @Autowired
     private ChatService chatService;
 
+    @Autowired
+    private ChatRepository chatRepository;
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.allUsers();
@@ -119,17 +122,16 @@ public class UserController {
         return new ResponseEntity<Chat>(chatService.createChat(userId, receiverId), HttpStatus.OK);
     }
 
-    /**
-     * // send message to given chat
-     * @PostMapping("/sendMessage/{chatId}")
-     * public ResponseEntity<Message> sendMessage(@PathVariable String
-     * chatId, @RequestBody String content) {
-     * if (!chatService.existsById(chatId)) {
-     * return new ResponseEntity<Message>(HttpStatus.NOT_FOUND);
-     * }
-     * return new ResponseEntity<Message>(chatService.sendMessage(content, chatId),
-     * HttpStatus.OK);
-     * }
-     **/
+    // send message to given chat
+    @PostMapping("/sendMessage/{userId}/{chatId}")
+    public ResponseEntity<Message> sendMessage(@PathVariable String chatId, @PathVariable String userId,
+            @RequestParam("content") String content) {
+
+        if (!chatRepository.existsById(chatId)) {
+            return new ResponseEntity<Message>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Message>(chatService.sendMessage(content, chatId, userId), HttpStatus.OK);
+    }
 
 }
