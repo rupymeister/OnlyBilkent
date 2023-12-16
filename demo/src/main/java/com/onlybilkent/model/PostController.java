@@ -29,7 +29,7 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 
-    @GetMapping
+    @GetMapping("/category/{category}")
     public ResponseEntity<List<Post>> getPostsByCategory(@PathVariable Category category) {
         List<Post> posts = postService.findByCategory(category);
         if (!posts.isEmpty()) {
