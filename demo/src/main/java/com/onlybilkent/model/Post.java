@@ -68,6 +68,7 @@ public class Post {
         this.senderId = senderId;
     }
     
+
     public Post(String title, String content, String senderId, boolean isActive, PostType postType, String photoId, Category category) {
         if (photoId == null || photoId.equals("")) {
             this.photoId = "6578c01d1fcb0e1176c52d6d";
@@ -113,6 +114,22 @@ public class Post {
     }
 
     // Getters and setters
+
+    public Post(String userId, PostType postType2, String title2, String content2, String photoId2,
+            Category category2) {
+        if (!(photoId.length() > 5)) {
+            this.photoId = "6578c01d1fcb0e1176c52d6d";
+        }
+        else {
+            this.photoId = photoId2;
+        }
+        this.title = title2;
+        this.content = content2;
+        this.senderId = userId;
+        this.isActive = true;
+        this.postType = postType2;
+        this.category = category2;
+    }
 
     // Enums for post types
     public enum PostType {

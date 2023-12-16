@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.mongodb.client.result.UpdateResult;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -38,53 +40,42 @@ public class UserService {
         return userRepository.existsById(userId);
     }
 
-    public User editUser(String userId, String name, String surname, String newPassword, String pass2, String newBio) {
+    public User editUser(String userId, String name, String surname, String newPassword, String newBio) {
 
+        // Step 1: Check if the user exists
         Optional<User> optionalUser = userRepository.findById(userId);
         if (!optionalUser.isPresent()) {
-            throw new RuntimeException("User not found");
+            // Handle the case where the user is not found
+            return null;
         }
-
-        User existingUser = optionalUser.get();
-
-        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty()
-                && newPassword.equals(pass2)) {
-            existingUser.setPassword(newPassword);
+    
+        // Step 2: Update user fields
+        User user = optionalUser.get();
+        user.setPassword(newPassword);
+        user.setBio(newBio);
+        user.setName(name);
+        user.setSurname(surname);
+        
+        // Step 3: Save the updated user
+        userRepository.save(user);
+    
+        // Step 4: Verify the update
+        UpdateResult updateResult = mongoTemplate.update(User.class)
+            .matching(Criteria.where("id").is(userId))
+            .apply(new Update().set("password", newPassword).set("bio", newBio)
+                                .set("name", name).set("surname", surname))
+            .first();
+    
+        // Step 5: Handle the case where no documents were modified
+        if (updateResult.getModifiedCount() == 0) {
+            // Handle the case where no documents were modified
+            return null;
         }
-        if (newBio != null && !newBio.isEmpty()) {
-            existingUser.setBio(newBio);
-        }
-        if (name != null && !name.isEmpty()) {
-            existingUser.setName(name);
-        }
-        if (surname != null && !surname.isEmpty()) {
-            existingUser.setSurname(surname);
-        }
-
-        User updatedUser = userRepository.save(existingUser);
-
-        Update update = new Update();
-        if (newPassword != null && !newPassword.isEmpty() && pass2 != null && !pass2.isEmpty()
-                && newPassword.equals(pass2)) {
-            update.set("id.$.password", newPassword);
-        }
-        if (newBio != null && !newBio.isEmpty()) {
-            update.set("id.$.bio", newBio);
-        }
-        if (name != null && !name.isEmpty()) {
-            update.set("id.$.name", name);
-        }
-        if (surname != null && !surname.isEmpty()) {
-            update.set("id.$.surname", surname);
-        }
-
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(userId))
-                .apply(update)
-                .first();
-
-        return updatedUser;
+    
+        // Step 6: Return the updated user
+        return user;
     }
+    
 
     // write a method to get user by id here
     public User getUser(String userId) {

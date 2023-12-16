@@ -57,9 +57,14 @@ export const getUser = (id) => (
   axios.get(`${baseURL}/users/${id}`)
 );
 
-export const updateUser = (id, name, password, image) => (
-  axios.put(`${baseURL}/users/editUser/${id}`, { name , password, image })
-);
+export const updateUser = (userId, name, surname, password, bio) => {
+  const url = `http://localhost:8080/users/editUser/${userId}`;
+  console.log(password);
+  const data = { name, surname, password, bio };
+
+  // Assuming you're using Axios for HTTP requests
+  return axios.post(url, data);
+};
 
 // BoardAccounts
 export const getBoards = () => (
@@ -76,7 +81,7 @@ export const createBoard = (userId, clubId, clubName) => (
 
 // User Posts
 export const createUserPost = (userId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/create`, {
+  axios.post(`${baseURL}/posts/create/${userId}`, {
     userId,
     postContent,
     image,

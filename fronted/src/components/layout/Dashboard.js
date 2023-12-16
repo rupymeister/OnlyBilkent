@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {getAnnouncements } from '../../axios.Config';
+import {getAnnouncements} from '../../api/axiosConfig';
 import axios from 'axios';
-import Category from './Category';
-import Announcement from './Announcement';
-import Post from './Post';
+
 import { Link } from 'react-router-dom';
 
 function Dashboard() {

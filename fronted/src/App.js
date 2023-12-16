@@ -18,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/api/login/asStudent" element={<LoginPage />} />
         <Route path="/" element={<NavComponent />} />
-        <Route path="/registration" element={<RegistrationPage />} />
+        <Route path="/api/registration" element={<RegistrationPage />} />
         <Route path="/student-profile/:userId" element={<StudentProfile />} />
         <Route path="/board-profile/:userId" element={<BoardProfile />} />
         <Route path="/dashboard" element={<Dashboard/>} />

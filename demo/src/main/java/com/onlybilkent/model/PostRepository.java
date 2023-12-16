@@ -43,4 +43,13 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
     @Override 
     <S extends Post> S save(S entity);
+<<<<<<< HEAD
+=======
+    
+    @Override
+    Optional<Post> findById(ObjectId postId);
+
+    Post insert(Post post);
+
+>>>>>>> 889a636bcc1d85e1b01b1c765a66af875b83ba20
 }

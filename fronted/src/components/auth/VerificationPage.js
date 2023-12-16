@@ -14,7 +14,7 @@ const VerificationPage = () => {
     try {
       const response = await verifyUser(verificationCode, email);
       console.log(response);
-      navigate('/api/login'); // Redirect to login page
+      navigate('/api/login/asStudent'); // Redirect to login page
     } catch (err) {
       setError(err.response?.data?.message || 'An error occurred during verification');
     }
