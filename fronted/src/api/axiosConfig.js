@@ -57,7 +57,7 @@ export const getUser = (id) => (
   axios.get(`${baseURL}/users/${id}`)
 );
 
-exposrt const getPost = (postId) => (
+export const getPost = (postId) => (
   axios.get(`${baseURL}/posts/${postId}`)
 );
 
@@ -84,25 +84,34 @@ export const createBoard = (userId, clubId, clubName) => (
 );
 
 // User Posts
-export const createPost = (userId) => (
-  axios.post(`${baseURL}/posts-create/sell/${userId}`, {
-    userId,
+export const createPost = (postType, userId) => (
+  axios.post(`${baseURL}/posts/create/${userId}`, {
+    postType,
+    userId
   })
 );
 
-export const createSellPost = (userId, postContent, image, title, type) => (
+<<<<<<< HEAD
+export const createSellPost = (postId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts/createSellPost/${postId}`, {
-    userId,
+    postId,
     postContent,
     image,
     title, 
     type
+=======
+export const createSellPost = (postId, formData) => (
+  axios.put(`${baseURL}/posts/createSalePost/${postId}`, formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+>>>>>>> c8adf2500 (make post fixing)
   })
 );
 
-export const createLostPost = (userId, postContent, image, title, type) => (
+export const createLostPost = (postId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts/createLostPost/${postId}`, {
-    userId,
+    postId,
     postContent,
     image,
     title, 
@@ -110,9 +119,9 @@ export const createLostPost = (userId, postContent, image, title, type) => (
   })
 );
 
-export const createFoundPost = (userId, postContent, image, title, type) => (
+export const createFoundPost = (postId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts/createFoundPost/${postId}`, {
-    userId,
+    postId,
     postContent,
     image,
     title, 
@@ -120,9 +129,9 @@ export const createFoundPost = (userId, postContent, image, title, type) => (
   })
 );
 
-export const createLoanPost = (userId, postContent, image, title, type) => (
+export const createLoanPost = (postId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts/createLoanPost/${postId}`, {
-    userId,
+    postId,
     postContent,
     image,
     title, 
@@ -130,9 +139,9 @@ export const createLoanPost = (userId, postContent, image, title, type) => (
   })
 );
 
-export const createFreePost = (userId, postContent, image, title, type) => (
+export const createFreePost = (postId, postContent, image, title, type) => (
   axios.post(`${baseURL}/posts/createFreePost/${postId}`, {
-    userId,
+    postId,
     postContent,
     image,
     title, 

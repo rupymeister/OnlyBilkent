@@ -1,11 +1,9 @@
 package com.onlybilkent.model;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +18,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private UserRepository UserRepository;
-
-    @Autowired
     private BoardRequestService boardRequestService;
 
     @Autowired
@@ -35,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable ObjectId userId) {
+    public ResponseEntity<Optional<User>> getSingleUser(@PathVariable String userId) {
         return new ResponseEntity<Optional<User>>(userService.singleUser(userId), HttpStatus.OK);
     }
 
@@ -88,7 +83,6 @@ public class UserController {
     }
 
     // Only Admin should be able to
-
     @PutMapping("/banUser/{userId}")
     public ResponseEntity<String> banUser(@PathVariable String userId) {
         if (!userService.existsById(userId)) {

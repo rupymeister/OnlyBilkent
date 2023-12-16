@@ -32,7 +32,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> singleUser(ObjectId id) {
+    public Optional<User> singleUser(String id) {
         return userRepository.findById(id);
     }
 
@@ -205,5 +205,9 @@ public class UserService {
         } else {
             throw new RuntimeException("User not found");
         }
+    }
+
+    public List<BoardRequest> getBoardRequests() {
+        return boardRequestRepository.findAll();
     }
 }

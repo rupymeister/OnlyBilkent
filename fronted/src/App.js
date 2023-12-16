@@ -18,7 +18,15 @@ import MakeLostPostPage from './components/posts/makeLostPost';
 import MakeFoundPostPage from './components/posts/makeFoundPost';
 import MakeFreePostPage from './components/posts/makeFreePost';
 import PostPage from './components/posts/postPage';
-import MakeAnnouncementPage from './components/announcements/makeAnnouncement';
+<<<<<<< HEAD
+import ProfilePage from './components/layout/ProfilePage';
+import MakeAnnouncement from './components/announcements/MakeAnnouncement';
+
+
+=======
+import MakeAnnouncementPage from './components/announcement/makeAnnouncement';
+import DashboardMock from './components/layout/dashboardMock';
+>>>>>>> c8adf2500 (make post fixing)
 
 function App() {
   return (
@@ -41,11 +49,12 @@ function App() {
         <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
         <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
 <<<<<<< HEAD
-
+        <Route path="/post-page/:postId" element={<PostPage/>} />
+        <Route path="/make-announcement/:userId" element={<MakeAnnouncement/>} />
+        <Route path="/ProfilePage/:userId" element={<ProfilePage />} />
 =======
-        <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
-        <Route path="/post/:postId" element={<PostPage/>} />
->>>>>>> refs/remotes/origin/main
+        <Route path="/dashboard0" element={<DashboardMock/>} />
+>>>>>>> c8adf2500 (make post fixing)
       </Routes>
     </Router>
   );
