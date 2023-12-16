@@ -30,15 +30,16 @@ public class PostController {
         return new ResponseEntity<Optional<Post>>(postService.singlePost(title), HttpStatus.OK);
     }
 
+    // only gets the postType and category from the payload
     @PostMapping("/create/{userId}")
     public ResponseEntity<Post> create(@PathVariable String userId, @RequestBody Map<String, String> payload) {
         String postTypeString = payload.get("postType");
-        
+
         try {
             Post.PostType postType = Post.PostType.valueOf(postTypeString);
             Post.Category category = Post.Category.valueOf(payload.get("category"));
-            Post post = postService.create(userId, postType, payload.get("title"), payload.get("content"), payload.get("photoId"), category);
-            System.out.println(post.getPhotoId());
+            Post post = postService.create(postType, category, userId);
+
             return new ResponseEntity<>(post, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             // Handle the case where the provided postType is not a valid enum constant
@@ -46,30 +47,13 @@ public class PostController {
         }
     }
 
-    @PostMapping("/createPost1/{userId}")
-    public ResponseEntity<Post> createPost(@PathVariable String userId, @RequestBody Map<String, String> payload) {
-        String postTypeString = payload.get("postType");
-        
-        try {
-            Post.PostType postType = Post.PostType.valueOf(postTypeString);
-            Post.Category category = Post.Category.valueOf(payload.get("category"));
-            Post post = postService.createPostPhase1(userId, postType, payload.get("photoId"), category);
-            System.out.println(post.getPhotoId());
-            return new ResponseEntity<>(post, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            // Handle the case where the provided postType is not a valid enum constant
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-
-
-
-   @PutMapping("/createLoanPost/{postId}")
+    @PutMapping("/createLoanPost/{postId}")
     public ResponseEntity<Post> createLoanPost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
-        LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is provided as a string
+        LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is
+                                                                                              // provided as a string
         int loanPricePerTime = (int) payload.get("loanPricePerTime");
 
         // Call the service method to create the loan post
@@ -79,26 +63,12 @@ public class PostController {
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
 
-    @PutMapping("/createBorrowPost/{postId}")
-    public ResponseEntity<Post> createBorrowPost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
-        // Extracting payload values
-        String title = (String) payload.get("title");
-        String content = (String) payload.get("content");
-        LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is provided as a string
-
-        // Call the service method to create the borrow post
-        Post post = postService.createBorrowPost(postId, title, content, borrowUntilDate);
-
-        // Return the response
-        return new ResponseEntity<>(post, HttpStatus.CREATED);
-    }
-
     @PutMapping("/createSalePost/{postId}")
-    public ResponseEntity<Post> createSalePost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Post> createSalePost(@PathVariable String postId, @RequestBody Map<String, String> payload) {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
-        double salePrice = (double) payload.get("salePrice");
+        double salePrice = Double.parseDouble(payload.get("salePrice"));
 
         // Call the service method to create the sale post
         Post post = postService.createSalePost(postId, title, content, salePrice);
@@ -108,19 +78,41 @@ public class PostController {
     }
 
     @PutMapping("/createFreePost/{postId}")
-    public ResponseEntity<Post> createFreePost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Post> createFreePost(@PathVariable String postId, @RequestBody Map<String, String> payload) {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
-        boolean isFree = (boolean) payload.get("isFree");
         // Call the service method to create the free post
-        Post post = postService.createFreePost(postId, title, content, isFree,  Post.PostType.FREE);
+        Post post = postService.createFreePost(postId, title, content);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
     }
 
-    
+    @PutMapping("/createFoundPost/{postId}")
+    public ResponseEntity<Post> createFoundPost(@PathVariable String postId, @RequestBody Map<String, String> payload) {
+        // Extracting payload values
+        String title = (String) payload.get("title");
+        String content = (String) payload.get("content");
+        // Call the service method to create the found post
+        Post post = postService.createFoundPost(postId, title, content);
+
+        // Return the response
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/createLostPost/{postId}")
+    public ResponseEntity<Post> createLostPost(@PathVariable String postId, @RequestBody Map<String, String> payload) {
+        // Extracting payload values
+        String title = (String) payload.get("title");
+        String content = (String) payload.get("content");
+        // Call the service method to create the lost post
+        Post post = postService.createLostPost(postId, title, content);
+
+        // Return the response
+        return new ResponseEntity<>(post, HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/deletePost/{userId}/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable String userId, @PathVariable String postId) {
 
@@ -152,21 +144,23 @@ public class PostController {
     }
 
     /**
-    @PutMapping("/editPostImage/{postId}")
-    public ResponseEntity<Post> editPostImage(@RequestBody byte[] imageData, @PathVariable String postId) {
-        if (!postService.existsById(postId)) {
-            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<Post>(postService.editPostImage(postId, imageData), HttpStatus.OK);
-    }
+     * @PutMapping("/editPostImage/{postId}")
+     * public ResponseEntity<Post> editPostImage(@RequestBody byte[]
+     * imageData, @PathVariable String postId) {
+     * if (!postService.existsById(postId)) {
+     * return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+     * }
+     * return new ResponseEntity<Post>(postService.editPostImage(postId, imageData),
+     * HttpStatus.OK);
+     * }
      */
 
     @GetMapping("/searchByTitle/{str}")
     public ResponseEntity<Optional<Post>> getPostsByTitle(@PathVariable String str) {
         Optional<Post> postOptional = postService.findByTitle(str);
-        if(postOptional.isPresent()){
+        if (postOptional.isPresent()) {
             return new ResponseEntity<>(postOptional, HttpStatus.OK);
-        }else {
+        } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

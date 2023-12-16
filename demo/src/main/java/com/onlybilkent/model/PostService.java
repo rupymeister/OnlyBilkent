@@ -35,10 +35,9 @@ public class PostService {
         return postRepository.findPostByTitle(title);
     }
 
-
     public Post createPostPhase1(String senderId, PostType postType, String photoId, Category category) {
         Post post = postRepository.insert(new Post(senderId, postType, photoId, category));
-              mongoTemplate.update(User.class)
+        mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(senderId))
                 .apply(new Update().push("postId").value(post))
                 .first();
@@ -48,38 +47,21 @@ public class PostService {
         return post;
     }
 
-    public Post createLoanPost(String postId, String title, String content, LocalDate borrowUntilDate, double loanPricePerTime) {
+    public Post createLoanPost(String postId, String title, String content, LocalDate borrowUntilDate,
+            double loanPricePerTime) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
-        postRepository.save(post);
         post.setBorrowUntilDate(borrowUntilDate);
         post.setLoanPricePerTime(loanPricePerTime);
-        
-        mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(getSenderId(postId)))
-                .apply(new Update().push("postId").value(post))
-                .first();
-
-        return post;
-    }
-
-    public Post createBorrowPost(String postId, String title, String content, LocalDate borrowUntilDate) {
-        Post post = postRepository.findById(postId);
-        post.setTitle(title);
-        post.setContent(content);
-        post.setActive(true);
         postRepository.save(post);
-        post.setBorrowUntilDate(borrowUntilDate);
-        
+
         mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(getSenderId(postId)))
                 .apply(new Update().push("postId").value(post))
                 .first();
 
-        Update update = new Update().inc("postCount", 1);
-        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(getSenderId(postId))), update, User.class);
         return post;
     }
 
@@ -90,7 +72,7 @@ public class PostService {
         post.setActive(true);
         postRepository.save(post);
         post.setSalePrice(salePrice);
-        
+
         mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(getSenderId(postId)))
                 .apply(new Update().push("postId").value(post))
@@ -101,15 +83,14 @@ public class PostService {
         return post;
     }
 
-
-    public Post createFreePost(String postId, String title, String content, boolean isFree, PostType postType) {
+    public Post createFreePost(String postId, String title, String content) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
         post.setActive(true);
         postRepository.save(post);
-        post.setFree(isFree);
-        
+        post.setFree(true);
+
         mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(getSenderId(postId)))
                 .apply(new Update().push("postId").value(post))
@@ -120,33 +101,71 @@ public class PostService {
         return post;
     }
 
-    /** 
-    public Post createPost(String title, String content, String senderId, PostType postType) {
+    public Post createFoundPost(String postId, String title, String content) {
 
-        Post post = postRepository.insert(new Post(title, content, senderId, true, postType));
+        Post post = postRepository.findById(postId);
+        post.setTitle(title);
+        post.setContent(content);
+        post.setActive(true);
+        postRepository.save(post);
 
-        if(postType == PostType.BORROW) {
-           createBorrowPost(senderId, title, content, null, postType);
-        } else if(postType == PostType.SALE) {
-            createSalePost(senderId, title, content, 0, postType);
-        } else if(postType == PostType.FREE) {
-            createFreePost(senderId, title, content, true, postType);
-        }
-        else{
-            createLoanPost(senderId, title, content, null, 0, postType);
-        }
         mongoTemplate.update(User.class)
-                .matching(Criteria.where("id").is(senderId))
+                .matching(Criteria.where("id").is(getSenderId(postId)))
                 .apply(new Update().push("postId").value(post))
                 .first();
 
         Update update = new Update().inc("postCount", 1);
-        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)), update, User.class);
-
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(getSenderId(postId))), update, User.class);
         return post;
     }
 
-    */
+    public Post createLostPost(String postId, String title, String content) {
+        Post post = postRepository.findById(postId);
+        post.setTitle(title);
+        post.setContent(content);
+        post.setActive(true);
+        postRepository.save(post);
+
+        mongoTemplate.update(User.class)
+                .matching(Criteria.where("id").is(getSenderId(postId)))
+                .apply(new Update().push("postId").value(post))
+                .first();
+
+        Update update = new Update().inc("postCount", 1);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(getSenderId(postId))), update, User.class);
+        return post;
+    }
+
+    /**
+     * public Post createPost(String title, String content, String senderId,
+     * PostType postType) {
+     * 
+     * Post post = postRepository.insert(new Post(title, content, senderId, true,
+     * postType));
+     * 
+     * if(postType == PostType.BORROW) {
+     * createBorrowPost(senderId, title, content, null, postType);
+     * } else if(postType == PostType.SALE) {
+     * createSalePost(senderId, title, content, 0, postType);
+     * } else if(postType == PostType.FREE) {
+     * createFreePost(senderId, title, content, true, postType);
+     * }
+     * else{
+     * createLoanPost(senderId, title, content, null, 0, postType);
+     * }
+     * mongoTemplate.update(User.class)
+     * .matching(Criteria.where("id").is(senderId))
+     * .apply(new Update().push("postId").value(post))
+     * .first();
+     * 
+     * Update update = new Update().inc("postCount", 1);
+     * mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(senderId)),
+     * update, User.class);
+     * 
+     * return post;
+     * }
+     * 
+     */
     public void deleteByPostId(String postId, String userId) {
         ObjectId postIdObj = new ObjectId(postId); // I have converted but it might take ObjectId as a parameter too???
         postRepository.deleteById(postIdObj);
@@ -178,11 +197,11 @@ public class PostService {
         }
 
         mongoTemplate.update(User.class)
-            .matching(Criteria.where("postId").is(postId))
-            .apply(update)
-            .first();
+                .matching(Criteria.where("postId").is(postId))
+                .apply(update)
+                .first();
 
-            return updatedPost;
+        return updatedPost;
     }
 
     public Post editIsPostActive(String postId, Boolean isActive) {
@@ -193,9 +212,9 @@ public class PostService {
         Post updatedPost = postRepository.save(existingPost);
 
         mongoTemplate.update(User.class)
-            .matching(Criteria.where("postId").is(postId))
-            .apply(new Update().set("postId.$.isActive", isActive))
-            .first();
+                .matching(Criteria.where("postId").is(postId))
+                .apply(new Update().set("postId.$.isActive", isActive))
+                .first();
 
         return updatedPost;
 
@@ -234,10 +253,10 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Post create(String userId, PostType postType, String title, String content, String photoId,
-            Category category) {
-        Post post = postRepository.save(new Post(userId, postType, title, content, photoId, category));
-              mongoTemplate.update(User.class)
+    // only postType and Category
+    public Post create(PostType postType, Category category, String userId) {
+        Post post = postRepository.save(new Post(postType, category, userId));
+        mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(userId))
                 .apply(new Update().push("postId").value(post))
                 .first();
@@ -246,7 +265,5 @@ public class PostService {
         mongoTemplate.updateFirst(Query.query(Criteria.where("id").is(userId)), update, User.class);
         return post;
     }
-
-   
 
 }
