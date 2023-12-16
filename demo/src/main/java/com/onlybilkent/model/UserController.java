@@ -134,17 +134,24 @@ public class UserController {
         return new ResponseEntity<Message>(chatService.sendMessage(content, chatId, userId), HttpStatus.OK);
     }
 
-    @PostMapping("{userId}/chats")
+    @GetMapping("{userId}/chats")
     public ResponseEntity<List<Chat>> getChats(@PathVariable String userId) {
         if (!userService.existsById(userId)) {
             return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
         }
 
-        if(chatService.getChatsBySenderId(userId) == null) {
+        if (chatService.getChatsBySenderId(userId) == null) {
             return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
         }
 
-        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderId(userId), HttpStatus.OK);
+        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderIdOrReceiverId(userId, userId),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("{userId}/findAlll")
+    public ResponseEntity<List<Chat>> findAll(@PathVariable String userId) {
+        return ResponseEntity.ok(chatRepository.findBySenderId(userId));
+
     }
 
 }
