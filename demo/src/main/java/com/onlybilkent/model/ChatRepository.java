@@ -7,11 +7,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface ChatRepository extends MongoRepository<Chat, String> {
 
-    Optional<Chat> findByReceiverId(String receiverId);
+    Chat findByReceiverId(String receiverId);
 
-    Optional<Chat> findBySenderId(String senderId);
+    Chat findBySenderId(String senderId);
 
-    Optional<Chat> findByChatId(String chatId);
+    Chat findByChatId(String chatId);
 
     boolean existsBySenderIdAndReceiverId(String chatId, String receiverId);
 
