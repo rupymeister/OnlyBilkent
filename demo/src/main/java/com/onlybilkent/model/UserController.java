@@ -134,4 +134,17 @@ public class UserController {
         return new ResponseEntity<Message>(chatService.sendMessage(content, chatId, userId), HttpStatus.OK);
     }
 
+    @PostMapping("{userId}/chats")
+    public ResponseEntity<List<Chat>> getChats(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
+        }
+
+        if(chatService.getChatsBySenderId(userId) == null) {
+            return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderId(userId), HttpStatus.OK);
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.onlybilkent.model;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -41,6 +41,17 @@ public class ChatService {
          * }
          **/
 
+        List<Chat> getAllChats() {
+                return chatRepository.findAll();
+        }
+
+        List<Chat> getChatsBySenderId(String senderId) {
+                return chatRepository.findBySenderId(senderId);
+        }
+
+        List<Chat> getChatsByReceiverId(String receiverId) {
+                return chatRepository.findByReceiverId(receiverId);
+        }
         public Chat createChat(String senderId, String receiverId) {
                 Chat chat = new Chat(senderId, receiverId);
                 chatRepository.save(chat);
@@ -78,12 +89,6 @@ public class ChatService {
                                 .apply(new Update().push("messages").value(message))
                                 .first();
                 return message;
-        }
-
-        public void markNotificationAsReadByID() {
-        }
-
-        public void allMessages() {
         }
 
         public boolean existsBySenderIdAndReceiverId(String userId, String receiverId) {
