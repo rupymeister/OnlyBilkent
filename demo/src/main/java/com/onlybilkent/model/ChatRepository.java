@@ -13,8 +13,8 @@ public interface ChatRepository extends MongoRepository<Chat, String> {
 
     Optional<Chat> findByChatId(String chatId);
 
-    boolean existsBySenderIdAndReceiverId(String userId, String receiverId);
+    boolean existsBySenderIdAndReceiverId(String chatId, String receiverId);
 
-    List<Message> getMessagesByUserId(String userId);
+    List<Message> getMessagesByChatId(String chatId);
 
 }
