@@ -10,7 +10,7 @@ import com.onlybilkent.model.Post.PostType;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Optional;
 
 @Repository
 public interface PostRepository extends MongoRepository<Post, ObjectId> {
@@ -23,14 +23,14 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
     @Query("{ 'title' : { '$regex' : ?0 , $options: 'i'}}")
     List<Post> findByTitleRegex(String str);
-    
+
     @Query("{ 'content' : { '$regex' : ?0 , $options: 'i'}}")
     List<Post> findByContentRegex(String str);
 
     List<Post> findByCategory(Category category);
 
     List<Post> findByPostType(PostType postType);
-    
+
     List<Post> findByActive(boolean active);
 
     List<Post> findByBorrowUntilDate(LocalDate borrowUntilDate);
@@ -41,15 +41,8 @@ public interface PostRepository extends MongoRepository<Post, ObjectId> {
 
     List<Post> findByPriceBetween(int minPrice, int maxPrice);
 
-    @Override 
-    <S extends Post> S save(S entity);
-<<<<<<< HEAD
-=======
-    
     @Override
-    Optional<Post> findById(ObjectId postId);
+    <S extends Post> S save(S entity);
 
-    Post insert(Post post);
-
->>>>>>> 889a636bcc1d85e1b01b1c765a66af875b83ba20
+    Optional<Post> findPostByTitle(String title);
 }

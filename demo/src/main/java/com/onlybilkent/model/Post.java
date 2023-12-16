@@ -19,10 +19,8 @@ import java.util.List;
 @Data
 @Getter
 @Setter
-
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Post {
 
     @Id
@@ -32,15 +30,9 @@ public class Post {
     private String senderId;
     private String photoId = "6578c01d1fcb0e1176c52d6d";
 
-    private String photoId = "6578c01d1fcb0e1176c52d6d";
-
     private int price;
     private int viewCount; // f
     private boolean isActive; // f
-
-    private int viewCount;
-
-    private boolean isActive;
 
     private List<String> photoIds; // f
 

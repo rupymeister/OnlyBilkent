@@ -1,6 +1,7 @@
 package com.onlybilkent.model;
 
 import java.util.Map;
+import java.util.Optional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,16 +29,15 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 
-<<<<<<< HEAD
     @GetMapping
     public ResponseEntity<List<Post>> getPostsByCategory(@PathVariable Category category) {
         List<Post> posts = postService.findByCategory(category);
-        if(!posts.isEmpty()){
+        if (!posts.isEmpty()) {
             return new ResponseEntity<>(posts, HttpStatus.OK);
         }
         return new ResponseEntity<>(posts, HttpStatus.NOT_FOUND);
-    } 
-=======
+    }
+
     @PostMapping("/create/{userId}")
     public ResponseEntity<Post> create(@PathVariable String userId, @RequestBody Map<String, String> payload) {
         String postTypeString = payload.get("postType");
@@ -180,9 +180,9 @@ public class PostController {
      */
 
     @GetMapping("/searchByTitle/{str}")
-    public ResponseEntity<Optional<Post>> getPostsByTitle(@PathVariable String str) {
-        Optional<Post> postOptional = postService.findByTitle(str);
-        if (postOptional.isPresent()) {
+    public ResponseEntity<List<Post>> getPostsByTitle(@PathVariable String str) {
+        List<Post> postOptional = postService.findByTitle(str);
+        if (!postOptional.isEmpty()) {
             return new ResponseEntity<>(postOptional, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
