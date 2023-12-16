@@ -17,6 +17,7 @@ import MakeLoanPostPage from './components/posts/makeLoanPost';
 import MakeLostPostPage from './components/posts/makeLostPost';
 import MakeFoundPostPage from './components/posts/makeFoundPost';
 import MakeFreePostPage from './components/posts/makeFreePost';
+import PostPage from './components/posts/postPage';
 import MakeAnnouncementPage from './components/announcements/makeAnnouncement';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
         <Route path="/make-found-post/:userId" element={<MakeFoundPostPage/>} />
         <Route path="/make-free-post/:userId" element={<MakeFreePostPage/>} />
         <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
+        <Route path="/post/:postId" element={<PostPage/>} />
       </Routes>
     </Router>
   );

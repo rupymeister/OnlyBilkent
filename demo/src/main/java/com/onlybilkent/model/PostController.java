@@ -29,6 +29,16 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<Post> getPostById(@PathVariable String postId) {
+        Post post = postService.findByPostId(postId);
+        if (post != null) {
+            return new ResponseEntity<Post>(post, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Post>> getPostsByCategory(@PathVariable Category category) {
         List<Post> posts = postService.findByCategory(category);
