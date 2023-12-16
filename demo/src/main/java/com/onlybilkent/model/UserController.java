@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -19,7 +20,13 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserRepository UserRepository;
+
+    @Autowired
     private BoardRequestService boardRequestService;
+
+    @Autowired
+    private ChatService chatService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -41,7 +48,8 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<User>(
-                userService.editUser(userId, payload.get("name"), payload.get("surname"), payload.get("password"), payload.get("bio")),
+                userService.editUser(userId, payload.get("name"), payload.get("surname"), payload.get("password"),
+                        payload.get("bio")),
                 HttpStatus.OK);
     }
 
@@ -98,4 +106,36 @@ public class UserController {
 
         return new ResponseEntity<String>(userService.unbanUser(userId), HttpStatus.OK);
     }
+
+    // create new chat with given email
+    @PostMapping("/createChat/{userId}")
+    public ResponseEntity<Chat> createChat(@PathVariable String userId,
+            @RequestParam("receiverId") String receiverId) {
+        if (!userService.existsById(receiverId)) {
+            return new ResponseEntity<Chat>(HttpStatus.NOT_FOUND);
+        }
+        // user should not be able to create a new chat if there is already one with the
+        // receiver
+        /**
+         * if (chatService.existsBySenderIdAndReceiverId(userId, receiverId)) {
+         * return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+         * }
+         **/
+
+        return new ResponseEntity<Chat>(chatService.createChat(userId, receiverId), HttpStatus.OK);
+    }
+
+    /**
+     * // send message to given chat
+     * @PostMapping("/sendMessage/{chatId}")
+     * public ResponseEntity<Message> sendMessage(@PathVariable String
+     * chatId, @RequestBody String content) {
+     * if (!chatService.existsById(chatId)) {
+     * return new ResponseEntity<Message>(HttpStatus.NOT_FOUND);
+     * }
+     * return new ResponseEntity<Message>(chatService.sendMessage(content, chatId),
+     * HttpStatus.OK);
+     * }
+     **/
+
 }
