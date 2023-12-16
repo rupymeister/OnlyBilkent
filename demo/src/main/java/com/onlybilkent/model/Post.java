@@ -126,9 +126,8 @@ public class Post {
         this.category = category2;
     }
 
-    public Post(PostType postType2, Category category2, String senderId2) {
+    public Post(PostType postType2, String senderId2) {
         this.postType = postType2;
-        this.category = category2;
         this.senderId = senderId2;
         this.dateSubmitted = LocalDate.now();
     }

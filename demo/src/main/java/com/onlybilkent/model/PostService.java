@@ -48,7 +48,8 @@ public class PostService {
         return post;
     }
 
-    public Post createLoanPost(String postId, String title, String content, LocalDate borrowUntilDate,
+    public Post createLoanPost(String postId, String title, Category category, String content,
+            LocalDate borrowUntilDate,
             double loanPricePerTime) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
@@ -66,7 +67,7 @@ public class PostService {
         return post;
     }
 
-    public Post createSalePost(String postId, String title, String content, double salePrice) {
+    public Post createSalePost(String postId, String title, Category category, String content, double salePrice) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
@@ -84,7 +85,7 @@ public class PostService {
         return post;
     }
 
-    public Post createFreePost(String postId, String title, String content) {
+    public Post createFreePost(String postId, String title, Category category, String content) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
@@ -102,7 +103,7 @@ public class PostService {
         return post;
     }
 
-    public Post createFoundPost(String postId, String title, String content) {
+    public Post createFoundPost(String postId, String title, Category category, String content) {
 
         Post post = postRepository.findById(postId);
         post.setTitle(title);
@@ -120,7 +121,7 @@ public class PostService {
         return post;
     }
 
-    public Post createLostPost(String postId, String title, String content) {
+    public Post createLostPost(String postId, String title, Category category, String content) {
         Post post = postRepository.findById(postId);
         post.setTitle(title);
         post.setContent(content);
@@ -267,9 +268,8 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public Post create(String userId, PostType postType, String title, String content, String photoId,
-            Category category) {
-        Post post = postRepository.save(new Post(userId, postType, title, content, photoId, category));
+    public Post create(PostType postType, String userId) {
+        Post post = postRepository.save(new Post(postType, userId));
         mongoTemplate.update(User.class)
                 .matching(Criteria.where("id").is(userId))
                 .apply(new Update().push("postId").value(post))

@@ -29,6 +29,16 @@ public class PostController {
         return new ResponseEntity<List<Post>>(posts, HttpStatus.OK);
     }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<Post> getPostById(@PathVariable String postId) {
+        Post post = postService.findByPostId(postId);
+        if (post != null) {
+            return new ResponseEntity<Post>(post, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<Post>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/category/{category}")
     public ResponseEntity<List<Post>> getPostsByCategory(@PathVariable Category category) {
         List<Post> posts = postService.findByCategory(category);
@@ -44,10 +54,8 @@ public class PostController {
 
         try {
             Post.PostType postType = Post.PostType.valueOf(postTypeString);
-            Post.Category category = Post.Category.valueOf(payload.get("category"));
-            Post post = postService.create(userId, postType, payload.get("title"), payload.get("content"),
-                    payload.get("photoId"), category);
-            System.out.println(post.getPhotoId());
+            // Post.Category category = Post.Category.valueOf(payload.get("category"));
+            Post post = postService.create(postType, userId);
             return new ResponseEntity<>(post, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             // Handle the case where the provided postType is not a valid enum constant
@@ -55,33 +63,38 @@ public class PostController {
         }
     }
 
-    @PostMapping("/createPost1/{userId}")
-    public ResponseEntity<Post> createPost(@PathVariable String userId, @RequestBody Map<String, String> payload) {
-        String postTypeString = payload.get("postType");
-
-        try {
-            Post.PostType postType = Post.PostType.valueOf(postTypeString);
-            Post.Category category = Post.Category.valueOf(payload.get("category"));
-            Post post = postService.createPostPhase1(userId, postType, payload.get("photoId"), category);
-            System.out.println(post.getPhotoId());
-            return new ResponseEntity<>(post, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            // Handle the case where the provided postType is not a valid enum constant
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
+    /**
+     * @PostMapping("/createPost1/{userId}")
+     * public ResponseEntity<Post> createPost(@PathVariable String
+     * userId, @RequestBody Map<String, String> payload) {
+     * String postTypeString = payload.get("postType");
+     * 
+     * try {
+     * Post.PostType postType = Post.PostType.valueOf(postTypeString);
+     * Post.Category category = Post.Category.valueOf(payload.get("category"));
+     * Post post = postService.createPostPhase1(userId, postType,
+     * payload.get("photoId"), category);
+     * System.out.println(post.getPhotoId());
+     * return new ResponseEntity<>(post, HttpStatus.CREATED);
+     * } catch (IllegalArgumentException e) {
+     * // Handle the case where the provided postType is not a valid enum constant
+     * return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+     * }
+     * }
+     **/
 
     @PutMapping("/createLoanPost/{postId}")
-    public ResponseEntity<Post> createLoanPost(@PathVariable String postId, @RequestBody Map<String, Object> payload) {
+    public ResponseEntity<Post> createLoanPost(@PathVariable String postId, @RequestBody Map<String, String> payload) {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
+        Category category = Category.valueOf(payload.get("category"));
         LocalDate borrowUntilDate = LocalDate.parse((String) payload.get("borrowUntilDate")); // Assuming date is
                                                                                               // provided as a string
-        int loanPricePerTime = (int) payload.get("loanPricePerTime");
+        int loanPricePerTime = Integer.parseInt(payload.get("loanPricePerTime"));
 
         // Call the service method to create the loan post
-        Post post = postService.createLoanPost(postId, title, content, borrowUntilDate, loanPricePerTime);
+        Post post = postService.createLoanPost(postId, title, category, content, borrowUntilDate, loanPricePerTime);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -92,10 +105,11 @@ public class PostController {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
+        Category category = Category.valueOf(payload.get("category"));
         double salePrice = Double.parseDouble(payload.get("salePrice"));
 
         // Call the service method to create the sale post
-        Post post = postService.createSalePost(postId, title, content, salePrice);
+        Post post = postService.createSalePost(postId, title, category, content, salePrice);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -106,8 +120,9 @@ public class PostController {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
+        Category category = Category.valueOf((String) payload.get("category"));
         // Call the service method to create the free post
-        Post post = postService.createFreePost(postId, title, content);
+        Post post = postService.createFreePost(postId, title, category, content);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -118,8 +133,9 @@ public class PostController {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
+        Category category = Category.valueOf((String) payload.get("category"));
         // Call the service method to create the found post
-        Post post = postService.createFoundPost(postId, title, content);
+        Post post = postService.createFoundPost(postId, title, category, content);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);
@@ -130,8 +146,9 @@ public class PostController {
         // Extracting payload values
         String title = (String) payload.get("title");
         String content = (String) payload.get("content");
+        Category category = Category.valueOf((String) payload.get("category"));
         // Call the service method to create the lost post
-        Post post = postService.createLostPost(postId, title, content);
+        Post post = postService.createLostPost(postId, title, category, content);
 
         // Return the response
         return new ResponseEntity<>(post, HttpStatus.CREATED);

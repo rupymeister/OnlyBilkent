@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { boardLogin } from '../../api/axiosConfig'; // Import the userLogin function
+import { userLoginAsBoard } from '../../api/axiosConfig'; // Import the userLogin function
 import { useNavigate} from 'react-router-dom';
 
 const LoginBoardPage = () => {
@@ -12,7 +12,7 @@ const LoginBoardPage = () => {
   const handleLogin = async (event) => {
     event.preventDefault(); // Prevent default form submission
     try {
-      const response = await boardLogin(email, password);
+      const response = await userLoginAsBoard(email, password);
       console.log(response.data);
       console.log("Login!!!")
       const userId = response.data; 
