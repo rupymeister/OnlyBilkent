@@ -17,7 +17,7 @@ const MakePost = () => {
         // Call API to create a basic post and get postId
         console.log(postType);
         const response = await createPost(postType, userId);
-        const postId = response.data.id; // Assuming response contains postId
+        const postId = response.data; // Assuming response contains postId
         console.log(postId);
         
         switch (postType) {
