@@ -104,31 +104,31 @@ export const createPost = (postType, userId) => (
   })
 );
 
-export const createSellPost = (postId, formData) => (
-  axios.put(`${baseURL}/posts/createSalePost/${postId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryqfDZNbBopJT4MiqA;charset=UTF-8'
-    }
+export const createSellPost = (postId, title, content, category, salePrice) => (
+  axios.put(`${baseURL}/posts/createSalePost/${postId}`, {
+    postId,
+    title,
+    content,
+    category, 
+    salePrice
   })
 );
 
-export const createLostPost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createLostPost/${postId}`, {
+export const createLostPost = (postId, title, content, category) => (
+  axios.put(`${baseURL}/posts/createLostPost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category
   })
 );
 
-export const createFoundPost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createFoundPost/${postId}`, {
+export const createFoundPost = (postId, title, content, category) => (
+  axios.put(`${baseURL}/posts/createFoundPost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category
   })
 );
 
@@ -142,13 +142,12 @@ export const createLoanPost = (postId, title, content, category, loanPricePerTim
   })
 );
 
-export const createFreePost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createFreePost/${postId}`, {
+export const createFreePost = (postId, title, content, category) => (
+  axios.put(`${baseURL}/posts/createFreePost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category
   })
 );
 
@@ -244,6 +243,15 @@ export const getAllMessages = (chatId) => (
 export const getUserChats = (userId) =>(
 axios.get(`${baseURL}/user/report`)
 )
+
+// gets chats of one user
+export const sendMessage = (senderId, receiverId, message) =>(
+  axios.post(`${baseURL}/user/report`, {
+    senderId, 
+    receiverId, 
+    message
+  })
+  )
 
 export default api
 

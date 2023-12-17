@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getChatDetails, sendMessage } from '../../api/axiosConfig'; 
+import { getAllMessages, sendMessage } from '../../api/axiosConfig'; 
 
 const Message = () => {
   const [chat, setChat] = useState({ messages: [], participants: [] });
@@ -8,7 +8,7 @@ const Message = () => {
 
   useEffect(() => {
     // Fetch chat details including messages and participants
-    getChatDetails(chatId)
+    getAllMessages(chatId)
       .then(response => {
         setChat(response.data);
       })
