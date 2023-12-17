@@ -114,4 +114,11 @@ public class PhotoController {
         return Base64.getEncoder().encodeToString(photo.getImage().getData());
     }
 
+    @GetMapping("/image2/{photoId}")
+    public ResponseEntity<String> getBaseString(@PathVariable String photoId) {
+        Photo photo = photoService.getPhoto(photoId);
+        return new ResponseEntity<>(photo.getBase64Image(), HttpStatus.CREATED);
+    }
+    
+
 }
