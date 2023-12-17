@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createLoanPost, getPost } from '../../api/axiosConfig';
+import { createSellPost, getPost } from '../../api/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../themes/styles.css'
 
@@ -8,8 +8,7 @@ const MakeLoanPost = () => {
    const [content, setContent] = useState('');
    const [category, setCategory] = useState('');
    const [image, setImage] = useState(null);
-   const [loanPricePerTime, setLoanPricePerTime] = useState('');
-   const [borrowUntilDate, setBorrowUntilDate] = useState('');
+   const [price, setPrice] = useState('');
    const { postId } = useParams();
    const navigate = useNavigate();
    const [error, setError] = useState('');
@@ -34,10 +33,8 @@ const MakeLoanPost = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-
-            
             console.log(postId); // This is the postId of the post that was created in the previous step
-            const response = await createLoanPost(postId, title, content, category, loanPricePerTime);
+            const response = await createSellPost(postId, title, content, category, price);
             
             console.log("Created the post");
             navigate(`/student-profile/${userId}`); // Navigates to student profile page
@@ -73,7 +70,7 @@ const MakeLoanPost = () => {
 
             <div className="form-group mt-2">
               <label htmlFor="postheader"><b>Price</b></label>
-              <input id="postheader" className="form-control" type="text" name="price" placeholder="Please enter your price" value={loanPricePerTime} onChange={(e) => setLoanPricePerTime(e.target.value)} />
+              <input id="postheader" className="form-control" type="text" name="price" placeholder="Please enter your price" value={price} onChange={(e) => setPrice(e.target.value)} />
             </div>
 
             <div className="form-group mt-2">
