@@ -235,6 +235,16 @@ export const reportUser = (reportingUserId, reportedUserId, reason) => (
   })
 );
 
+//gets messages between users
+export const getAllMessages = (chatId) => (
+  axios.get(`${baseURL}/user/report`)
+)
+
+// gets chats of one user
+export const getUserChats = (userId) =>(
+axios.get(`${baseURL}/user/report`)
+)
+
 export default api
 
 

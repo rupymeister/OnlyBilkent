@@ -21,6 +21,8 @@ import PostPage from './components/posts/postPage';
 import MakeAnnouncementPage from './components/announcements/MakeAnnouncement';
 import DashboardMock from './components/layout/dashboardMock';
 import ProfilePage from './components/layout/ProfilePage';
+import MessagePage from './components/chat/Message';
+import ChatPage from './components/chat/Chat';
 
 function App() {
   return (
@@ -46,7 +48,8 @@ function App() {
         <Route path="/post-page/:postId" element={<PostPage/>} />
         <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
         <Route path="/ProfilePage/:userId" element={<ProfilePage/>} />
-
+        <Route path="/messages/:chatId" element={<MessagePage/>} />
+        <Route path="/chats/:userId" element={<ChatPage/>} />
       </Routes>
     </Router>
   );
