@@ -88,4 +88,18 @@ public class RegistrationService {
         mailService.sendMail(user.getEmail(), mailStructure);
     }
 
+    // Just sends an email with the new password
+    public void sendNewPasswordMail(User user) {
+
+        String newPassword = UUID.randomUUID().toString().substring(0, 6); // For ease of user
+
+        user.setPassword(newPassword);
+        userRepository.save(user);
+
+        MailStructure mailStructure = new MailStructure("New Password for your OnlyBilkent Account",
+                "Your new password is: " + newPassword);
+
+        mailService.sendMail(user.getEmail(), mailStructure);
+    }
+
 }

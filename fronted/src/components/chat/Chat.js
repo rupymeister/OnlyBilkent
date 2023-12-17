@@ -1,33 +1,44 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getUserChats } from '../../api/axiosConfig'; 
+import { getUserChats, getChat} from '../../api/axiosConfig';
+import { useNavigate, Link, useParams } from 'react-router-dom';
 
-const Chats = () => {
-  const [chats, setChats] = useState([]);
-  const [error, setError] = useState(null); // Added for error handling
-  const { userId } = useParams();
-  const navigate = useNavigate();
+const ChatsPage = () => {
+    const [chatData, setChatData] = useState([]);
+    const { userId } = useParams();
+    const [chats, setChats] = useState([]);
+    const [runCount, setRunCount] = useState(0);
+    const navigate = useNavigate();
+    const [error, setError] = useState(''); // State to handle any error
 
-  console.log(userId);
 
-  useEffect(() => {
-    getUserChats(userId)
-      .then(response => {
-        setChats(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching chats:', error);
-        setError(error); // Set error state
-      });
-  }, [userId]);
+    useEffect(() => {
+        const fetchChats = async () => {
+            try {
+                const response = await getUserChats(userId);
+                setChats(response.data);
+            } catch (error) {
+                setError(error.response?.data?.message || 'Error occured during fetching the chats');
+            }
+        };
 
-  const handleChatSelect = (chatId) => {
-    navigate(`/messages/${chatId}`);
-  };
+        fetchChats();
+    }, []);
 
-  if (error) {
-    return <div>Error loading chats.</div>; // Display error message
-  }
+    useEffect(() => {
+    
+        const fetchDataForChats = async () => {
+            for (const chat of chats) {
+                try {
+                    const chatResponse = await getChat(chat.chatId);
+                    setChatData(chatResponse.data);
+                    console.log(chatResponse.data);
+                } catch (error) {
+                    setError(error.chatResponse?.data?.message || 'Error occured during fetching the chats data')
+                }
+            }
+        };
+        fetchDataForChats();
+    }, [chats]);
 
   return (
     <>
@@ -159,4 +170,4 @@ const Chats = () => {
   );
 };
 
-export default Chats;
+export default ChatsPage;

@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { getMessages } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
-import { getAllMessages, sendMessage } from '../../api/axiosConfig'; 
+import { useNavigate } from 'react-router-dom';
 
-const Message = () => {
-  const [chat, setChat] = useState({ messages: [], participants: [] });
-  const { chatId } = useParams(); // Get chatId from URL
+const MessagePage = () => {
+  const [messageData, setMessageData] = useState(null);
+  const { chatId } = useParams();
+  const navigate = useNavigate();
+  const [error, setError] = useState(''); // State to handle any error
 
   useEffect(() => {
-    // Fetch chat details including messages and participants
-    getAllMessages(chatId)
+    getMessages(chatId)
       .then(response => {
-        setChat(response.data);
+        setMessageData(response.data);
       })
       .catch(error => {
-        console.error('Error fetching chat details:', error);
+        setError(error.response?.data?.message || 'Error occured during fetching announcement data.');
       });
   }, [chatId]);
 
-  // Handler for sending a message
-  const handleSendMessage = (content) => {
-    // Placeholder for sending message logic
-    sendMessage(chatId, content).then(() => {
-      // Refresh chat or append new message to chat.messages
-    }).catch(error => {
-      console.error('Error sending message:', error);
-    });
+  if (!messageData) {
+    return <div>Loading...</div>;
+  }
+  const { message, senderID } = messageData; // Destructure the userData object
+
+  const handeLogout = () => {
+    navigate(`/`);
   };
 
   return (
@@ -161,4 +162,4 @@ const Message = () => {
   );
 };
 
-export default Message;
+export default MessagePage;

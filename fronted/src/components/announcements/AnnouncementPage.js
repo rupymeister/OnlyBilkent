@@ -1,80 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { getUser, getPost } from '../../api/axiosConfig'; // Update with the actual path
+import { getAnnouncement } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const StudentProfile = () => {
-  const [userData, setUserData] = useState(null);
-  //const [postData, setPostData] = useState(null);
-  const { userId } = useParams();
+const AnnouncementPage = () => {
+  const [announcementData, setAnnouncementData] = useState(null);
+  const { announcementId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(''); // State to handle any error
 
   useEffect(() => {
-    getUser(userId)
+    getAnnouncement(announcementId)
       .then(response => {
-        setUserData(response.data);
+        setAnnouncementData(response.data);
       })
       .catch(error => {
-        setError(error.response?.data?.message || 'Wrong password or email. Please try again.');
+        setError(error.response?.data?.message || 'Error occured during fetching announcement data.');
       });
-  }, [userId]);
+  }, [announcementId]);
 
-  // useEffect(() => {
-  //   if (userData && userData.postId) {
-  //     console.log(userData.postId);
-
-  //     const fetchDataForPosts = async () => {
-  //       const postDataArray = [];
-  //       for (const post of userData.postId) {
-  //         try {
-  //           const postResponse = await getPost(post.id);
-  //           postDataArray.push(postResponse.data);
-  //         } catch (error) {
-  //           console.error('Error fetching post or image data:', error);
-  //         }
-  //       }
-  //       setPostData(postDataArray);
-  //     };
-
-  //     fetchDataForPosts();
-  //   }
-  // }, [userData]);
-
-  if (!userData) {
+  if (!announcementData) {
     return <div>Loading...</div>;
   }
-  const { name, surname} = userData; // Destructure the userData object
+  const { title, content, data} = announcementData; // Destructure the userData object
 
-  const handleMakePost = () => {
-    navigate(`/make-post/${userId}`)
-  }
-
-  const handleClubRequest = () => {
-    navigate(`/board-request/${userId}`); // Replace with the actual path to the club request page
-  };
-
-  const handleChatClick = () => {
-    // Redirect to user's profile page
-    navigate(`/chats/${userId}`);
-  };
-
-  const handleEditProfileClick = () => {
-    // Redirect to user's profile page
-    navigate(`/edit-profile/${userId}`);
-  };
-
-  const handleProfileClick = () => {
-    // Redirect to user's profile page
-    navigate(``);
-  };
-
-  const handleHomeClick = () => {
-    // Redirect to user's profile page
-    navigate(`/dashboard/${userId}`);
-  };
-
-  const handleLogout = () => {
+  const handeLogout = () => {
     navigate(`/`);
   };
 
@@ -118,7 +68,7 @@ const StudentProfile = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 boyut">
           <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#" onClick={handleHomeClick}>
+            <a className="nav-link active" aria-current="page" href="#">
               Home
             </a>
           </li>
@@ -133,7 +83,7 @@ const StudentProfile = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="https://w3.bilkent.edu.tr/www/kampuste-yasam/ulasim/merkez-kampus-ulasim-programi/">
+            <a className="nav-link" href="https://w3.bilkent.edu.tr/bilkent/transportation/">
               Bus Schedule
             </a>
           </li>
@@ -164,13 +114,14 @@ const StudentProfile = () => {
           />
         </div>
         
-        
-
         <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
         <span className="caret" >
-      {name} {surname}
-    </span>
-    </div>
+            {title} 
+        </span>
+        <span className="caret" >
+            {content} 
+        </span>
+        </div>
     <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
           <img
             className="rounded-circle dropdown-toggle"
@@ -193,25 +144,10 @@ const StudentProfile = () => {
           </span>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <a className="dropdown-item" href="#" onClick={handleProfileClick}>
-                My Profile
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Messages
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                My Posts
-              </a>
-            </li>
-            <li>
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="#" onClick={handleLogout}>
+              <a className="dropdown-item" href="#" onClick={handeLogout}>
                 Logout
               </a>
             </li>
@@ -221,72 +157,10 @@ const StudentProfile = () => {
     </div>
   </nav>
   <main>
-  <div className="">
-          <div className="col-md-12">
-          <button className="btn btn-primary" onClick={handleMakePost}>
-          Make Post
-        </button>
-        <button className="btn btn-primary" onClick={handleClubRequest}>
-          Make Club Request
-        </button>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon" />
-      </button>
-            
-          </div>
-        </div>
-  {/* <div className="album bg-light mt-3">
-          <div className="container">
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-              {postData.map((post, index) => (
-                <div key={index} className="col-md-6">
-                  <div className="card shadow-sm ">
-                    <div className="card-body bg-light w-100">
-                      <div className="card">
-                        <div className="card-header">{post.title}</div>
-                        <div className="card-body">
-                          <p className="card-text">{post.content}</p>
-                          <br />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card">
-                  <div className="card-header"> Found Property</div>
-                  <div className="card-body">
-                    <h5 className="card-title">Found ID!</h5>
-                    <p className="card-text">
-                      I found an ID in mayfest area. I gave to the security. 
-                    </p>
-                    <span className="text-muted helper">
-                      01.12.2023 Wednesday
-                    </span>
-                    <br />
-                    <a href="#" className="btn btn-danger">
-                      Remove Post
-                    </a>
-                  </div>
-                </div>
-
-              </div>
-              <hr />
-            </div>
-          </div>
-        </div> */}
   </main>
 </>
 
   );
 };
 
-export default StudentProfile;
+export default AnnouncementPage;

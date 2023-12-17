@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { getSellingPosts, getPost} from '../../api/axiosConfig';
+import { getUserPosts, getPost} from '../../api/axiosConfig';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
-const SellPosts = () => {
+const UserPosts = () => {
     const [postData, setPostData] = useState([]);
     //const [imageData, setImageData] = useState([]);
-    const { postId } = useParams();
+    const { userId } = useParams();
     const [posts, setPosts] = useState([]);
     const [runCount, setRunCount] = useState(0);
     const navigate = useNavigate();
@@ -13,20 +13,19 @@ const SellPosts = () => {
 
 
     useEffect(() => {
-        const fetchSellingPosts = async () => {
+        const fetchUserPosts = async () => {
             try {
-                const response = await getSellingPosts();
+                const response = await getUserPosts(userId);
                 setPosts(response.data);
             } catch (error) {
                 setError(error.response?.data?.message || 'Error occured during fetching the posts');
             }
         };
 
-        fetchSellingPosts();
+        fetchUserPosts();
     }, []);
 
     useEffect(() => {
-        console.log(posts);
     
         const fetchDataForPosts = async () => {
             for (const post of posts) {
@@ -35,11 +34,6 @@ const SellPosts = () => {
                     setPostData(postResponse.data);
                     console.log(postResponse.data);
                     console.log(post.id)
-                    // const imageIdTemp = postResponse?.data.imageId;
-                    // console.log(imageIdTemp);
-                    // const imageResponse = await getBaseImage(imageIdTemp);
-                    // setImageData(imageResponse.data);
-                    // console.log(imageResponse.data);
                 } catch (error) {
                     setError(error.postResponse?.data?.message || 'Error occured during fetching the posts')
                 }
@@ -83,7 +77,6 @@ const SellPosts = () => {
     // Render only when both postData and imageData are available
     if (postData) {
         return (
-
             <>
             <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -211,7 +204,7 @@ const SellPosts = () => {
     </div>
     </nav>
             <div>
-                <h1>Selling Posts</h1>
+                <h1>Loan Posts</h1>
                 <div className="posts-container">
                     {posts.map(post => (
                         <div key={post.id} className="post">
@@ -240,4 +233,4 @@ const SellPosts = () => {
     }
 };
 
-export default SellPosts;
+export default LoanPosts;

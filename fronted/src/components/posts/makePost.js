@@ -55,6 +55,10 @@ const MakePost = () => {
       }
   };
 
+  const handleGoBack = () => {
+    navigate(`/board-profile/${userId}`);
+  };
+
   return (
     <>
     <div id="root" className="card" style={{ margin: 'auto', background: 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%)' }}>

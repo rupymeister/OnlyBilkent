@@ -1,5 +1,6 @@
 package com.onlybilkent.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -41,6 +42,19 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<Optional<User>> getSingleUser(@PathVariable String userId) {
         return new ResponseEntity<Optional<User>>(userService.singleUser(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/nameAndBio/{userId}")
+    public ResponseEntity<Map<String, String>> getNameAndBio(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        User user = userService.singleUser(userId).get();
+        Map<String, String> response = new HashMap<>();
+        response.put("name", user.getName());
+        response.put("surname", user.getSurname());
+        response.put("bio", user.getBio());
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/editUser/{userId}")
@@ -121,15 +135,14 @@ public class UserController {
         }
         // user should not be able to create a new chat if there is already one with the
         // receiver
-       
-        
+
         if (chatService.existsBySenderIdAndReceiverId(userId, receiverId)) {
-        return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+            return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
         }
-         if (chatService.existsByReceiverIdAndSenderId(userId, receiverId)) {
-        return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+        if (chatService.existsByReceiverIdAndSenderId(userId, receiverId)) {
+            return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
         }
-        
+
         String senderName = userRepository.findById(userId).get().getName();
         String receiverName = userRepository.findById(receiverId).get().getName();
 
