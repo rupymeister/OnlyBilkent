@@ -109,7 +109,6 @@ export const createSellPost = (postId, formData) => (
     headers: {
       'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryqfDZNbBopJT4MiqA;charset=UTF-8'
     }
-    
   })
 );
 
