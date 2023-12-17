@@ -95,9 +95,4 @@ public class ChatService {
         public boolean existsBySenderIdAndReceiverId(String userId, String receiverId) {
                 return chatRepository.existsBySenderIdAndReceiverId(userId, receiverId);
         }
-
-        public List<Chat> getChatsBySenderIdOrReceiverId(String senderId, String receiverId) {
-                return chatRepository.findBySenderIdOrReceiverId(senderId, receiverId);
-        }
-
 }

@@ -18,6 +18,4 @@ public interface ChatRepository extends MongoRepository<Chat, String> {
 
     List<Message> getMessagesByChatId(String chatId);
 
-    List<Chat> findBySenderIdOrReceiverId(String senderId, String receiverId);
-
 }
