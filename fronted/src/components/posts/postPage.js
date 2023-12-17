@@ -3,7 +3,7 @@ import { getPost } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const StudentProfile = () => {
+const PostPage = () => {
   const [postData, setPostData] = useState(null);
   const { postId } = useParams();
   const navigate = useNavigate();
@@ -19,14 +19,22 @@ const StudentProfile = () => {
       });
   }, [postId]);
 
+  console.log(postData);
+
   if (!postData) {
     return <div>Loading...</div>;
   }
-  const { title, content} = postData; // Destructure the userData object
 
   const handeLogout = () => {
     navigate(`/`);
   };
+
+  const handleProfileClick = (announcementId) => {
+    navigate(`/ProfilePage/${senderId}`);
+  };
+  
+
+  const { title, content, senderName, senderId } = postData;
 
   return (
     <>
@@ -115,12 +123,6 @@ const StudentProfile = () => {
         </div>
         
         <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
-        <span className="caret" >
-            {title} 
-        </span>
-        <span className="caret" >
-            {content} 
-        </span>
         </div>
     <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
           <img
@@ -155,11 +157,21 @@ const StudentProfile = () => {
       </div>
     </div>
   </nav>
-  <main>
-  </main>
+  <main style={{ textAlign: 'center' }}> {/* Center align content */}
+        <h1>{title}</h1>
+        <p>{content}</p>
+        <div 
+                key={postId} 
+                className="post" 
+                onClick={() => handleProfileClick(postId)}
+              >
+                <h2>{senderName}</h2>
+              </div>
+      </main>
+      
 </>
 
   );
 };
 
-export default StudentProfile;
+export default PostPage;

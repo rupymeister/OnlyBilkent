@@ -249,10 +249,20 @@ export const getAllMessages = (userId, chatId) => (
   axios.get(`${baseURL}/users/${userId}/chats/${chatId}`)
 )
 
+//gets messages between users
+export const getMessages = (chatId) => (
+  axios.get(`${baseURL}/users/chats/${chatId}`)
+)
+
 // gets chats of one user
 export const getUserChats = (userId) =>(
 axios.get(`${baseURL}/users/${userId}/chats`)
 )
+
+// gets chats of one user
+export const getChat = (chatId) =>(
+  axios.get(`${baseURL}/users/chats/${chatId}`)
+  )
 
 // gets chats of one user
 export const sendMessage = (chatId, senderId, content) =>(
