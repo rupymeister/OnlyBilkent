@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {getAnnouncements} from '../../api/axiosConfig';
+import {getAnnouncements, getAnnouncement} from '../../api/axiosConfig';
 import { getUser } from '../../api/axiosConfig';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -11,8 +11,12 @@ const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const { userId } = useParams();
   const [announcements, setAnnouncements] = useState([]);
+  const [announceData, setAnnounceData] = useState([]);
   const [filteredAnnouncements, setFilteredAnnouncements] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState(''); // State to handle any error
+  const [recentSearches, setRecentSearches] = useState([]);
+
 
   // Fetching categories and announcements
   useEffect(() => {
@@ -56,14 +60,64 @@ const Dashboard = () => {
     const searchValue = event.target.value;
     setSearchTerm(searchValue);
     const filtered = announcements.filter(announcement => 
-      announcement.title.toLowerCase().includes(searchValue.toLowerCase())
+      announcement.title && announcement.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredAnnouncements(filtered);
+  
+    // Update recent searches
+    setRecentSearches(prevSearches => {
+      const updatedSearches = [searchValue, ...prevSearches];
+      return updatedSearches.slice(0, 5); // Keep only the latest 5 searches
+    });
+  };
+
+  const setSearchTermAndFilter = (search) => {
+    setSearchTerm(search);
+    const filtered = announcements.filter(announcement =>
+      announcement.title && announcement.title.toLowerCase().includes(search.toLowerCase())
     );
     setFilteredAnnouncements(filtered);
   };
+  
+  
+
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+        try {
+            const response = await getAnnouncements();
+            setAnnouncements(response.data);
+        } catch (error) {
+            setError(error.response?.data?.message || 'Error occured during fetching the announcements');
+        }
+    };
+
+    fetchAnnouncements();
+}, []);
+
+useEffect(() => {
+    console.log(announcements);
+
+    const fetchDataForAnnouncements = async () => {
+        for (const announce of announcements) {
+            try {
+                const announceResponse = await getAnnouncement(announce.id);
+                setAnnounceData(announceResponse.data);
+            } catch (error) {
+                setError(error.announceResponse?.data?.message || 'Error occured during fetching the announcements')
+            }
+        }
+    };
+    fetchDataForAnnouncements();
+}, [announcements]);
+
+const handleAnnouncementClick = (announcementId) => {
+  navigate(`/announcement/${announcementId}`);
+};
+
 
   return (
     <>
-         <meta charSet="utf-8" />
+    <meta charSet="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css"
@@ -232,11 +286,18 @@ const Dashboard = () => {
             value={searchTerm} 
             onChange={handleSearch} 
           />
-          <ul>
-            {filteredAnnouncements.map(announcement => (
-              <li key={announcement.id}>{announcement.title}</li>
+          <div className="posts-container">
+            {announcements.map(announce => (
+              <div 
+                key={announce.id} 
+                className="announcement" 
+                onClick={() => handleAnnouncementClick(announce.announcementID)}
+              >
+                <h2>{announce.title}</h2>
+                <p>{announce.content}</p>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </div>

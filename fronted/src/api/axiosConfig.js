@@ -94,7 +94,7 @@ export const getBoards = () => (
 );
 
 export const createBoard = (userId, clubName, reason) => (
-  axios.post(`${baseURL}/clubs/create`, {
+  axios.post(`${baseURL}/users/boardRequest/${userId}`, {
     userId,
     clubName,
     reason
@@ -169,14 +169,15 @@ export const markAsReadNotification = id => (
   axios.post(`${baseURL}/notification/markRead/${id}`)
 );
 
-// Announcements
-export const createAnnouncement = (boardId, announcementTitle, content) => (
-  axios.post(`${baseURL}/board/createPost`, {
+export const createAnnouncement = (boardId, announcementTitle, content, formattedDate) => (
+  axios.post(`${baseURL}/announcements/announce/${boardId}`, {
     boardId,
     announcementTitle, 
-    content
+    content,
+    date: formattedDate // Add this line to include the date in the request body
   })
 );
+
 
 export const getAnnouncement = (boardId) => (
   axios.get(`${baseURL}/board/posts/${boardId}`)
@@ -207,7 +208,7 @@ export const getAllUserPosts = () => (
 
 //Fetch posts for each type
 export const getSellingPosts = () => (
-  axios.get(`${baseURL}/posts/sell`)
+  axios.get(`${baseURL}/posts/sale`)
 );
 
 export const getLostPosts = () => (
