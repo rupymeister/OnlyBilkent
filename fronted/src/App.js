@@ -56,7 +56,7 @@ function App() {
         <Route path="/post/:postId" element={<PostPage/>} />
         <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
         <Route path="/ProfilePage/:userId" element={<ProfilePage/>} />
-        <Route path="/messages/:chatId" element={<MessagePage/>} />
+        <Route path="/messages/:userId/:chatId" element={<MessagePage/>} />
         <Route path="/chats/:userId" element={<ChatPage/>} />
         <Route path="/board-request/:userId" element={<BoardRequestPage/>} />
         <Route path="/posts/Selling" element={<SellPostsPage/>} />

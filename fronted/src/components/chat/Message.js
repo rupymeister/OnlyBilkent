@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getMessages } from '../../api/axiosConfig'; // Update with the actual path
+import { getMessages, sendMessage } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const MessagePage = () => {
   const [messageData, setMessageData] = useState(null);
-  const { chatId } = useParams();
+  const [message, setMessage] = useState('');
+  const { userId, chatId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(''); // State to handle any error
 
@@ -23,6 +24,22 @@ const MessagePage = () => {
     return <div>Loading...</div>;
   }
   const { message, senderID } = messageData; // Destructure the userData object
+
+  const handleSendMessage = async () => {
+    if (!message.trim()) return; // Prevent sending empty or whitespace messages
+
+    try {
+      await sendMessage(chatId, userId, message); 
+      // Add the new message to chat messages state or refetch messages
+      setChat(prevChat => ({
+        ...prevChat,
+        messages: [...prevChat.messages, { content: message, sentByCurrentUser: true }]
+      }));
+      setMessage(''); // Clear the input after sending
+    } catch (err) {
+      setError(err.response?.data?.message || 'Error occurred while sending the message.');
+    }
+  };
 
   const handeLogout = () => {
     navigate(`/`);
@@ -154,8 +171,13 @@ const MessagePage = () => {
         ))}
       </div>
       <div className="send-message-form">
-        <input type="text" placeholder="Type a message..." />
-        <button onClick={() => handleSendMessage()}>Send</button>
+        <input
+          type="text"
+          value={message}
+          placeholder="Type a message..."
+          onChange={(e) => setMessage(e.target.value)}
+        />
+        <button onClick={handleSendMessage}>Send</button>
       </div>
     </div>
   </nav>
