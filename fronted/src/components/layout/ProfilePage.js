@@ -85,7 +85,7 @@ const ProfilePage = () => {
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 boyut">
             <li className="nav-item">
             <a className="nav-link active" aria-current="page" href="#" onClick={handeHomeButton}>
-                Home
+                Home 
             </a>
             </li>
             <li className="nav-item">
@@ -160,17 +160,17 @@ const ProfilePage = () => {
             <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
                 <a className="dropdown-item" href="#" onClick={handleProfileClick}>
-                Profilim
+                My Profile
                 </a>
             </li>
             <li>
                 <a className="dropdown-item" href="#">
-                Mesajlarım
+                Messages
                 </a>
             </li>
             <li>
                 <a className="dropdown-item" href="#">
-                İlanlarım
+                My Ads
                 </a>
             </li>
             <li>

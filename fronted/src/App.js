@@ -33,7 +33,7 @@ function App() {
         <Route path="/api/registration" element={<RegistrationPage />} />
         <Route path="/student-profile/:userId" element={<StudentProfile />} />
         <Route path="/board-profile/:userId" element={<BoardProfile />} />
-        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/dashboard/:userId" element={<Dashboard/>} />
         <Route path="/verification-page" element={<VerificationPage/>} />
         <Route path="/edit-profile/:userId" element={<EditProfilePage/>} />
         <Route path="/make-post/:userId" element={<MakePostPage/>} />
