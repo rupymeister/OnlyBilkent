@@ -29,9 +29,10 @@ public class Post {
     private String title;
     private String content;
     private String senderId;
+    private String senderName;
     private String photoId = "6578c01d1fcb0e1176c52d6d";
     private String photoStr = " 1111";
-    
+
     private int price;
     private int viewCount; // f
     private boolean isActive; // f
