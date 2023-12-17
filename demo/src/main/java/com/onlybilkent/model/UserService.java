@@ -187,7 +187,7 @@ public class UserService {
         if (optionalUser.isPresent()) {
 
             if (optionalUser.get().getRole() == 4) {
-                throw new RuntimeException("You cannot ban an admin.");
+                return "Admin cannot be banned.";
             } else {
                 User user = optionalUser.get();
                 user.setBanned(true);
@@ -196,7 +196,7 @@ public class UserService {
             }
 
         } else {
-            throw new RuntimeException("User not found");
+            return "User not found";
         }
     }
 

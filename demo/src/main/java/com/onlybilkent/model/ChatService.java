@@ -115,4 +115,8 @@ public class ChatService {
         public Chat getChat(String chatId) {
                 return chatRepository.findByChatId(chatId);
         }
+
+        public List<Message> getMessages(String chatId) {
+                return chatRepository.getMessagesByChatId(chatId);
+        }
 }
