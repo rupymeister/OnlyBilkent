@@ -113,17 +113,20 @@ public class UserController {
     @PostMapping("/createChat/{userId}")
     public ResponseEntity<Chat> createChat(@PathVariable String userId,
             @RequestParam("receiverId") String receiverId) {
-        if (!userService.existsById(receiverId)) {
+        if (!userService.existsById(receiverId) || !userService.existsById(userId)) {
             return new ResponseEntity<Chat>(HttpStatus.NOT_FOUND);
         }
         // user should not be able to create a new chat if there is already one with the
         // receiver
-        /**
-         * if (chatService.existsBySenderIdAndReceiverId(userId, receiverId)) {
-         * return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
-         * }
-         **/
-
+       
+        
+        if (chatService.existsBySenderIdAndReceiverId(userId, receiverId)) {
+        return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+        }
+         if (chatService.existsByReceiverIdAndSenderId(userId, receiverId)) {
+        return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+        }
+        
         String senderName = userRepository.findById(userId).get().getName();
         String receiverName = userRepository.findById(receiverId).get().getName();
 

@@ -108,6 +108,10 @@ public class ChatService {
                 return chatRepository.existsBySenderIdAndReceiverId(userId, receiverId);
         }
 
+        public boolean existsByReceiverIdAndSenderId(String userId, String senderId) {
+                return chatRepository.existsByReceiverIdAndSenderId(userId, senderId);
+        }
+
         public boolean existsByChatId(String chatId) {
                 return chatRepository.existsByChatId(chatId);
         }

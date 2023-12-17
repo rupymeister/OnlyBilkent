@@ -23,7 +23,9 @@ public class Admin extends User {
         this.boardRequests = boardRequests;
         this.chats = chats;
         this.reports = reports;
-
     }
 
+    public Admin(String name, String surname, String email, String password, String bio, int role, String imageId, String emailVerificationToken) {
+        super(name, surname, email, password, bio, role = 5, imageId, emailVerificationToken);
+    }
 }
