@@ -19,7 +19,13 @@ public class BoardRequest {
 
     private String userId;
 
-    public BoardRequest(String userId) {
+    private String clubName;
+
+    private String reason;
+
+    public BoardRequest(String userId, String clubName, String reason) {
         this.userId = userId;
+        this.clubName = clubName;
+        this.reason = reason;
     }
 }

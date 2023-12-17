@@ -55,11 +55,13 @@ public class UserController {
     }
 
     @PostMapping("/boardRequest/{userId}")
-    public ResponseEntity<String> makeBoardRequest(@PathVariable String userId) {
+    public ResponseEntity<String> makeBoardRequest(@PathVariable String userId,
+            @RequestParam Map<String, String> payload) {
         if (!userService.existsById(userId)) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<String>(userService.requestBoardAccount(new BoardRequest(userId)), HttpStatus.OK);
+        return new ResponseEntity<String>(userService.requestBoardAccount(
+                new BoardRequest(userId, payload.get("clubName"), payload.get("reason"))), HttpStatus.OK);
     }
 
     // Only Admin should be able to

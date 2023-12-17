@@ -34,6 +34,7 @@ public class User {
     private String emailVerificationToken;
 
     private boolean boardRequest = false;
+    private String clubName = "";
     private boolean banned = false;
 
     private ArrayList<String> notifications = new ArrayList<String>();
