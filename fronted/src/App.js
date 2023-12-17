@@ -19,6 +19,7 @@ import MakeFoundPostPage from './components/posts/makeFoundPost';
 import MakeFreePostPage from './components/posts/makeFreePost';
 import PostPage from './components/posts/postPage';
 import MakeAnnouncementPage from './components/announcements/MakeAnnouncement';
+import AnnouncementPage from './components/announcements/AnnouncementPage';
 import DashboardMock from './components/layout/dashboardMock';
 import ProfilePage from './components/layout/ProfilePage';
 import MessagePage from './components/chat/Message';
@@ -62,6 +63,7 @@ function App() {
         <Route path="/posts/Lost" element={<LostPostsPage/>} />
         <Route path="/posts/Found" element={<FoundPostsPage/>} />
         <Route path="/posts/Free" element={<FreePostsPage/>} />
+        <Route path="/announcement/:announcementId" element={<AnnouncementPage/>} />
       </Routes>
     </Router>
   );

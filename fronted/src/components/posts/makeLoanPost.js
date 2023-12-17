@@ -14,6 +14,7 @@ const MakeLoanPost = () => {
    const navigate = useNavigate();
    const [error, setError] = useState('');
    const [postData, setPostData] = useState(null);
+   const [successMessage, setSuccessMessage] = useState('');
 
    const handleImageChange = (event) => {
     setImage(event.target.files[0]);
@@ -40,11 +41,15 @@ const MakeLoanPost = () => {
             const response = await createLoanPost(postId, title, content, category, loanPricePerTime);
             
             console.log("Created the post");
-            navigate(`/student-profile/${userId}`); // Navigates to student profile page
+            setSuccessMessage('Your Post has been made succesfully!');
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred during making the post');
         }
     }
+
+    const handleGoBack = () => {
+      navigate(`/student-profile/${userId}`);
+    };
 
   return (
     <>
@@ -90,6 +95,12 @@ const MakeLoanPost = () => {
             <div className="form-group mt-2">
               <button type="submit" className="form-control btn btn-outline-success btn-block">Send Post</button>
             </div>
+
+            <div className="form-group mt-2">
+              <button type="button" className="btn btn-secondary" onClick={handleGoBack}>Go Back to Profile</button>
+            </div>
+            {error && <div className="alert alert-danger">{error}</div>}
+            {successMessage && <div className="alert alert-success">{successMessage}</div>}
           </form>
         </div>
       </div>
