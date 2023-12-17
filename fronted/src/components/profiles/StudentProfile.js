@@ -64,6 +64,11 @@ const StudentProfile = () => {
     navigate(`/edit-profile/${userId}`);
   };
 
+  const handleProfileClick = () => {
+    // Redirect to user's profile page
+    navigate(``);
+  };
+
   const handeLogout = () => {
     navigate(`/`);
   };
