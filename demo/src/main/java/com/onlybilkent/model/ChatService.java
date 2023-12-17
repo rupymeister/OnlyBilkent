@@ -21,6 +21,8 @@ public class ChatService {
         public MessageRepository messageRepository;
         @Autowired
         private MongoTemplate mongoTemplate;
+        @Autowired
+        private UserRepository userRepository;
 
         /**
          * public String createChat(String senderId, String receiverId) {
@@ -53,8 +55,8 @@ public class ChatService {
                 return chatRepository.findBySenderIdOrReceiverId(userId, userId2);
         }
 
-        public Chat createChat(String senderId, String receiverId) {
-                Chat chat = new Chat(senderId, receiverId);
+        public Chat createChat(String senderId, String receiverId, String senderName, String receiverName) {
+                Chat chat = new Chat(senderId, receiverId, senderName, receiverName);
                 chatRepository.save(chat);
 
                 mongoTemplate.update(User.class)
@@ -65,6 +67,16 @@ public class ChatService {
                 mongoTemplate.update(User.class)
                                 .matching(Criteria.where("id").is(receiverId))
                                 .apply(new Update().push("chatId").value(chat))
+                                .first();
+
+                mongoTemplate.update(User.class)
+                                .matching(Criteria.where("id").is(senderId))
+                                .apply(new Update().push("chatUsers").value(userRepository.findById(receiverId).get()))
+                                .first();
+
+                mongoTemplate.update(User.class)
+                                .matching(Criteria.where("id").is(receiverId))
+                                .apply(new Update().push("chatUsers").value(userRepository.findById(senderId).get()))
                                 .first();
 
                 return chat;
@@ -94,5 +106,13 @@ public class ChatService {
 
         public boolean existsBySenderIdAndReceiverId(String userId, String receiverId) {
                 return chatRepository.existsBySenderIdAndReceiverId(userId, receiverId);
+        }
+
+        public boolean existsByChatId(String chatId) {
+                return chatRepository.existsByChatId(chatId);
+        }
+
+        public Chat getChat(String chatId) {
+                return chatRepository.findByChatId(chatId);
         }
 }
