@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LoginPage from './components/auth/LoginPage';
 import LoginBoardPage from './components/auth/LoginBoardPage';
 import NavComponent from './components/auth/NavComponent';
+import PasswordPage from './components/auth/ForgotPassword';
 import RegistrationPage from './components/auth/RegistrationPage';
 import StudentProfile from './components/profiles/StudentProfile';
 import BoardProfile from './components/profiles/BoardProfile';
@@ -64,6 +65,7 @@ function App() {
         <Route path="/posts/Found" element={<FoundPostsPage/>} />
         <Route path="/posts/Free" element={<FreePostsPage/>} />
         <Route path="/announcement/:announcementId" element={<AnnouncementPage/>} />
+        <Route path="/forgot-password" element={<PasswordPage/>} />
       </Routes>
     </Router>
   );

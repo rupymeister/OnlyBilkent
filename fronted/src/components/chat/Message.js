@@ -158,7 +158,10 @@ const MessagePage = () => {
         <button onClick={() => handleSendMessage()}>Send</button>
       </div>
     </div>
-    </>
+  </nav>
+        
+</>
+
   );
 };
 

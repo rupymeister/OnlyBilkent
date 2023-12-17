@@ -34,6 +34,13 @@ export const userLoginAsAdmin = (email, password) => (
   })
 );
 
+//Forgot password
+export const userForgotPassword = (email) => (
+  axios.post(`${baseURL}/registration/forgotPassword`, {
+    email
+  })
+)
+
 export const userLogout = (authType, id) => (
   axios.post(`${baseURL}/user/logout`)
 );

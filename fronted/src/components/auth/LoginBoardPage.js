@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { userLoginAsBoard } from '../../api/axiosConfig'; // Import the userLogin function
-import { useNavigate} from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const LoginBoardPage = () => {
@@ -66,7 +66,7 @@ const LoginBoardPage = () => {
 
             <div className="form-group mt-2">
               <button type="submit" className="btn btn-primary">Login</button>
-              <a href="#" style={{ float: 'right' }}>Forgot Password?</a>
+              <Link to="/forgot-password" style={{ float: 'right' }}>Forgot Password?</Link>
             </div>
           </form>
           {error && <div className="alert alert-danger">{error}</div>}
