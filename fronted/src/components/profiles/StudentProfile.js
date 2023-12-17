@@ -51,7 +51,7 @@ const StudentProfile = () => {
   }
 
   const handleClubRequest = () => {
-    navigate('/path-to-club-request'); // Replace with the actual path to the club request page
+    navigate(`/board-request/${userId}`); // Replace with the actual path to the club request page
   };
 
   const handleChatClick = () => {
@@ -67,6 +67,11 @@ const StudentProfile = () => {
   const handleProfileClick = () => {
     // Redirect to user's profile page
     navigate(``);
+  };
+
+  const handleHomeClick = () => {
+    // Redirect to user's profile page
+    navigate(`/dashboard/${userId}`);
   };
 
   const handleLogout = () => {
@@ -113,7 +118,7 @@ const StudentProfile = () => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className="navbar-nav me-auto mb-2 mb-lg-0 boyut">
           <li className="nav-item">
-            <a className="nav-link active" aria-current="page" href="#">
+            <a className="nav-link active" aria-current="page" href="#" onClick={handleHomeClick}>
               Home
             </a>
           </li>
@@ -292,6 +297,24 @@ const StudentProfile = () => {
                     </a>
                   </div>
                 </div>
+
+                <div className="card">
+                  <div className="card-header"> Found Property</div>
+                  <div className="card-body">
+                    <h5 className="card-title">Found ID!</h5>
+                    <p className="card-text">
+                      I found an ID in mayfest area. I gave to the security. 
+                    </p>
+                    <span className="text-muted helper">
+                      01.12.2023 Wednesday
+                    </span>
+                    <br />
+                    <a href="#" className="btn btn-danger">
+                      Remove Post
+                    </a>
+                  </div>
+                </div>
+
               </div>
               <hr />
             </div>
