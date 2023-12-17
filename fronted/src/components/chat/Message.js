@@ -23,7 +23,6 @@ const MessagePage = () => {
   if (!messageData) {
     return <div>Loading...</div>;
   }
-  const { message, senderID } = messageData; // Destructure the userData object
 
   const handleSendMessage = async () => {
     if (!message.trim()) return; // Prevent sending empty or whitespace messages
@@ -31,10 +30,6 @@ const MessagePage = () => {
     try {
       await sendMessage(chatId, userId, message); 
       // Add the new message to chat messages state or refetch messages
-      setChat(prevChat => ({
-        ...prevChat,
-        messages: [...prevChat.messages, { content: message, sentByCurrentUser: true }]
-      }));
       setMessage(''); // Clear the input after sending
     } catch (err) {
       setError(err.response?.data?.message || 'Error occurred while sending the message.');
@@ -160,11 +155,11 @@ const MessagePage = () => {
         </div>
       </div>
     </nav>
-    
+    <nav>
     <div>
       <h2>Chat</h2>
       <div className="chat-window">
-        {chat.messages.map((message, index) => (
+        {messageData.map((message, index) => (
           <div key={index} className={`message ${message.sentByCurrentUser ? 'sent' : 'received'}`}>
             {message.content}
           </div>

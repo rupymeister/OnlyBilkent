@@ -40,6 +40,10 @@ const ChatsPage = () => {
         fetchDataForChats();
     }, [chats]);
 
+    const handleChatSelect = (chatId) => {
+        navigate(`/messages/${userId}/${chatId}`);
+    }
+
   return (
     <>
     <meta charSet="utf-8" />
