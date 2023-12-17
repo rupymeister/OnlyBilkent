@@ -36,4 +36,4 @@ package-lock.json
 
 # Babel cache
 .babel-cache
-.cache
+.cache/
