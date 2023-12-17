@@ -21,6 +21,8 @@ import PostPage from './components/posts/postPage';
 import MakeAnnouncementPage from './components/announcements/MakeAnnouncement';
 import DashboardMock from './components/layout/dashboardMock';
 import ProfilePage from './components/layout/ProfilePage';
+import MessagePage from './components/chat/Message';
+import ChatPage from './components/chat/Chat';
 
 function App() {
   return (
@@ -33,7 +35,7 @@ function App() {
         <Route path="/api/registration" element={<RegistrationPage />} />
         <Route path="/student-profile/:userId" element={<StudentProfile />} />
         <Route path="/board-profile/:userId" element={<BoardProfile />} />
-        <Route path="/dashboard" element={<Dashboard/>} />
+        <Route path="/dashboard/:userId" element={<Dashboard/>} />
         <Route path="/verification-page" element={<VerificationPage/>} />
         <Route path="/edit-profile/:userId" element={<EditProfilePage/>} />
         <Route path="/make-post/:userId" element={<MakePostPage/>} />
@@ -46,7 +48,8 @@ function App() {
         <Route path="/post-page/:postId" element={<PostPage/>} />
         <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
         <Route path="/ProfilePage/:userId" element={<ProfilePage/>} />
-
+        <Route path="/messages/:chatId" element={<MessagePage/>} />
+        <Route path="/chats/:userId" element={<ChatPage/>} />
       </Routes>
     </Router>
   );

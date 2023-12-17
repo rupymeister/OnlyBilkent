@@ -109,7 +109,6 @@ export const createSellPost = (postId, formData) => (
     headers: {
       'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryqfDZNbBopJT4MiqA;charset=UTF-8'
     }
-    
   })
 );
 
@@ -235,6 +234,16 @@ export const reportUser = (reportingUserId, reportedUserId, reason) => (
     reason
   })
 );
+
+//gets messages between users
+export const getAllMessages = (chatId) => (
+  axios.get(`${baseURL}/user/report`)
+)
+
+// gets chats of one user
+export const getUserChats = (userId) =>(
+axios.get(`${baseURL}/user/report`)
+)
 
 export default api
 

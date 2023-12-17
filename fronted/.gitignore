@@ -1,0 +1,39 @@
+# Dependency directories
+/node_modules/
+
+# Build output
+/dist
+/build
+
+# Environment configuration files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE and editor folders
+/.idea
+/.vscode
+*.swp
+*.swo
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Optional: log files, if generated
+*.log
+
+# Optional: Yarn package lock file
+yarn.lock
+
+# Optional: npm package lock file
+package-lock.json
+
+# Optional: ESLint cache
+.eslintcache
+
+# Babel cache
+.babel-cache
+.cache/
