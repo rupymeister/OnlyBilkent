@@ -205,8 +205,12 @@ export const getSellingPosts = () => (
   axios.get(`${baseURL}/posts/sell`)
 );
 
-export const getBorrowPosts = () => (
-  axios.get(`${baseURL}/posts/borrow`)
+export const getLostPosts = () => (
+  axios.get(`${baseURL}/posts/lost`)
+);
+
+export const getFoundPosts = () => (
+  axios.get(`${baseURL}/posts/found`)
 );
 
 export const getFreePosts = () => (
@@ -235,8 +239,8 @@ export const reportUser = (reportingUserId, reportedUserId, reason) => (
 );
 
 //gets messages between users
-export const getAllMessages = (chatId) => (
-  axios.get(`${baseURL}/user/report`)
+export const getAllMessages = (userId, chatId) => (
+  axios.get(`${baseURL}/users/${userId}/chats/${chatId}`)
 )
 
 // gets chats of one user
@@ -245,11 +249,11 @@ axios.get(`${baseURL}/users/${userId}/chats`)
 )
 
 // gets chats of one user
-export const sendMessage = (senderId, receiverId, message) =>(
-  axios.post(`${baseURL}/user/report`, {
+export const sendMessage = (chatId, senderId, content) =>(
+  axios.post(`${baseURL}/users/sendMessage/${senderId}/${chatId}`, {
+    chatId, 
     senderId, 
-    receiverId, 
-    message
+    content
   })
   )
 

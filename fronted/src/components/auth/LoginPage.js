@@ -22,7 +22,6 @@ const LoginPage = () => {
       navigate(`/student-profile/${userId}`); // Redirect to user's profile page
     } catch (err) {
       setError(err.response?.data?.message || 'Wrong password or email. Please try again.');
-      // Handle login error here
     }
   };
 

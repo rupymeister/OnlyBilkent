@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getUser } from '../../api/axiosConfig'; // Update with the actual path
+import { getUser, getPost } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const StudentProfile = () => {
   const [userData, setUserData] = useState(null);
+  const [postData, setPostData] = useState(null);
   const { userId } = useParams();
   const navigate = useNavigate();
+  const [error, setError] = useState(''); // State to handle any error
 
   useEffect(() => {
     getUser(userId)
@@ -14,14 +16,35 @@ const StudentProfile = () => {
         setUserData(response.data);
       })
       .catch(error => {
-        console.error('There was an error fetching the user data:', error);
+        setError(error.response?.data?.message || 'Wrong password or email. Please try again.');
       });
   }, [userId]);
+
+  useEffect(() => {
+    if (userData && userData.postId) {
+      console.log(userData.postId);
+
+      const fetchDataForPosts = async () => {
+        const postDataArray = [];
+        for (const post of userData.postId) {
+          try {
+            const postResponse = await getPost(post.id);
+            postDataArray.push(postResponse.data);
+          } catch (error) {
+            console.error('Error fetching post or image data:', error);
+          }
+        }
+        setPostData(postDataArray);
+      };
+
+      fetchDataForPosts();
+    }
+  }, [userData]);
 
   if (!userData) {
     return <div>Loading...</div>;
   }
-  const { name, surname } = userData; // Destructure the userData object
+  const { name, surname} = userData; // Destructure the userData object
 
   const handleMakePost = () => {
     navigate(`/make-post/${userId}`)
@@ -183,9 +206,7 @@ const StudentProfile = () => {
     </div>
   </nav>
   <main>
-    <div className="album bg-light mt-3">
-      <div className="container">
-      <div className="">
+  <div className="">
           <div className="col-md-12">
           <button className="btn btn-primary" onClick={handleMakePost}>
           Make Post
@@ -207,116 +228,27 @@ const StudentProfile = () => {
             
           </div>
         </div>
-        
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div className="col">
-            <div className="card shadow-sm">
-              <center>
-                <br />
-                <div className="card-body bg-light">
-                  <p className="card-text" style={{ fontSize: 40 }}>
-                    Active Posts
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center"></div>
-                </div>
-              </center>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card shadow-sm ">
-              <div className="card-body  bg-light w-100">
-                <div className="card">
-                  <div className="card-header">Lost Property</div>
-                  <div className="card-body">
-                    <h5 className="card-title">Lost Bag</h5>
-                    <p className="card-text">
-                      When I got off the bus, I realized that I left my bag at
-                      the bus stop. The bag is a backpack with red and black
-                      stripes. I would like my friends who see it to send a
-                      message.
-                    </p>
-                    <span className="text-muted helper">
-                      01.12.2023 Wednesday
-                    </span>
-                    <br />
-                    <a href="#" className="btn btn-danger">
-                      Remove Post
-                    </a>
+  <div className="album bg-light mt-3">
+          <div className="container">
+            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              {postData.map((post, index) => (
+                <div key={index} className="col-md-6">
+                  <div className="card shadow-sm ">
+                    <div className="card-body bg-light w-100">
+                      <div className="card">
+                        <div className="card-header">{post.title}</div>
+                        <div className="card-body">
+                          <p className="card-text">{post.content}</p>
+                          <br />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div className="card">
-                  <div className="card-header">Book Sale</div>
-                  <div className="card-body">
-                    <h5 className="card-title">CS319 Book</h5>
-                    <p className="card-text">
-                      I'm selling my CS319 textbooks. Please contact me for the
-                      price.
-                    </p>
-                    <span className="text-muted helper">
-                      01.12.2023 Wednesday
-                    </span>
-                    <br />
-                    <a href="#" className="btn btn-danger">
-                      Remove Post
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <hr />
+              ))}
             </div>
           </div>
         </div>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div className="col">
-            <div className="card shadow-sm">
-              <center>
-                <br />
-                <div className="card-body bg-light">
-                  <p className="card-text" style={{ fontSize: 40 }}>
-                    Inactive Posts
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center"></div>
-                </div>
-              </center>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card shadow-sm ">
-              <div className="card-body  bg-light w-100">
-                <div className="card">
-                  <div className="card-header">Ticket Sales</div>
-                  <div className="card-body">
-                    <h5 className="card-title">BSO tickets</h5>
-                    <p className="card-text">
-                      I am selling my BSO tickets. Please contact me for prices.{" "}
-                    </p>
-                    <span className="text-muted helper">
-                      06.09.2023 Wednesday
-                    </span>
-                    <br />
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-header">Carpooling</div>
-                  <div className="card-body">
-                    <h5 className="card-title">13/10/2023 Ankara - Izmir</h5>
-                    <p className="card-text">
-                      I will go to Izmir for the weekend. Can anyone who wants
-                      to share a car in exchange for fuel share contact me?{" "}
-                    </p>
-                    <span className="text-muted helper">
-                      12.10.2023 Thursday
-                    </span>
-                    <br />
-                  </div>
-                </div>
-              </div>
-              <hr />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </>
 
