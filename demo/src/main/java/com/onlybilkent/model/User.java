@@ -34,6 +34,7 @@ public class User {
     private String emailVerificationToken;
 
     private boolean boardRequest = false;
+    private String clubName = "";
     private boolean banned = false;
 
     private ArrayList<String> notifications = new ArrayList<String>();
@@ -44,6 +45,9 @@ public class User {
 
     @DocumentReference
     private List<Post> postId;
+
+    @DocumentReference
+    private List<User> chatUsers;
 
     public User(String name, String surname, String email, String password, String bio, int role, String imageId,
             String emailVerificationToken) {

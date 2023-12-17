@@ -3,7 +3,6 @@ import {getAnnouncements} from '../../api/axiosConfig';
 import { getUser } from '../../api/axiosConfig';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 import { Link } from 'react-router-dom';
 
@@ -15,11 +14,24 @@ const Dashboard = () => {
   const [filteredAnnouncements, setFilteredAnnouncements] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Fetching categories and announcements
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      const response = await getAnnouncements();
+      setAnnouncements(response.data);
+      setFilteredAnnouncements(response.data);
+    };
+    fetchAnnouncements();
+  }, []);
+
+
   const [categories, setCategories] = useState([
     // Assuming these are your categories; replace with API call if needed
     { id: 1, name: 'Selling' },
-    { id: 2, name: 'Borrowing' },
-    { id: 3, name: 'Lost and Found' }
+    { id: 2, name: 'Loan' },
+    { id: 3, name: 'Lost' },
+    { id: 3, name: 'Found' },
+    { id: 3, name: 'Free' }
   ]);
 
   const handleHomeButton = () => {
@@ -27,10 +39,6 @@ const Dashboard = () => {
     navigate(`/dashboard/`);
   };
 
-  const handleEditProfile = () => {
-    navigate(`/edit-profile/${userId}`);
-  };
-    
   const handleProfileClick = () => {
     // Redirect to user's profile page
     navigate(`/ProfilePage/${userId}`);
@@ -43,20 +51,6 @@ const Dashboard = () => {
   const handeLogout = () => {
     navigate(`/`);
   };
-
-  useEffect(() => {
-
-  getUser(userId)
-      .then(response => {
-      setUserData(response.data);
-      })
-      .catch(error => {
-      console.error('There was an error fetching the user data:', error);
-      });
-  }, [userId]);
-
-  const name = userData?.name || 'Default Name';
-  const surname = userData?.surname || 'Default Surname';
 
   const handleSearch = (event) => {
     const searchValue = event.target.value;
@@ -157,10 +151,6 @@ const Dashboard = () => {
         <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
         <span className="caret" >
         <div className="col-md-12">
-        <div>
-              {name} {surname}
-                  
-            </div>
               </div>
     </span>
     </div>
@@ -192,12 +182,12 @@ const Dashboard = () => {
             </li>
             <li>
                 <a className="dropdown-item" href="#">
-                Messages
+                My Messages
                 </a>
             </li>
             <li>
                 <a className="dropdown-item" href="#">
-                My Ads
+                My Posts
                 </a>
             </li>
             <li>
@@ -213,32 +203,10 @@ const Dashboard = () => {
         </div>
     </div>
     </nav>
-    <main>
-    <div className="album bg-light mt-3">
-      <div className="container">
-        <div className="row justify-content-end">
-          <div className="col-md-4 text-md-end">
-            <button className="btn btn-primary"onClick={handleEditProfile}>
-            Edit Profile
-            </button>   
-          </div>
-        </div>
-            
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div className="col">
-                
-          </div>
-        </div>
-      </div>
-    </div>
-    </main>
-  </>
-  );
-}
 
-    
-  {/* <div className="dashboard">
+    <div className="dashboard-container">
       <aside className="sidebar">
+        {/* Categories */}
         <div className="categories">
           <h2>Categories</h2>
           <ul>
@@ -249,7 +217,14 @@ const Dashboard = () => {
             ))}
           </ul>
         </div>
-        <div className="announcements">
+      </aside>
+
+      <div className="main-content">
+        <div className="content-area">
+          {/* Your existing content */}
+        </div>
+        <div className="announcements-area">
+          {/* Announcements */}
           <h2>Announcements</h2>
           <input 
             type="text" 
@@ -263,8 +238,12 @@ const Dashboard = () => {
             ))}
           </ul>
         </div>
-      </aside>
-    </div> */}
+      </div>
+    </div>
+  </>
+  );
+}
 
-
+    
+  
 export default Dashboard;

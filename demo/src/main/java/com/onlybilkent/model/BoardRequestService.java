@@ -23,4 +23,8 @@ public class BoardRequestService {
         return boardRequestRepository.findAll();
     }
 
+    public void deleteById(String requestId) {
+        boardRequestRepository.deleteById(requestId);
+    }
+
 }

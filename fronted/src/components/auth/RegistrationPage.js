@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { userRegister } from '../../api/axiosConfig';
-import '../../themes/styles.css'; // Assuming you have a styles.css file with your custom styles
+import '../../themes/styles.css'; 
 import logo from '../assets/logo.png';
 
 const RegisterPage = () => {

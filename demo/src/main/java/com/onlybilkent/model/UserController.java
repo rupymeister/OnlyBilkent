@@ -18,6 +18,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BoardRequestService boardRequestService;
 
     @Autowired
@@ -25,6 +28,9 @@ public class UserController {
 
     @Autowired
     private ChatRepository chatRepository;
+
+    @Autowired
+    private PostService postService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -52,11 +58,13 @@ public class UserController {
     }
 
     @PostMapping("/boardRequest/{userId}")
-    public ResponseEntity<String> makeBoardRequest(@PathVariable String userId) {
+    public ResponseEntity<String> makeBoardRequest(@PathVariable String userId,
+            @RequestParam Map<String, String> payload) {
         if (!userService.existsById(userId)) {
             return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<String>(userService.requestBoardAccount(new BoardRequest(userId)), HttpStatus.OK);
+        return new ResponseEntity<String>(userService.requestBoardAccount(
+                new BoardRequest(userId, payload.get("clubName"), payload.get("reason"))), HttpStatus.OK);
     }
 
     // Only Admin should be able to
@@ -89,7 +97,7 @@ public class UserController {
     @PutMapping("/banUser/{userId}")
     public ResponseEntity<String> banUser(@PathVariable String userId) {
         if (!userService.existsById(userId)) {
-            return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<String>(userService.banUser(userId), HttpStatus.OK);
@@ -108,18 +116,25 @@ public class UserController {
     @PostMapping("/createChat/{userId}")
     public ResponseEntity<Chat> createChat(@PathVariable String userId,
             @RequestParam("receiverId") String receiverId) {
-        if (!userService.existsById(receiverId)) {
+        if (!userService.existsById(receiverId) || !userService.existsById(userId)) {
             return new ResponseEntity<Chat>(HttpStatus.NOT_FOUND);
         }
         // user should not be able to create a new chat if there is already one with the
         // receiver
-        /**
-         * if (chatService.existsBySenderIdAndReceiverId(userId, receiverId)) {
-         * return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
-         * }
-         **/
+       
+        
+        if (chatService.existsBySenderIdAndReceiverId(userId, receiverId)) {
+        return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+        }
+         if (chatService.existsByReceiverIdAndSenderId(userId, receiverId)) {
+        return new ResponseEntity<Chat>(HttpStatus.CONFLICT);
+        }
+        
+        String senderName = userRepository.findById(userId).get().getName();
+        String receiverName = userRepository.findById(receiverId).get().getName();
 
-        return new ResponseEntity<Chat>(chatService.createChat(userId, receiverId), HttpStatus.OK);
+        return new ResponseEntity<Chat>(chatService.createChat(userId, receiverId, senderName, receiverName),
+                HttpStatus.OK);
     }
 
     // send message to given chat
@@ -134,6 +149,7 @@ public class UserController {
         return new ResponseEntity<Message>(chatService.sendMessage(content, chatId, userId), HttpStatus.OK);
     }
 
+    // Do not need to use this one
     @GetMapping("{userId}/chats")
     public ResponseEntity<List<Chat>> getChats(@PathVariable String userId) {
         if (!userService.existsById(userId)) {
@@ -143,7 +159,38 @@ public class UserController {
         if (chatService.getChatsBySenderId(userId) == null) {
             return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderIdOrReceiverId(userId, userId), HttpStatus.OK);
+        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderIdOrReceiverId(userId, userId),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/chats/{chatId}")
+    public ResponseEntity<Chat> getChat(@PathVariable String chatId) {
+
+        if (!chatService.existsByChatId(chatId)) {
+            return new ResponseEntity<Chat>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Chat>(chatService.getChat(chatId), HttpStatus.OK);
+    }
+
+    @GetMapping("/chats/{chatId}/messages")
+    public ResponseEntity<List<Message>> getMessages(@PathVariable String chatId) {
+
+        if (!chatService.existsByChatId(chatId)) {
+            return new ResponseEntity<List<Message>>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Message>>(chatService.getMessages(chatId), HttpStatus.OK);
+    }
+
+    // Gets all the posts of the user
+    @GetMapping("/{userId}/posts")
+    public ResponseEntity<List<Post>> getPosts(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<List<Post>>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Post>>(postService.findBySenderId(userId), HttpStatus.OK);
     }
 
 }

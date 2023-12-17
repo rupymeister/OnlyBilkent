@@ -1,5 +1,9 @@
 # Dependency directories
+<<<<<<< HEAD
 node_modules/
+=======
+/node_modules/
+>>>>>>> refs/remotes/origin/main
 
 # Build output
 /dist
@@ -32,8 +36,12 @@ yarn.lock
 package-lock.json
 
 # Optional: ESLint cache
+<<<<<<< HEAD
+.eslintcache
+=======
 .eslintcache
 
 # Babel cache
 .babel-cache
-.cache
+.cache/
+>>>>>>> refs/remotes/origin/main

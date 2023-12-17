@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { getUser } from '../../api/axiosConfig'; // Update with the actual path
+import { getUser, getPost } from '../../api/axiosConfig'; // Update with the actual path
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 const StudentProfile = () => {
   const [userData, setUserData] = useState(null);
+  const [postData, setPostData] = useState(null);
   const { userId } = useParams();
   const navigate = useNavigate();
-
-  
-  const handleProfileClick = () => {
-    // Redirect to user's profile page
-    navigate(`/ProfilePage/${userId}`);
-  };
-  
+  const [error, setError] = useState(''); // State to handle any error
 
   useEffect(() => {
     getUser(userId)
@@ -21,18 +16,53 @@ const StudentProfile = () => {
         setUserData(response.data);
       })
       .catch(error => {
-        console.error('There was an error fetching the user data:', error);
+        setError(error.response?.data?.message || 'Wrong password or email. Please try again.');
       });
   }, [userId]);
+
+  useEffect(() => {
+    if (userData && userData.postId) {
+      console.log(userData.postId);
+
+      const fetchDataForPosts = async () => {
+        const postDataArray = [];
+        for (const post of userData.postId) {
+          try {
+            const postResponse = await getPost(post.id);
+            postDataArray.push(postResponse.data);
+          } catch (error) {
+            console.error('Error fetching post or image data:', error);
+          }
+        }
+        setPostData(postDataArray);
+      };
+
+      fetchDataForPosts();
+    }
+  }, [userData]);
 
   if (!userData) {
     return <div>Loading...</div>;
   }
-  const { name, surname } = userData; // Destructure the userData object
+  const { name, surname} = userData; // Destructure the userData object
 
   const handleMakePost = () => {
     navigate(`/make-post/${userId}`)
   }
+
+  const handleClubRequest = () => {
+    navigate('/path-to-club-request'); // Replace with the actual path to the club request page
+  };
+
+  const handleChatClick = () => {
+    // Redirect to user's profile page
+    navigate(`/chats/${userId}`);
+  };
+
+  const handleEditProfileClick = () => {
+    // Redirect to user's profile page
+    navigate(`/edit-profile/${userId}`);
+  };
 
   const handeLogout = () => {
     navigate(`/`);
@@ -164,7 +194,7 @@ const StudentProfile = () => {
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                My Ads
+                My Posts
               </a>
             </li>
             <li>
@@ -181,12 +211,13 @@ const StudentProfile = () => {
     </div>
   </nav>
   <main>
-    <div className="album bg-light mt-3">
-      <div className="container">
-      <div className="">
+  <div className="">
           <div className="col-md-12">
           <button className="btn btn-primary" onClick={handleMakePost}>
           Make Post
+        </button>
+        <button className="btn btn-primary" onClick={handleClubRequest}>
+          Make Club Request
         </button>
       <button
         className="navbar-toggler"
@@ -261,57 +292,6 @@ const StudentProfile = () => {
             </div>
           </div>
         </div>
-        <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div className="col">
-            <div className="card shadow-sm">
-              <center>
-                <br />
-                <div className="card-body bg-light">
-                  <p className="card-text" style={{ fontSize: 40 }}>
-                    Inactive Posts
-                  </p>
-                  <div className="d-flex justify-content-between align-items-center"></div>
-                </div>
-              </center>
-            </div>
-          </div>
-          <div className="col-md-6">
-            <div className="card shadow-sm ">
-              <div className="card-body  bg-light w-100">
-                <div className="card">
-                  <div className="card-header">Ticket Sales</div>
-                  <div className="card-body">
-                    <h5 className="card-title">BSO tickets</h5>
-                    <p className="card-text">
-                      I am selling my BSO tickets. Please contact me for prices.{" "}
-                    </p>
-                    <span className="text-muted helper">
-                      06.09.2023 Wednesday
-                    </span>
-                    <br />
-                  </div>
-                </div>
-                <div className="card">
-                  <div className="card-header">Carpooling</div>
-                  <div className="card-body">
-                    <h5 className="card-title">13/10/2023 Ankara - Izmir</h5>
-                    <p className="card-text">
-                      I will go to Izmir for the weekend. Can anyone who wants
-                      to share a car in exchange for fuel share contact me?{" "}
-                    </p>
-                    <span className="text-muted helper">
-                      12.10.2023 Thursday
-                    </span>
-                    <br />
-                  </div>
-                </div>
-              </div>
-              <hr />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </>
 

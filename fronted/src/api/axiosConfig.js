@@ -93,11 +93,11 @@ export const getBoards = () => (
   axios.get(`${baseURL}/clubs`)
 );
 
-export const createBoard = (userId, clubId, clubName) => (
+export const createBoard = (userId, clubName, reason) => (
   axios.post(`${baseURL}/clubs/create`, {
     userId,
-    clubId,
-    clubName
+    clubName,
+    reason
   })
 );
 
@@ -109,31 +109,31 @@ export const createPost = (postType, userId) => (
   })
 );
 
-export const createSellPost = (postId, formData) => (
-  axios.put(`${baseURL}/posts/createSalePost/${postId}`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data; boundary=----WebKitFormBoundaryqfDZNbBopJT4MiqA;charset=UTF-8'
-    }
+export const createSellPost = (postId, title, content, category, salePrice) => (
+  axios.put(`${baseURL}/posts/createSalePost/${postId}`, {
+    postId,
+    title,
+    content,
+    category, 
+    salePrice
   })
 );
 
-export const createLostPost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createLostPost/${postId}`, {
+export const createLostPost = (postId, title, content, category) => (
+  axios.put(`${baseURL}/posts/createLostPost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category
   })
 );
 
-export const createFoundPost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createFoundPost/${postId}`, {
+export const createFoundPost = (postId, title, content, category) => (
+  axios.put(`${baseURL}/posts/createFoundPost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category
   })
 );
 
@@ -147,13 +147,12 @@ export const createLoanPost = (postId, title, content, category, loanPricePerTim
   })
 );
 
-export const createFreePost = (postId, postContent, image, title, type) => (
-  axios.post(`${baseURL}/posts/createFreePost/${postId}`, {
+export const createFreePost = (postId, title, content, category) => (
+  axios.put(`${baseURL}/posts/createFreePost/${postId}`, {
     postId,
-    postContent,
-    image,
-    title, 
-    type
+    title,
+    content,
+    category
   })
 );
 
@@ -211,8 +210,12 @@ export const getSellingPosts = () => (
   axios.get(`${baseURL}/posts/sell`)
 );
 
-export const getBorrowPosts = () => (
-  axios.get(`${baseURL}/posts/borrow`)
+export const getLostPosts = () => (
+  axios.get(`${baseURL}/posts/lost`)
+);
+
+export const getFoundPosts = () => (
+  axios.get(`${baseURL}/posts/found`)
 );
 
 export const getFreePosts = () => (
@@ -239,6 +242,25 @@ export const reportUser = (reportingUserId, reportedUserId, reason) => (
     reason
   })
 );
+
+//gets messages between users
+export const getAllMessages = (userId, chatId) => (
+  axios.get(`${baseURL}/users/${userId}/chats/${chatId}`)
+)
+
+// gets chats of one user
+export const getUserChats = (userId) =>(
+axios.get(`${baseURL}/users/${userId}/chats`)
+)
+
+// gets chats of one user
+export const sendMessage = (chatId, senderId, content) =>(
+  axios.post(`${baseURL}/users/sendMessage/${senderId}/${chatId}`, {
+    chatId, 
+    senderId, 
+    content
+  })
+  )
 
 export default api
 

@@ -21,6 +21,14 @@ import PostPage from './components/posts/postPage';
 import MakeAnnouncementPage from './components/announcements/MakeAnnouncement';
 import DashboardMock from './components/layout/dashboardMock';
 import ProfilePage from './components/layout/ProfilePage';
+import MessagePage from './components/chat/Message';
+import ChatPage from './components/chat/Chat';
+import BoardRequestPage from './components/layout/BoardRequestPage';
+import SellPostsPage from './components/posts/SellPosts';
+import LoanPostsPage from './components/posts/LoanPosts';
+import LostPostsPage from './components/posts/LostPosts';
+import FreePostsPage from './components/posts/FreePosts';
+import FoundPostsPage from './components/posts/FoundPosts';
 
 function App() {
   return (
@@ -46,7 +54,14 @@ function App() {
         <Route path="/post-page/:postId" element={<PostPage/>} />
         <Route path="/make-announcement/:userId" element={<MakeAnnouncementPage/>} />
         <Route path="/ProfilePage/:userId" element={<ProfilePage/>} />
-
+        <Route path="/messages/:chatId" element={<MessagePage/>} />
+        <Route path="/chats/:userId" element={<ChatPage/>} />
+        <Route path="/board-request/:userId" element={<BoardRequestPage/>} />
+        <Route path="/posts/Selling" element={<SellPostsPage/>} />
+        <Route path="/posts/Loan" element={<LoanPostsPage/>} />
+        <Route path="/posts/Lost" element={<LostPostsPage/>} />
+        <Route path="/posts/Found" element={<FoundPostsPage/>} />
+        <Route path="/posts/Free" element={<FreePostsPage/>} />
       </Routes>
     </Router>
   );

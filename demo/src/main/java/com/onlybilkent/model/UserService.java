@@ -28,6 +28,9 @@ public class UserService {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private BoardRequestService boardRequestService;
+
     public List<User> allUsers() {
         return userRepository.findAll();
     }
@@ -48,34 +51,33 @@ public class UserService {
             // Handle the case where the user is not found
             return null;
         }
-    
+
         // Step 2: Update user fields
         User user = optionalUser.get();
         user.setPassword(newPassword);
         user.setBio(newBio);
         user.setName(name);
         user.setSurname(surname);
-        
+
         // Step 3: Save the updated user
         userRepository.save(user);
-    
+
         // Step 4: Verify the update
         UpdateResult updateResult = mongoTemplate.update(User.class)
-            .matching(Criteria.where("id").is(userId))
-            .apply(new Update().set("password", newPassword).set("bio", newBio)
-                                .set("name", name).set("surname", surname))
-            .first();
-    
+                .matching(Criteria.where("id").is(userId))
+                .apply(new Update().set("password", newPassword).set("bio", newBio)
+                        .set("name", name).set("surname", surname))
+                .first();
+
         // Step 5: Handle the case where no documents were modified
         if (updateResult.getModifiedCount() == 0) {
             // Handle the case where no documents were modified
             return null;
         }
-    
+
         // Step 6: Return the updated user
         return user;
     }
-    
 
     // write a method to get user by id here
     public User getUser(String userId) {
@@ -99,7 +101,8 @@ public class UserService {
 
             if (user.isBoardRequest() == false) {
 
-                BoardRequest newBoardRequest = new BoardRequest(user.getId());
+                BoardRequest newBoardRequest = new BoardRequest(user.getId(), request.getClubName(),
+                        request.getReason());
                 boardRequestRepository.save(newBoardRequest);
                 user.setBoardRequest(true);
                 userRepository.save(user);
@@ -126,7 +129,9 @@ public class UserService {
             if (user.isBoardRequest() == true) {
 
                 user.setRole(3);
+                user.setClubName(request.getClubName());
                 userRepository.save(user);
+                boardRequestService.deleteById(request.getRequestId());
                 notificationService
                         .sendNotification(new Notification(user.getId(), "Your board request has been approved.")); // send
                                                                                                                     // notification
@@ -182,7 +187,7 @@ public class UserService {
         if (optionalUser.isPresent()) {
 
             if (optionalUser.get().getRole() == 4) {
-                throw new RuntimeException("You cannot ban an admin.");
+                return "Admin cannot be banned.";
             } else {
                 User user = optionalUser.get();
                 user.setBanned(true);
@@ -191,7 +196,7 @@ public class UserService {
             }
 
         } else {
-            throw new RuntimeException("User not found");
+            return "User not found";
         }
     }
 
@@ -209,5 +214,10 @@ public class UserService {
 
     public List<BoardRequest> getBoardRequests() {
         return boardRequestRepository.findAll();
+    }
+
+    public List<Post> getPosts(String userId) {
+
+        return userRepository.findPostIdsById(userId);
     }
 }

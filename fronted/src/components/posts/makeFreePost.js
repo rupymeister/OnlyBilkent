@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { createFreePost } from '../../api/axiosConfig';
+import React, { useState, useEffect } from 'react';
+import { createFreePost, getPost } from '../../api/axiosConfig';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../../themes/styles.css'
 
@@ -8,21 +8,35 @@ const MakeFreePost = () => {
    const [content, setContent] = useState('');
    const [category, setCategory] = useState('');
    const [image, setImage] = useState(null);
-   const { userId } = useParams();
+   const { postId } = useParams();
    const navigate = useNavigate();
    const [error, setError] = useState('');
+   const [postData, setPostData] = useState(null);
 
    const handleImageChange = (event) => {
     setImage(event.target.files[0]);
   };
+  
+  useEffect(() => {
+    getPost(postId)
+      .then(response => {
+        setPostData(response.data);
+      })
+      .catch(error => {
+        console.error('There was an error fetching the post data:', error);
+      });
+  }, [postId]);
 
- 
+    const userId = postData?.senderId || 'Default Id';
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await createFreePost(userId, content, image, category);
+            console.log(postId); // This is the postId of the post that was created in the previous step
+            const response = await createFreePost(postId, title, content, category);
+            
             console.log("Created the post");
-            navigate('/student-profile/:userId'); // Navigates to student profile page
+            navigate(`/student-profile/${userId}`); // Navigates to student profile page
         } catch (err) {
             setError(err.response?.data?.message || 'An error occurred during making the post');
         }
@@ -56,10 +70,10 @@ const MakeFreePost = () => {
               <label htmlFor="category"><b>Category</b></label>
               <select id="category" className="form-control" value={category} onChange={(e) => setCategory(e.target.value)}>
                 <option value="">Select Category</option>
-                <option value="electronics">Electronics</option>
-                <option value="books">Books</option>
-                <option value="dormitory">Dormitory</option>
-                <option value="others">Others</option>
+                <option value="ELECTRONICS">Electronics</option>
+                <option value="BOOKS">Books</option>
+                <option value="DORMITORY">Dormitory</option>
+                <option value="OTHER">Others</option>
               </select>
             </div>
 
