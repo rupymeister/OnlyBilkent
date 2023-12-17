@@ -9,12 +9,12 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   
 
-    const handeHomeButton = () => {
+    const handleHomeButton = () => {
         // Redirect to user's profile page
         navigate(`/student-profile/${userId}`);
       };
 
-    const handeEditProfile = () => {
+    const handleEditProfile = () => {
         navigate(`/edit-profile/${userId}`);
     };
     
@@ -27,7 +27,7 @@ const ProfilePage = () => {
         navigate(`/make-post/${userId}`)
       }
 
-    const handeLogout = () => {
+    const handleLogout = () => {
     navigate(`/`);
     };
 

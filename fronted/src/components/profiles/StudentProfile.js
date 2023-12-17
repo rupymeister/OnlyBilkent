@@ -69,7 +69,7 @@ const StudentProfile = () => {
     navigate(``);
   };
 
-  const handeLogout = () => {
+  const handleLogout = () => {
     navigate(`/`);
   };
 
@@ -206,7 +206,7 @@ const StudentProfile = () => {
               <hr className="dropdown-divider" />
             </li>
             <li>
-              <a className="dropdown-item" href="#" onClick={handeLogout}>
+              <a className="dropdown-item" href="#" onClick={handleLogout}>
                 Logout
               </a>
             </li>

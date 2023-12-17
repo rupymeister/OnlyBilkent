@@ -25,7 +25,7 @@ const NavComponent = () => {
           <form action="post" className="myform">
             {/* Form contents like email and password fields */}
             <div className="form-group mt-2">
-              <Link to="api/registration" className="btn btn-success">Student Register</Link>
+              <Link to="api/registration" className="btn btn-success">Register</Link>
             </div>
             <div className="form-group mt-2">
               <Link to="api/login-board" className="btn btn-success">Student Club Representative Sign in</Link>

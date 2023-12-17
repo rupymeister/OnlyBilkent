@@ -115,7 +115,7 @@ const Dashboard = () => {
             </a>
             </li>
             <li className="nav-item">
-            <a className="nav-link" href="https://w3.bilkent.edu.tr/bilkent/transportation/">
+            <a className="nav-link" href="https://w3.bilkent.edu.tr/www/kampuste-yasam/ulasim/merkez-kampus-ulasim-programi/">
                 Bus Schedule
             </a>
             </li>
