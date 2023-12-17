@@ -11,7 +11,7 @@ const ProfilePage = () => {
 
     const handeHomeButton = () => {
         // Redirect to user's profile page
-        navigate(`/dashboard/`);
+        navigate(`/student-profile/${userId}`);
       };
 
     const handeEditProfile = () => {

@@ -93,7 +93,7 @@ const StudentProfile = () => {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="https://w3.bilkent.edu.tr/bilkent/transportation/">
+            <a className="nav-link" href="https://w3.bilkent.edu.tr/www/kampuste-yasam/ulasim/merkez-kampus-ulasim-programi/">
               Bus Schedule
             </a>
           </li>
@@ -154,17 +154,17 @@ const StudentProfile = () => {
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
               <a className="dropdown-item" href="#" onClick={handleProfileClick}>
-                Profilim
+                My Profile
               </a>
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                Mesajlarım
+                Messages
               </a>
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                İlanlarım
+                My Ads
               </a>
             </li>
             <li>
@@ -223,7 +223,7 @@ const StudentProfile = () => {
                 <div className="card">
                   <div className="card-header">Lost Property</div>
                   <div className="card-body">
-                    <h5 className="card-title">Lost Bag</h5>
+                    <h5 className="card-title">Lost Bag!</h5>
                     <p className="card-text">
                       When I got off the bus, I realized that I left my bag at
                       the bus stop. The bag is a backpack with red and black
@@ -242,7 +242,7 @@ const StudentProfile = () => {
                 <div className="card">
                   <div className="card-header">Book Sale</div>
                   <div className="card-body">
-                    <h5 className="card-title">CS319 Book</h5>
+                    <h5 className="card-title">CS319 Book for Sale</h5>
                     <p className="card-text">
                       I'm selling my CS319 textbooks. Please contact me for the
                       price.

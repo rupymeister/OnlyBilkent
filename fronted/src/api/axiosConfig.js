@@ -15,6 +15,11 @@ export const userLoginAsStudent = (email, password) => (
   })
 );
 
+export const userLoginEmail = (email) => (
+  axios.post(`${baseURL}/api/login/email`, {
+    email
+  })
+);
 export const userLoginAsBoard = (email, password) => (
   axios.post(`${baseURL}/api/login/asBoard`, {
     email,

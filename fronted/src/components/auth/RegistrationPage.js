@@ -127,7 +127,7 @@ const RegisterPage = () => {
                             required
                         ></textarea>
                         <div className="form-group mt-2" >
-                        <button type="submit" className="btn btn-outline-secondary" >Register</button>
+                        <button type="submit" className="btn btn-success" >Register</button>
                         </div>
                     </div>
                 </form>
