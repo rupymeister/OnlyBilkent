@@ -28,6 +28,16 @@ const Dashboard = () => {
     fetchAnnouncements();
   }, []);
 
+  useEffect(() => {
+    getUser(userId)
+      .then(response => {
+        setUserData(response.data);
+      })
+      .catch(error => {
+        setError(error.response?.data?.message || 'Wrong password or email. Please try again.');
+      });
+  }, [userId]);
+
 
   const [categories, setCategories] = useState([
     // Assuming these are your categories; replace with API call if needed
@@ -204,8 +214,7 @@ const handleAnnouncementClick = (announcementId) => {
 
         <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>
         <span className="caret" >
-        <div className="col-md-12">
-              </div>
+
     </span>
     </div>
     <div className="dropdown form-switch ms-auto me-auto mb-auto mb-lg-1 boyut" style={{ textAlign: 'center',   marginBottom: '5px', marginTop: '5px' }}>

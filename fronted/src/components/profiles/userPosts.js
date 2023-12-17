@@ -1,44 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { getUserChats, getChat} from '../../api/axiosConfig';
+import { getUserPosts, getPost} from '../../api/axiosConfig';
 import { useNavigate, Link, useParams } from 'react-router-dom';
 
-const ChatsPage = () => {
-    const [chatData, setChatData] = useState([]);
+const UserPosts = () => {
+    const [postData, setPostData] = useState([]);
+    //const [imageData, setImageData] = useState([]);
     const { userId } = useParams();
-    const [chats, setChats] = useState([]);
+    const [posts, setPosts] = useState([]);
     const [runCount, setRunCount] = useState(0);
     const navigate = useNavigate();
     const [error, setError] = useState(''); // State to handle any error
 
 
     useEffect(() => {
-        const fetchChats = async () => {
+        const fetchUserPosts = async () => {
             try {
-                const response = await getUserChats(userId);
-                setChats(response.data);
+                const response = await getUserPosts(userId);
+                setPosts(response.data);
             } catch (error) {
-                setError(error.response?.data?.message || 'Error occured during fetching the chats');
+                setError(error.response?.data?.message || 'Error occured during fetching the posts');
             }
         };
 
-        fetchChats();
+        fetchUserPosts();
     }, []);
 
     useEffect(() => {
     
-        const fetchDataForChats = async () => {
-            for (const chat of chats) {
+        const fetchDataForPosts = async () => {
+            for (const post of posts) {
                 try {
-                    const chatResponse = await getChat(chat.chatId);
-                    setChatData(chatResponse.data);
-                    console.log(chatResponse.data);
+                    const postResponse = await getPost(post.id);
+                    setPostData(postResponse.data);
+                    console.log(postResponse.data);
+                    console.log(post.id)
                 } catch (error) {
-                    setError(error.chatResponse?.data?.message || 'Error occured during fetching the chats data')
+                    setError(error.postResponse?.data?.message || 'Error occured during fetching the posts')
                 }
             }
         };
-        fetchDataForChats();
-    }, [chats]);
+    
+        fetchDataForPosts();
+    }, [posts]);
 
     const handleHomeButton = () => {
         // Redirect to user's profile page
@@ -50,8 +53,29 @@ const ChatsPage = () => {
       };
     
 
-    // Render only when chatData are availabe
-    if (chatData) {
+    
+    // Update runCount whenever postId or posts change
+    useEffect(() => {
+        setRunCount((prevRunCount) => prevRunCount + 1);
+    }, [postId, posts]);
+
+    // Fetch post details based on the postId when postId changes
+    useEffect(() => {
+        console.log('Fetching post details. Run count:', runCount);
+
+        if (postId && posts.length > 0) {
+            getPost(postId)
+                .then(response => {
+                    setPostData(response.data);
+                })
+                .catch(error => {
+                    console.error('There was an error fetching the post data:', error);
+                });
+        }
+    }, [postId, posts, runCount]); // Include runCount in the dependencies
+
+    // Render only when both postData and imageData are available
+    if (postData) {
         return (
             <>
             <meta charSet="utf-8" />
@@ -180,15 +204,20 @@ const ChatsPage = () => {
     </div>
     </nav>
             <div>
-                <h1>Lost Posts</h1>
+                <h1>Loan Posts</h1>
                 <div className="posts-container">
-                    {chats.map(chat => (
-                        <div key={chat.chatId} className="post">
-                            {/* Display the receiver's name with a link to their profile */}
-                            {chat.receiverId && (
+                    {posts.map(post => (
+                        <div key={post.id} className="post">
+                            {/* Link to the post's page */}
+                            <h2>
+                                <Link to={`/post/${post.id}`}>{post.title}</Link>
+                            </h2>
+                            <p>{post.content}</p>
+                            {/* Display the sender's name with a link to their profile */}
+                            {post.sender && (
                                 <p>
-                                    <Link to={`/messages/${chat.chatId}`}>
-                                        {chat.receiverName}
+                                    <Link to={`/ProfilePage/${post.senderId}`}>
+                                        {post.sender.name}
                                     </Link>
                                 </p>
                             )}
@@ -204,4 +233,4 @@ const ChatsPage = () => {
     }
 };
 
-export default ChatsPage;
+export default LoanPosts;

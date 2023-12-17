@@ -3,7 +3,7 @@ import { getAnnouncement } from '../../api/axiosConfig'; // Update with the actu
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const StudentProfile = () => {
+const AnnouncementPage = () => {
   const [announcementData, setAnnouncementData] = useState(null);
   const { announcementId } = useParams();
   const navigate = useNavigate();
@@ -163,4 +163,4 @@ const StudentProfile = () => {
   );
 };
 
-export default StudentProfile;
+export default AnnouncementPage;
