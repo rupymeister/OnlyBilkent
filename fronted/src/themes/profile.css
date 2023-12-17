@@ -1,0 +1,69 @@
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(212,221,232,1) 100%);
+  }
+  
+  /* Profile Header */
+  .profile-header {
+    color: #13547a; /* Dark Blue */
+    margin-bottom: 20px;
+  }
+  
+  .profile-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+  
+  /* Buttons */
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  .btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .btn-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+  }
+  
+  /* Card Styles */
+  .card {
+    background-color: #e9ecef; /* Light gray background for cards */
+    border-radius: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    background-color: #13547a; /* Dark Blue */
+    color: white;
+  }
+  
+  .card-body {
+    color: #333; /* Dark text for readability */
+  }
+  
+  /* Helper Text */
+  .helper {
+    font-size: 12px;
+  }
+  
+  /* Post Section Titles */
+  .section-title {
+    font-size: 1.5rem;
+    color: #13547a; /* Matching the dark blue theme */
+    margin-bottom: 15px;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .profile-header h1 {
+      font-size: 1.8rem;
+    }
+  }
+  

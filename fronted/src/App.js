@@ -23,6 +23,7 @@ import DashboardMock from './components/layout/dashboardMock';
 import ProfilePage from './components/layout/ProfilePage';
 import MessagePage from './components/chat/Message';
 import ChatPage from './components/chat/Chat';
+import BoardRequestPage from './components/layout/BoardRequestPage';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route path="/ProfilePage/:userId" element={<ProfilePage/>} />
         <Route path="/messages/:chatId" element={<MessagePage/>} />
         <Route path="/chats/:userId" element={<ChatPage/>} />
+        <Route path="/board-request/:userId" element={<BoardRequestPage/>} />
       </Routes>
     </Router>
   );

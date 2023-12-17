@@ -88,11 +88,11 @@ export const getBoards = () => (
   axios.get(`${baseURL}/clubs`)
 );
 
-export const createBoard = (userId, clubId, clubName) => (
+export const createBoard = (userId, clubName, reason) => (
   axios.post(`${baseURL}/clubs/create`, {
     userId,
-    clubId,
-    clubName
+    clubName,
+    reason
   })
 );
 
@@ -241,7 +241,7 @@ export const getAllMessages = (chatId) => (
 
 // gets chats of one user
 export const getUserChats = (userId) =>(
-axios.get(`${baseURL}/user/report`)
+axios.get(`${baseURL}/users/${userId}/chats`)
 )
 
 // gets chats of one user

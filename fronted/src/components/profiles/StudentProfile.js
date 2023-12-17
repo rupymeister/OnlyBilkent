@@ -8,13 +8,6 @@ const StudentProfile = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
 
-  
-  const handleProfileClick = () => {
-    // Redirect to user's profile page
-    navigate(`/ProfilePage/${userId}`);
-  };
-  
-
   useEffect(() => {
     getUser(userId)
       .then(response => {
@@ -33,6 +26,20 @@ const StudentProfile = () => {
   const handleMakePost = () => {
     navigate(`/make-post/${userId}`)
   }
+
+  const handleClubRequest = () => {
+    navigate('/path-to-club-request'); // Replace with the actual path to the club request page
+  };
+
+  const handleChatClick = () => {
+    // Redirect to user's profile page
+    navigate(`/chats/${userId}`);
+  };
+
+  const handleEditProfileClick = () => {
+    // Redirect to user's profile page
+    navigate(`/edit-profile/${userId}`);
+  };
 
   const handeLogout = () => {
     navigate(`/`);
@@ -153,18 +160,13 @@ const StudentProfile = () => {
           </span>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-              <a className="dropdown-item" href="#" onClick={handleProfileClick}>
-                Profilim
+              <a className="dropdown-item" href="#" onClick={handleEditProfileClick}>
+                Edit Profile
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="#">
-                Mesajlarım
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                İlanlarım
+              <a className="dropdown-item" href="#" onClick={handleChatClick}>
+                My Messages
               </a>
             </li>
             <li>
@@ -187,6 +189,9 @@ const StudentProfile = () => {
           <div className="col-md-12">
           <button className="btn btn-primary" onClick={handleMakePost}>
           Make Post
+        </button>
+        <button className="btn btn-primary" onClick={handleClubRequest}>
+          Make Club Request
         </button>
       <button
         className="navbar-toggler"
