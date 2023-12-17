@@ -1,12 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getUser, messageUser, reportUser } from '../../api/axiosConfig'; // Update with the actual path
+import { useNavigate} from 'react-router-dom';
 
 const ProfilePage = () => {
   const [userData, setUserData] = useState(null);
   const { userId } = useParams();
+  const navigate = useNavigate();
+  
 
-  useEffect(() => {
+    const handleHomeButton = () => {
+        // Redirect to user's profile page
+        navigate(`/student-profile/${userId}`);
+      };
+
+    const handleEditProfile = () => {
+        navigate(`/edit-profile/${userId}`);
+    };
+    
+    const handleProfileClick = () => {
+        // Redirect to user's profile page
+        navigate(`/ProfilePage/${userId}`);
+    };
+
+    const handleMakePost = () => {
+        navigate(`/make-post/${userId}`)
+      }
+
+    const handleLogout = () => {
+    navigate(`/`);
+    };
+
+    useEffect(() => {
     getUser(userId)
       .then(response => {
         setUserData(response.data);

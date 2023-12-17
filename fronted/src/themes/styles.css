@@ -85,3 +85,67 @@
     justify-content: center;
     min-height: 100vh; 
   };
+
+  .dashboard-container {
+    display: flex;
+  }
+  
+  body, html {
+    height: 100%; /* Ensure the full height of the page is used */
+    margin: 0; /* Reset default margin */
+  }
+  
+  .dashboard-container {
+    display: flex;
+    height: 100%; /* Full height */
+  }
+  
+  .sidebar {
+    width: 20%;
+    background-color: lightblue;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; /* Make sidebar full height */
+    box-sizing: border-box; /* Include padding in height calculation */
+  }
+  
+  .sidebar .categories h2,
+  .sidebar .categories ul {
+    width: 100%;
+    text-align: center; /* Center align text */
+  }
+  
+  .sidebar .categories ul {
+    list-style: none; /* Removes bullet points */
+    padding: 0; /* Removes default padding */
+  }
+  
+  .sidebar .categories ul li {
+    margin: 10px 0; /* Margin for list items */
+  }
+  
+  .sidebar .categories ul li a {
+    text-decoration: none; /* Optional: removes underline from links */
+    color: black; /* Color of the text for links */
+  }
+  
+  
+  .main-content {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+  }
+  
+  .content-area {
+    /* Adjust as needed */
+    width: 60%;
+  }
+  
+  .announcements-area {
+    /* Adjust as needed */
+    width: 40%;
+    text-align: center; /* Center the announcements */
+  }
+  

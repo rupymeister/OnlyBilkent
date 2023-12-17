@@ -147,19 +147,15 @@ const BoardProfile = () => {
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
               <a className="dropdown-item" href="#" onClick={handleProfileClick}>
-                Profilim
+                My Profile
               </a>
             </li>
             <li>
               <a className="dropdown-item" href="#">
-                Mesajlarım
+                My Announcements
               </a>
             </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                İlanlarım
-              </a>
-            </li>
+        
             <li>
               <hr className="dropdown-divider" />
             </li>

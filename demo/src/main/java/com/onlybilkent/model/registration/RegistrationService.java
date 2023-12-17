@@ -30,7 +30,7 @@ public class RegistrationService {
             throw new RuntimeException("Email already exists");
         }
 
-        else if (!request.getEmail().contains("@ug.") && !request.getEmail().contains("@alumni.")) {
+        else if (!request.getEmail().contains("@ug.bilkent") && !request.getEmail().contains("@alumni.bilkent")) {
             throw new RuntimeException("Invalid email. Please use your Bilkent email.");
         }
 
