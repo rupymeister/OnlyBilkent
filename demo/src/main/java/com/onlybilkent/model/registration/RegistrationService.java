@@ -97,7 +97,7 @@ public class RegistrationService {
         userRepository.save(user);
 
         MailStructure mailStructure = new MailStructure("New Password for your OnlyBilkent Account",
-                "Your new password is: " + newPassword);
+                "Your new password is: " + newPassword + "\n\nEray hocam selamlar.");
 
         mailService.sendMail(user.getEmail(), mailStructure);
     }
