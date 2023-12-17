@@ -23,4 +23,6 @@ public interface UserRepository extends MongoRepository<User, ObjectId> {
 
     List<User> findByBanned(boolean banned);
 
+    List<Post> findPostIdsById(String userId);
+
 }

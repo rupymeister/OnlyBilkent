@@ -29,6 +29,9 @@ public class UserController {
     @Autowired
     private ChatRepository chatRepository;
 
+    @Autowired
+    private PostService postService;
+
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userService.allUsers();
@@ -167,17 +170,24 @@ public class UserController {
         return new ResponseEntity<Chat>(chatService.getChat(chatId), HttpStatus.OK);
     }
 
-    @GetMapping("{userId}/chats/{chatId}/messages")
-    public ResponseEntity<List<Message>> getMessages(@PathVariable String userId, @PathVariable String chatId) {
-        if (!userService.existsById(userId)) {
-            return new ResponseEntity<List<Message>>(HttpStatus.NOT_FOUND);
-        }
+    @GetMapping("/chats/{chatId}/messages")
+    public ResponseEntity<List<Message>> getMessages(@PathVariable String chatId) {
 
         if (!chatService.existsByChatId(chatId)) {
             return new ResponseEntity<List<Message>>(HttpStatus.NOT_FOUND);
         }
 
         return new ResponseEntity<List<Message>>(chatService.getMessages(chatId), HttpStatus.OK);
+    }
+
+    // Gets all the posts of the user
+    @GetMapping("/{userId}/posts")
+    public ResponseEntity<List<Post>> getPosts(@PathVariable String userId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<List<Post>>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<List<Post>>(postService.findBySenderId(userId), HttpStatus.OK);
     }
 
 }

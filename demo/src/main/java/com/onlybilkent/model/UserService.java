@@ -215,4 +215,9 @@ public class UserService {
     public List<BoardRequest> getBoardRequests() {
         return boardRequestRepository.findAll();
     }
+
+    public List<Post> getPosts(String userId) {
+
+        return userRepository.findPostIdsById(userId);
+    }
 }
