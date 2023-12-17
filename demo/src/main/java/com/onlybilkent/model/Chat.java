@@ -28,9 +28,19 @@ public class Chat {
     private String senderId;
     String receiverId;
 
+    String senderName;
+    String receiverName;
+
     public Chat(String senderId, String receiverId) {
         this.senderId = senderId;
         this.receiverId = receiverId;
+    }
+
+    public Chat(String senderId, String receiverId, String senderName, String receiverName) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.senderName = senderName;
+        this.receiverName = receiverName;
     }
 
 }

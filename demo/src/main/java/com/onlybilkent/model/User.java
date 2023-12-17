@@ -45,6 +45,9 @@ public class User {
     @DocumentReference
     private List<Post> postId;
 
+    @DocumentReference
+    private List<User> chatUsers;
+
     public User(String name, String surname, String email, String password, String bio, int role, String imageId,
             String emailVerificationToken) {
         this.name = name;

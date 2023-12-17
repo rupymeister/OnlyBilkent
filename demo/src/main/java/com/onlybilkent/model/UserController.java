@@ -18,6 +18,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BoardRequestService boardRequestService;
 
     @Autowired
@@ -119,7 +122,11 @@ public class UserController {
          * }
          **/
 
-        return new ResponseEntity<Chat>(chatService.createChat(userId, receiverId), HttpStatus.OK);
+        String senderName = userRepository.findById(userId).get().getName();
+        String receiverName = userRepository.findById(receiverId).get().getName();
+
+        return new ResponseEntity<Chat>(chatService.createChat(userId, receiverId, senderName, receiverName),
+                HttpStatus.OK);
     }
 
     // send message to given chat
@@ -134,6 +141,7 @@ public class UserController {
         return new ResponseEntity<Message>(chatService.sendMessage(content, chatId, userId), HttpStatus.OK);
     }
 
+    // Do not need to use this one
     @GetMapping("{userId}/chats")
     public ResponseEntity<List<Chat>> getChats(@PathVariable String userId) {
         if (!userService.existsById(userId)) {
@@ -143,7 +151,21 @@ public class UserController {
         if (chatService.getChatsBySenderId(userId) == null) {
             return new ResponseEntity<List<Chat>>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderIdOrReceiverId(userId, userId), HttpStatus.OK);
+        return new ResponseEntity<List<Chat>>(chatService.getChatsBySenderIdOrReceiverId(userId, userId),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("{userId}/chats/{chatId}")
+    public ResponseEntity<Chat> getChat(@PathVariable String userId, @PathVariable String chatId) {
+        if (!userService.existsById(userId)) {
+            return new ResponseEntity<Chat>(HttpStatus.NOT_FOUND);
+        }
+
+        if (!chatService.existsByChatId(chatId)) {
+            return new ResponseEntity<Chat>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<Chat>(chatService.getChat(chatId), HttpStatus.OK);
     }
 
 }
